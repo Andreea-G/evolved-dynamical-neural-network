@@ -1,9 +1,12 @@
 #This is a list of files that aren't uploaded to the repository.  Feel free to add some more files here if you need.
 
 
-#Garrett's files to ignor
+#files to ignore from Garrett
 .cproject
 Default
 .project
 .settings
-practice_nonexisting_file
+
+#files to ignore from Andreea (with 2 "e"s unlike Andrea from The Walking Dead)
+
+
