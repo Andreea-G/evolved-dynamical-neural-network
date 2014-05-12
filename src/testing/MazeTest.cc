@@ -22,7 +22,7 @@ void MazeTest::test() {
 
   MazeTask maze1;
 
-  maze1.LoadMap("Mazes/simple_maze");
+  maze1.LoadMap("maze_files/simple_maze");
 
   cout << "\nAlright, here's the results." << endl;
 

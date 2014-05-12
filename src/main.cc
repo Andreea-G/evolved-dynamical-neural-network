@@ -23,6 +23,8 @@ using std::endl;
 int main() {
 
 
+
+
   MazeTest test1;
   test1.test();
 
