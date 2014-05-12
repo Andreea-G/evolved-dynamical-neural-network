@@ -1,0 +1,8 @@
+#This is a list of files that aren't uploaded to the repository.  Feel free to add some more files here if you need.
+
+
+#Garrett's files to ignor
+.cproject
+Default
+.project
+.settings
