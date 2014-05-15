@@ -12,7 +12,7 @@
  *  Note that it should be padded with zeros.
  *
  *  Created on: May 4, 2014
- *      Author: garrett
+ *      Author: Garrett
  */
 
 #ifndef TASKS_MAZETASK_H_
@@ -31,21 +31,20 @@ enum class Direction {LEFT, UP, DOWN, RIGHT};
 enum class MazeTile {WALL, NORMAL, START, FINISH};
 
 
-
 class MazeTask : public TaskInterface {
 
 public:
 
   friend class MazeTest; //TODO remove this.
   //Temp constructor for unit testing
-  MazeTask() {row_=0; col_=0; width_=0; height_=0; player_direction_=Direction::LEFT; }
+  MazeTask() {row_ = 0; col_ = 0; width_ = 0; height_ = 0; player_direction_ = Direction::LEFT; }
 
   //the map file (see docs at top of file) and whether you want
   //a random starting position.  If random_start is false, then
   //player is started at place in map where value is 2.
   //To set the starting direction, it will loop through the 4 directions
   //stopping when it finds a valid one.
-  MazeTask(std::string map_file, bool random_start=false);
+  MazeTask(std::string map_file, bool random_start = false);
 
 
   void ActOnDecision(vector<bool> decision);

@@ -2,7 +2,7 @@
  * MazeTask.cc
  *
  *  Created on: May 4, 2014
- *      Author: garrett
+ *      Author: Garrett
  */
 
 #include <iostream>
@@ -36,8 +36,8 @@ MazeTask::MazeTask(std::string map_file, bool random_start) {
     //if not, try again.
 
     std::random_device generator;
-    std::uniform_int_distribution<int> row_distro(0,height_-1);
-    std::uniform_int_distribution<int> col_distro(0,width_-1);
+    std::uniform_int_distribution<int> row_distro(0, height_-1);
+    std::uniform_int_distribution<int> col_distro(0, width_-1);
 
     int rand_row=0;
     int rand_col=0;
