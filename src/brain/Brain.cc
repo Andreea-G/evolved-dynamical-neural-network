@@ -8,7 +8,9 @@
 #include <vector>
 #include <random>
 
+#include "Neuron.h"
 #include "Brain.h"
+
 
 using std::vector;
 
@@ -17,7 +19,7 @@ void Brain::give_input(const vector<bool> &input_vals) {
 		std:cerr << std::endl << "Error! Number of input neurons is not the same as number of input signal bits!\n";
 	}
 	for (int i = 0; i < num_input_neurons_; i++) 		//the first few neurons are input
-		neurons_[i].set_activation(input_vals[i]);
+		neurons_[i].set_activation(input_vals[i] * MAX_ACTIVATION);
 }
 
 vector<bool> Brain::get_output() const {
