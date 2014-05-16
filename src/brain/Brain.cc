@@ -39,7 +39,13 @@ void Brain::MutateSynapses(const int &num_mutated_neurons, const int &num_mutate
 	}
 }
 
-void Brain::Cycle() {	//TODO
+void Brain::Cycle() {	
+	for (int neur = num_input_neurons_; neur < num_neurons; neur++) {		//start after the input neurons; those are kept at fixed MAX_ACTIVATION
+		neurons_[neur].Cycle();
+	}
+	for (int neur = num_input_neurons_; neur < num_neurons; neur++) {
+		neurons_[neur].update_activation();
+	}
 }
 
 
