@@ -23,6 +23,7 @@ using std::endl;
 int main() {
 
 
+  cout << "Starting main loop";
 
 
   MazeTest test1;

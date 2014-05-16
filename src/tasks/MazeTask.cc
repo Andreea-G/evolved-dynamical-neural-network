@@ -52,8 +52,7 @@ MazeTask::MazeTask(std::string map_file, bool random_start) {
       }
     }//end while
 
-  }
-  else { //if start is not random, then search for the start position
+  } else { //if start is not random, then search for the start position
 
     for (size_t row_i=0; row_i < height_; row_i++) {
       for (size_t col_j=0; col_j < width_; col_j++) {
@@ -68,10 +67,10 @@ MazeTask::MazeTask(std::string map_file, bool random_start) {
     }
 
     if (map_[row_][col_]!=MazeTile::START) {
-      std::cerr << "\nWe were not able to find a start position in map! (a position with value 2)";
+      std::cerr << "\nERROR: We were not able to find a start position in map! (a position with value 2)";
     }
 
-  }//else
+  }//end of else
 
 
   //go through the 4 directions and stop when we find a valid one.
@@ -82,16 +81,12 @@ MazeTask::MazeTask(std::string map_file, bool random_start) {
 
   if (tile_above==MazeTile::NORMAL || tile_above==MazeTile::START)
     player_direction_ = Direction::UP;
-
   else if (tile_right==MazeTile::NORMAL || tile_right==MazeTile::START)
     player_direction_ = Direction::RIGHT;
-
   else if (tile_below==MazeTile::NORMAL || tile_below==MazeTile::START)
     player_direction_ = Direction::DOWN;
-
   else if (tile_left==MazeTile::NORMAL || tile_left==MazeTile::START)
     player_direction_ = Direction::LEFT;
-
   else
     std::cerr << "\nNo valid starting direction was found!";
 
@@ -136,14 +131,13 @@ bool MazeTask::LoadMap(std::string map_file) {
     map_.push_back(temp_row_vec);
   }
 
-
   return true;
 
 }
 
 
 void MazeTask::ActOnDecision(vector<bool> decision) {
-  //TODO
+
 }
 
 vector<bool> MazeTask::GetBrainInput() const {
@@ -152,13 +146,70 @@ vector<bool> MazeTask::GetBrainInput() const {
   return bool_vec;
 }
 
+
 int MazeTask::IsFinished() const {
-  return 1; //TODO finish this
+
+  //Check current location, plus the neighboring 4 locations for the finish
+  if (map_[row_][col_]==MazeTile::FINISH || map_[row_][col_]==MazeTile::FINISH ||
+      map_[row_][col_]==MazeTile::FINISH || map_[row_][col_]==MazeTile::FINISH ||
+      map_[row_][col_]==MazeTile::FINISH) {
+    return 1;
+  } else {
+    return 0;
+  }
+
 }
+
 
 void MazeTask::AdvancePosition() {
 
-}
+
+  //Loop until we hit a wall in which case we break
+  while (true) {
+
+    //find next position (in direction that player's pointing) and find what's to the sides
+    int next_row = row_, next_col = col_;
+    MazeTile left_side, right_side;
+    switch (player_direction_) {
+      case Direction::UP: {
+        next_row -= 1;
+        left_side = map_[row_][col_-1];
+        right_side = map_[row_][col_+1];
+        break;
+      }
+      case Direction::RIGHT: {
+        next_col += 1;
+        left_side = map_[row_-1][col_];
+        right_side = map_[row_+1][col_];
+        break;
+      }
+      case Direction::DOWN: {
+        next_row += 1;
+        left_side = map_[row_][col_+1];
+        right_side = map_[row_][col_-1];
+        break;
+      }
+      case Direction::LEFT: {
+        next_col -= 1;
+        left_side = map_[row_+1][col_];
+        right_side = map_[row_-1][col_];
+        break;
+      }
+    }
+
+    //move forward if the next tile along our path is valid and there's no decision to be made,
+    //i.e. to the left and right are walls.  Otherwise, stop there.
+    MazeTile next_tile = map_[next_row][next_col];
+    if ( (next_tile==MazeTile::NORMAL || next_tile==MazeTile::START || next_tile==MazeTile::FINISH) &&
+        (left_side==MazeTile::WALL && right_side==MazeTile::WALL) ) {
+       row_ = next_row;
+       col_ = next_col;
+    } else {
+      return;
+    }
+  } //end while loop
+
+}//end of MazeTask::AdvancePosition()
 
 
 

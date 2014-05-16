@@ -20,9 +20,9 @@ void MazeTest::test() {
   cout << "\nReally? no luck?";
   cout << endl;
 
-  MazeTask maze1;
+  MazeTask maze1("maze_files/simple_maze");
 
-  maze1.LoadMap("maze_files/simple_maze");
+  //TODO test AdvancePosition.
 
   cout << "\nAlright, here's the results." << endl;
 
