@@ -61,8 +61,19 @@ Brain Evolution::MutateBrain(const Brain &parent_brain) {
 
 }
 
-Brain Evolution::MateBrains(const Brain &parent_brain1, const Brain &parent_brain2) {
-
+Brain Evolution::MateBrains(const Brain &parent1, const Brain &parent2) {
+	int num_neurons = parent1.get_num_neurons();
+	Brain child(num_neurons, parent1.get_num_input_neurons(), parent1.get_num_output_neurons());
+	std::random_device generator;
+	std::uniform_int_distribution<int> cross_over_distro(0, num_neurons);
+	int cross_over = cross_over_distro(generator);
+	for (int i = 0; i < cross_over; i++) {
+		child.neurons_.push_back(parent1.neurons_[i]);
+	}
+	for (int i = cross_over; i < num_neurons; i++) {
+		child.neurons_.push_back(parent2.neurons_[i]);
+	}
+	return child;
 }
 
 
