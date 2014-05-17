@@ -5,16 +5,22 @@
  *      Author: Andreea
  */
 
-#include <vector>
+#include <deque>
 #include <random>
 
 #include "Neuron.h"
 #include "Brain.h"
 
 
-using std::vector;
+using std::deque;
 
-void Brain::give_input(const vector<bool> &input_vals) {
+Brain::Brain(const Brain &br) : neurons_(br.neurons_) {
+	num_neurons_ = br.num_neurons_; 
+	num_input_neurons_ = br.num_input_neurons_; num_output_neurons_ = br.num_output_neurons_;
+	fitness_score_ = br.fitness_score_;
+}
+
+void Brain::give_input(const deque<bool> &input_vals) {
 	if (input_vals.size() != num_input_neurons_) {
 		std:cerr << std::endl << "Error! Number of input neurons is not the same as number of input signal bits!\n";
 	}
@@ -22,11 +28,10 @@ void Brain::give_input(const vector<bool> &input_vals) {
 		neurons_[i].set_activation(input_vals[i] * MAX_ACTIVATION);
 }
 
-vector<bool> Brain::get_output() const {
-	vector<bool> output;
-	output.reserve(num_output_neurons_);
+deque<bool> Brain::get_output() const {
+	deque<bool> output;
 	for (int i = num_output_neurons_; i < num_input_neurons_ + num_output_neurons_; i++) 		//output neurons are the one coming after the input ones
-		output.push_back(neurons_[i].get_activation() > neurons_[i].get_activ_treshold());		//return 1 of activation > threshold, and 0 else
+		output.push_back(neurons_[i].ActivationFunction();		//return 1 of activation > threshold, and 0 else
 	return output;
 }
 
@@ -40,11 +45,13 @@ void Brain::MutateSynapses(const int &num_mutated_neurons, const int &num_mutate
 }
 
 void Brain::Cycle() {	
-	for (int neur = num_input_neurons_; neur < num_neurons; neur++) {		//start after the input neurons; those are kept at fixed MAX_ACTIVATION
-		neurons_[neur].Cycle();
+	//First calculate the new activation
+	for (int neur_it = neurons_.begin(); neur_it != neurons_.end(); neur_it++) {
+		neur_it->Cycle();
 	}
-	for (int neur = num_input_neurons_; neur < num_neurons; neur++) {
-		neurons_[neur].update_activation();
+	//Them upcate all activations of the neurons
+	for (int neur_it = neurons_.begin(); neur_it != neurons_.end(); neur_it++) {
+		neur_it.update_activation();
 	}
 }
 
