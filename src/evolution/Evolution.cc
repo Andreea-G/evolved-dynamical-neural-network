@@ -28,7 +28,7 @@ void Evolution::set_brain_cum_mating_odds(const deque<Brain>& brains) {
 			brain_cum_mating_odds_.push_back(br);
 	}
 
-	//The size of brain_cum_mating_odds_ is at most num_brains; it can be smaller due to the floor function above, but should not be larger... 
+	//The size of brain_cum_mating_odds_ is at most num_brains; it can be smaller due to the floor function above, but should not be larger...
 	if (brain_cum_mating_odds_.size() > num_brains) {
 		std::cout <<"Error! Cumulating odds deque is larger than total number of brains... What went wrong??\n";
 	}
@@ -43,9 +43,9 @@ deque<Brain> Evolution::GetNextGeneration (const deque<Brain>& brains) {
 	deque<Brain> next_gen;
 	//Create a new generation of num_brains children
 	for (int br = 0; br < num_brains; br++) {
-		//Randomly pick parent 1 by picking a random integer between 0 and brain_cum_mating_odds_.size(). 
+		//Randomly pick parent 1 by picking a random integer between 0 and brain_cum_mating_odds_.size().
 		int parent1 = brain_cum_mating_odds_[mating_distro(generator)];
-		if (asexual_distro(generator) < prob_asexual_) {	//asexual reproduction; 
+		if (asexual_distro(generator) < prob_asexual_) {	//asexual reproduction;
 			next_gen.push_back(MutateBrain(brains[parent1]));
 		} else {		//sexual reproduction
 			int parent2 = brain_cum_mating_odds_[mating_distro(generator)];

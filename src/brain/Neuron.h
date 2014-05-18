@@ -8,6 +8,8 @@
 #ifndef BRAIN__NEURON_H_
 #define BRAIN__NEURON_H_
 
+#include <unordered_map>
+
 using std::unordered_map;
 
 constexpr float MAX_STRENGTH = 100;		//TODO find better way to define this somewhere...
@@ -16,11 +18,11 @@ constexpr float MAX_ACTIVATION = 100;		//TODO find better way to define this som
 class Neuron {
 
 public:
-	Neuron() { activation_ = 0; new_activation_ = 0; decay_rate_ = 0; activ_treshold_ = 0; };
-	Neuron(const float &activation, const float &decay_rate, const float &activ_treshold) { 
-		activation_ = activation; new_activation_ = 0; decay_rate_ = decay_rate; activ_threshold_ = activ_threshold; 
+	Neuron() { activation_ = 0; new_activation_ = 0; decay_rate_ = 0; activ_threshold_ = 0; };
+	Neuron(const float &activation, const float &decay_rate, const float &activ_threshold) {
+		activation_ = activation; new_activation_ = 0; decay_rate_ = decay_rate; activ_threshold_ = activ_threshold;
 	};
-	Neuron(const &Neuron);		//copy constructor
+	Neuron(const Neuron& other);		//copy constructor
 	~Neuron() {};
 	void set_activation(const float &activation) { activation_ = activation; }
 	float get_activation() const { return activation_; }
@@ -31,7 +33,7 @@ public:
 	void set_decay_rate(const float &decay_rate) { decay_rate_ = decay_rate; }
 	float get_decay_rate() const { return decay_rate_; }
 	//Decides if activation is above threshold, in order for the neuron to fire.
-	bool ActivationFunction() const { return (activation_ > activ_threshold); }
+	bool ActivationFunction() const { return (activation_ > activ_threshold_); }
 	//Computes the updated activation of the neuron after one time-step
 	void Cycle();
 	//Updates the current activation to be the new activation at time t + delta t, and sets the future new_activation to zero
@@ -41,7 +43,7 @@ private:
 	unordered_map<int, float> synapses_;		//map of synapses where the first element is the origin neuron and the second element is the connection strength
 	float activation_;				//current activation of the neuron
 	float new_activation_;
-	float activ_treshold_;
+	float activ_threshold_;
 	float decay_rate_;				//strength of each neuron decays exponentially with a certain decay rate
 	//Randomly mutates synapses. num_mutated_synapses is the number of synapses that will undergo a mutation. If it is positive, new connections will be formed or the strengths of existing ones will be changed. If it is negative, random connections will be removed. num_neurons is the total number of neurons in the brain.
 	void MutateSynapses(const int&, const int&);

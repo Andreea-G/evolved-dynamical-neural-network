@@ -1,11 +1,17 @@
 #This is a list of files that aren't uploaded to the repository.  Feel free to add some more files here if you need.
 
 
-#files to ignore from Garrett
-.cproject
+#####files to ignore from Garrett###########33
+#Eclipse junk
+.cproject 
 Default
 .project
 .settings
+#Codeblocks junk
+.DS_Store
+pinn.cbp
+pinn.layout
+bin
 
 #files to ignore from Andreea (with 2 "e"s unlike Andrea from The Walking Dead)
 
