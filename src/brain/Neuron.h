@@ -22,7 +22,7 @@ public:
 	Neuron(const float &activation, const float &decay_rate, const float &activ_threshold) {
 		activation_ = activation; new_activation_ = 0; decay_rate_ = decay_rate; activ_threshold_ = activ_threshold;
 	};
-	Neuron(const Neuron& other);		//copy constructor
+	Neuron(const Neuron&);		//copy constructor
 	~Neuron() {};
 	void set_activation(const float &activation) { activation_ = activation; }
 	float get_activation() const { return activation_; }
