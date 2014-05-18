@@ -57,8 +57,8 @@ deque<Brain> Evolution::GetNextGeneration (const deque<Brain>& brains) {
 }
 
 
-Brain Evolution::MutateBrain(const Brain &parent_brain) {
-
+Brain Evolution::MutateBrain(const Brain &parent_brain) {		//TODO
+	return parent_brain;
 }
 
 Brain Evolution::MateBrains(const Brain &parent1, const Brain &parent2) {
