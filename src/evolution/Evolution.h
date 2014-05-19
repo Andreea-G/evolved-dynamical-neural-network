@@ -8,23 +8,24 @@
 #ifndef EVOLUTION__EVOLUTION_H_
 #define EVOLUTION__EVOLUTION_H_
 
+#include <deque>
+
 using std::deque;
 
 class Evolution {
 
 public:
 	Evolution() { prob_asexual_ = 0; prob_mutated_neurons_ = 0; }
-	Evolution(float pr op_asexual, float prob_mutated_neurons) { prob_asexual_ = prob_asexual; prob_mutated_neurons_ = prob_mutated_neurons; }
-	~Evolution;
+	Evolution(const float &prob_asexual, const float &prob_mutated_neurons) { prob_asexual_ = prob_asexual; prob_mutated_neurons_ = prob_mutated_neurons; }
 	//The odds of a brain beying selected for mating will be proportional to the FitnessWeighting function. 
 	int FitnessWeighting(const int &fitness) { return fitness * fitness; }
-	void set_brain_cum_mating_odds(const deque<Brain>&);
+	void set_brain_cum_mating_odds(const deque<Brain> &brains);
 	//From one parent, obtain a child that may be the same or have some mutations.
-	Brain MutateBrain(const Brain&);
+	Brain MutateBrain(const Brain &parent_brain, const int &num_mutated_neurons, const int &num_mutated_synapses) const;
 	//Mate two different brains to get one child. No mutations (since the MutateBrain function can afterwards be called on the resulting child)
-	Brain MateBrains(const Brain&, const Brain&);
+	Brain MateBrains(const Brain &parent1, const Brain &parent2) const;
 	//Get a new generations of brains
-	deque<Brain> GetNextGeneration (const deque<Brain>&);
+	deque<Brain> GetNextGeneration (const deque<Brain> &brains) const;
 
 private:
 	float prob_asexual_;		

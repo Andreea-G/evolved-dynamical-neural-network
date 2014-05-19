@@ -12,9 +12,25 @@
 using std::unordered_map;
 using std::list;
 
+Neuron::Neuron(const int &num_neurons) {
+	activation_ = 0; new_activation_ = 0; 
+	std::random_device generator;
+	std::uniform_float_distribution<float> unit_distro(0, 1);
+	std::uniform_int_distribution<int> neuron_distro(0, num_neurons);
+	decay_rate_ = MAX_DECAY_RATE * unit_distro(generator);
+	activ_threshold_ = MAX_ACTIVATION * unit_distro(generator);
+	int num_synapses = neuron_distro(generator);
+	for (int i = 0; i < num_synapses; i++) {
+		int orig_neuron = neuron_distro(generator);
+		synapses_[neuron_distro(generator)] = MAX_STRENGTH * unit_distro(generator);
+	}
+}
+
 Neuron::Neuron(const Neuron &neur) : synapses_(neur_.synapses_) {
-	activation_ = neur.activation_; new_activation_ = neur.new_activation_; 
-	decay_rate_ = neur.decay_rate_; activ_threshold_ = neur.activ_threshold_;
+	activation_ = neur.activation_;
+	new_activation_ = neur.new_activation_; 
+	decay_rate_ = neur.decay_rate_;
+	activ_threshold_ = neur.activ_threshold_;
 }
 
 void Neuron::MutateSynapses(const int &num_mutated_synapses, const int &num_neurons) {
@@ -56,7 +72,7 @@ void Neuron::MutateSynapses(const int &num_mutated_synapses, const int &num_neur
 
 void Neuron::Cycle() {	
 	if (decay_rate_ < TIME_STEP) 
-		new_activation = 0;
+		new_activation_ = 0;
 	else 
 		new_activation_ = activation_ * (1 - TIME_STEP/decay_rate_);	
 	for (unordered_map<int, float>::iterator syn_it = synapses_.begin(); syn_it != synapses_.end(); syn_it++) {
