@@ -15,6 +15,14 @@
 
 using std::deque;
 
+Brain::Brain(const int &num_neurons, const int &num_input_neurons, const int &num_output_neurons, const bool &randomize) {
+	num_neurons_ = num_neurons; num_input_neurons_ = num_input_neurons; num_output_neurons_ = num_output_neurons; fitness_score_ = 0;
+	if (randomize) {
+		for (int i = 0; i < num_neurons; i++)
+			neurons_.push_back(num_neurons);
+	}
+}
+
 Brain::Brain(const Brain &br) : neurons_(br.neurons_) {
 	num_neurons_ = br.num_neurons_;
 	num_input_neurons_ = br.num_input_neurons_; num_output_neurons_ = br.num_output_neurons_;
@@ -36,11 +44,14 @@ deque<bool> Brain::get_output() const {
 	return output;
 }
 
-void Brain::MutateSynapses(const int &num_mutated_neurons, const int &num_mutated_synapses) {
+void Brain::MutateNeurons(const int &num_mutated_neurons, const int &num_mutated_synapses) {
 	std::random_device generator;
 	std::uniform_int_distribution<int> neuron_distro(0, num_neurons_);
+	std::uniform_float_distribution<float> unit_distr0(0, 1);	//returns number from 0 to 1
 	for (int i = 0; i < num_mutated_neurons; i++) {
 		Neuron rand_neuron = neurons_[neuron_distro(generator)];
+		rand_neuron.set_decay_rate(MAX_DECAY_RATE * unit_distro(generator));
+		rand_neuron.set_activ_threshold(MAX_ACTIVATION * unit_distro(generator));
 		rand_neuron.MutateSynapses(num_mutated_synapses, num_neurons_);
 	}
 }
