@@ -42,7 +42,7 @@ public:
 	//player is started at place in map where value is 2.
 	//To set the starting direction, it will loop through the 4 directions
 	//stopping when it finds a valid one.
-	MazeTask(std::string map_file, bool random_start = false);
+	MazeTask(std::string &map_file, bool &random_start = false);
 
 	//The argument decision should be a vector of length 2.
 	//The first element shows if we're going straight, the second is right/left.
@@ -60,7 +60,7 @@ public:
 
 private: //set back to private
 
-	bool LoadMap(std::string map_file);
+	bool LoadMap(std::string &map_file);
 
 	//A matrix representing the map, where 0s are walls, 1s are valid paths,
 	//2 is the suggested starting point, and 3 is the finish.

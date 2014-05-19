@@ -16,18 +16,23 @@
 using std::deque;
 
 Brain::Brain(const int &num_neurons, const int &num_input_neurons, const int &num_output_neurons, const bool &randomize) {
-	num_neurons_ = num_neurons; num_input_neurons_ = num_input_neurons; num_output_neurons_ = num_output_neurons; fitness_score_ = 0;
+	num_neurons_ = num_neurons;
+	num_input_neurons_ = num_input_neurons;
+	num_output_neurons_ = num_output_neurons;
+	fitness_score_ = 0;
+
 	if (randomize) {
 		for (int i = 0; i < num_neurons; i++)
 			neurons_.push_back(num_neurons);
 	}
 }
 
-Brain::Brain(const Brain &br) : neurons_(br.neurons_) {
+//TODO: get rid of this.  No need to explicitly write out the implicit copy constructor
+/*Brain::Brain(const Brain &br) : neurons_(br.neurons_) {
 	num_neurons_ = br.num_neurons_;
 	num_input_neurons_ = br.num_input_neurons_; num_output_neurons_ = br.num_output_neurons_;
 	fitness_score_ = br.fitness_score_;
-}
+}*/
 
 void Brain::give_input(const deque<bool> &input_vals) {
 	if (input_vals.size() != num_input_neurons_) {
@@ -37,6 +42,7 @@ void Brain::give_input(const deque<bool> &input_vals) {
 		neurons_[i].set_activation(input_vals[i] * MAX_ACTIVATION);
 }
 
+
 deque<bool> Brain::get_output() const {
 	deque<bool> output;
 	for (int i = num_output_neurons_; i < num_input_neurons_ + num_output_neurons_; i++) 		//output neurons are the one coming after the input ones
@@ -44,26 +50,32 @@ deque<bool> Brain::get_output() const {
 	return output;
 }
 
-void Brain::MutateNeurons(const int &num_mutated_neurons, const int &num_mutated_synapses) {
+
+void Brain::MutateNeurons(const int num_mutated_neurons, const int num_mutated_synapses) {
 	std::random_device generator;
 	std::uniform_int_distribution<int> neuron_distro(0, num_neurons_);
-	std::uniform_float_distribution<float> unit_distr0(0, 1);	//returns number from 0 to 1
+	std::uniform_real_distribution<> unit_distro(0, 1);	//returns number from 0 to 1
+
 	for (int i = 0; i < num_mutated_neurons; i++) {
 		Neuron rand_neuron = neurons_[neuron_distro(generator)];
 		rand_neuron.set_decay_rate(MAX_DECAY_RATE * unit_distro(generator));
-		rand_neuron.set_activ_threshold(MAX_ACTIVATION * unit_distro(generator));
+		rand_neuron.set_active_threshold(MAX_ACTIVATION * unit_distro(generator));
 		rand_neuron.MutateSynapses(num_mutated_synapses, num_neurons_);
 	}
 }
 
+
 void Brain::Cycle() {
+	//find the iterator type for our vector
+	typedef std::deque<Neuron>::iterator neur_it_type;
+
 	//First calculate the new activation
-	for (int neur_it = neurons_.begin(); neur_it != neurons_.end(); neur_it++) {
+	for (neur_it_type neur_it = neurons_.begin(); neur_it != neurons_.end(); ++neur_it) {
 		neur_it->Cycle();
 	}
 	//then update all activations of the neurons
-	for (int neur_it = neurons_.begin(); neur_it != neurons_.end(); neur_it++) {
-		neur_it.update_activation();
+	for (neur_it_type neur_it = neurons_.begin(); neur_it != neurons_.end(); ++neur_it) {
+		neur_it->update_activation();
 	}
 }
 

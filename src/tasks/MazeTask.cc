@@ -19,7 +19,7 @@ using std::endl;
 
 //TODO: pass by references
 
-MazeTask::MazeTask(std::string map_file, bool random_start) {
+MazeTask::MazeTask(std::string &map_file, bool &random_start) {
 
 	//Load map file into map_ member variable
 	if (LoadMap(map_file)==false) {
@@ -95,7 +95,7 @@ MazeTask::MazeTask(std::string map_file, bool random_start) {
 
 
 
-bool MazeTask::LoadMap(std::string map_file) {
+bool MazeTask::LoadMap(std::string &map_file) {
 
 	std::ifstream in_file(map_file.c_str());
 
