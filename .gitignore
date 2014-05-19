@@ -11,7 +11,9 @@ Default
 .DS_Store
 pinn.cbp
 pinn.layout
+pinn.depend
 bin
+obj
 
 #files to ignore from Andreea (with 2 "e"s unlike Andrea from The Walking Dead)
 

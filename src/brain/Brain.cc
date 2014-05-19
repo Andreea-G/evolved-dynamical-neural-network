@@ -50,7 +50,7 @@ void Brain::Cycle() {
 	for (int neur_it = neurons_.begin(); neur_it != neurons_.end(); neur_it++) {
 		neur_it->Cycle();
 	}
-	//Them upcate all activations of the neurons
+	//then update all activations of the neurons
 	for (int neur_it = neurons_.begin(); neur_it != neurons_.end(); neur_it++) {
 		neur_it.update_activation();
 	}

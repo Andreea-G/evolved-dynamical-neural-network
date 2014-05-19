@@ -17,8 +17,8 @@
 
 class MazeTest {
 public:
-  MazeTest() {};
-  void test();
+	MazeTest() {};
+	void test();
 };
 
 

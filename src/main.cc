@@ -1,15 +1,16 @@
 //============================================================================
 // Name        : MazeTester.cpp
-// Author      : 
+// Author      :
 // Version     :
 // Copyright   : Your copyright notice
 // Description : Hello World in C++, Ansi-style
 //============================================================================
 
+//TODO: clean up these headers and namespace declarations at some point.
 #include <iostream>
 #include <vector>
+#include <string>
 #include <stdlib.h>
-
 
 #include <random>
 
@@ -18,19 +19,13 @@
 
 using std::cout;
 using std::endl;
-
+using std::string;
+using std::cin;
 
 int main() {
 
-
-  cout << "Starting main loop";
-
-
-  MazeTest test1;
-  test1.test();
-
-
-
-
-	return 0;
+	return 1;
 }
+
+
+

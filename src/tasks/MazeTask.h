@@ -35,46 +35,62 @@ class MazeTask : public TaskInterface {
 
 public:
 
-  friend class MazeTest; //TODO remove this.
-  //Temp constructor for unit testing
-  MazeTask() {row_ = 0; col_ = 0; width_ = 0; height_ = 0; player_direction_ = Direction::LEFT; }
+	friend class MazeTest; //TODO remove this.
 
-  //the map file (see docs at top of file) and whether you want
-  //a random starting position.  If random_start is false, then
-  //player is started at place in map where value is 2.
-  //To set the starting direction, it will loop through the 4 directions
-  //stopping when it finds a valid one.
-  MazeTask(std::string map_file, bool random_start = false);
+	//the map file (see docs at top of file) and whether you want
+	//a random starting position.  If random_start is false, then
+	//player is started at place in map where value is 2.
+	//To set the starting direction, it will loop through the 4 directions
+	//stopping when it finds a valid one.
+	MazeTask(std::string map_file, bool random_start = false);
 
+	//The argument decision should be a vector of length 2.
+	//The first element shows if we're going straight, the second is right/left.
+	// [true,true] and [true,false] -> Stay pointed straight
+	// [false,false] -> turn left,  [false,true] -> turn right.
+	//return false if decision is invalid (i.e. it would have the player facing the wall)
+	bool ActOnDecision(const vector<bool> &decision);
 
-  void ActOnDecision(vector<bool> decision);
+	//return 3 booleans, the first for if a left-turn is possible, the second for straight,
+	//and the third for right-turn.
+	vector<bool> GetBrainInput() const;
 
-  //
-  vector<bool> GetBrainInput() const;
-
-  //
-  int IsFinished() const;
+	//
+	int IsFinished() const;
 
 private: //set back to private
 
-  bool LoadMap(std::string map_file);
+	bool LoadMap(std::string map_file);
 
-  //A matrix representing the map, where 0s are walls, 1s are valid paths,
-  //2 is the suggested starting point, and 3 is the finish.
-  vector<vector<MazeTile> > map_;
+	//A matrix representing the map, where 0s are walls, 1s are valid paths,
+	//2 is the suggested starting point, and 3 is the finish.
+	vector<vector<MazeTile> > map_;
 
-  //Current location of the player given by row and height
-  int row_;
-  int col_;
+	//Current location of the player given by row and height
+	int row_;
+	int col_;
 
-  //The width and height of the map (including the padding zeros)
-  size_t width_;
-  size_t height_;
+	//The width and height of the map (including the padding zeros)
+	size_t width_;
+	size_t height_;
 
-  //Stored the direction which the player is pointing in our (2D) maze.
-  Direction player_direction_;
+	//Stored the direction which the player is pointing in our (2D) maze.
+	Direction player_direction_;
 
-  void AdvancePosition();
+	void TurnLeft();
+	void TurnRight();
+	void TurnAround(); //go in opposite direction
+
+	//player moves forward until they reach a decision point (not including dead-ends and corners)
+	//return false if player was not able to move at all (i.e. they were facing a wall)
+	//If the player ever steps on the FINISH, advance position will stop there.
+	bool AdvancePosition();
+
+	//Get the tiles in front, to the left and to the right of player
+	MazeTile GetTileLeft() const;
+	MazeTile GetTileRight() const;
+	MazeTile GetTileFront() const;
+
 };
 
 
