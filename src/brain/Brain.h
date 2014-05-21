@@ -15,12 +15,18 @@ using std::deque;
 class Brain {
 
 public:
-	//
-	Brain() { num_neurons_ = 0; num_input_neurons_ = 0; num_output_neurons_ = 0; fitness_score_ = 0; }
-	//
-	Brain(const int &num_neurons, const int &num_input_neurons, const int &num_output_neurons, const bool &randomize = false);
+	//TODO: why do we have this constructor, when would it be useful? It also doesn't define neurons_ so invalid.
+	//Brain() { num_neurons_ = 0; num_input_neurons_ = 0; num_output_neurons_ = 0; fitness_score_ = 0; }
 
-	//Brain(const Brain &br);	//copy constructor;  TODO: get rid of this.  No need to explicitly write out the implicit copy constructor
+	//Creates brain where neuron are created with the most basic neuron constructor
+	//(see constructors in Neuron.h for details)
+	Brain(const int num_neurons, const int num_input_neurons, const int num_output_neurons);
+	//Gives more control over average activation, average number of synapses per neuron, etc.
+	Brain(const int num_neurons, const int num_input_neurons, const int num_output_neurons, const int av_num_syn,
+				const float av_syn_strength, const float av_active_threshold, const float av_start_activation);
+
+	//TODO: get rid of this.  No need to explicitly write out the implicit copy constructor
+	//Brain(const Brain &br);	//copy constructor;
 
 	deque<Neuron> neurons_;
 

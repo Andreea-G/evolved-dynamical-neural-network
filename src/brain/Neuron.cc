@@ -13,17 +13,41 @@
 using std::unordered_map;
 using std::list;
 
-Neuron::Neuron(const int &num_neurons) {
+Neuron::Neuron(const int num_neurons) {
 	activation_ = 0; new_activation_ = 0;
+
 	std::random_device generator;
 	std::uniform_real_distribution<> unit_distro(0, 1);
 	std::uniform_int_distribution<int> neuron_distro(0, num_neurons);
+
 	decay_rate_ = MAX_DECAY_RATE * unit_distro(generator);
 	active_threshold_ = MAX_ACTIVATION * unit_distro(generator);
+
 	int num_synapses = neuron_distro(generator);
+	//Loop through each synapse assigning random strength and origin neuron
 	for (int i = 0; i < num_synapses; i++) {
-		int orig_neuron = neuron_distro(generator);
-		synapses_[neuron_distro(generator)] = MAX_STRENGTH * unit_distro(generator);
+		//get random origin  (where synapse comes from)
+		int origin_neuron = neuron_distro(generator);
+		synapses_[origin_neuron] = MAX_STRENGTH * unit_distro(generator);
+	}
+}
+
+Neuron::Neuron(const float start_activation, const float decay_rate, const float active_threshold,
+					const int num_neurons, const int num_synapses) {
+	activation_ = start_activation;
+	new_activation_ = 0;
+	decay_rate_ = decay_rate;
+	active_threshold_ = active_threshold;
+
+	std::random_device generator;
+	std::uniform_real_distribution<> unit_distro(0, 1);
+	std::uniform_int_distribution<int> neuron_distro(0, num_neurons);
+
+	//Loop through each synapse assigning random strength and origin neuron
+	for (int i = 0; i < num_synapses; i++) {
+		//get random origin neuron (where synapse comes from)
+		int origin_neuron = neuron_distro(generator);
+		synapses_[origin_neuron] = MAX_STRENGTH * unit_distro(generator);
 	}
 }
 
@@ -59,7 +83,7 @@ void Neuron::MutateSynapses(int num_mutated_synapses, const int num_neurons) {
 		unordered_map<int, float>::iterator syn_it = synapses_.begin();	//loop though existing synapses
 		int syn_location = 0;	//location of corresponding synapse in the synapses map
 		for (list<int>::iterator rand_loc_it = rand_synapse_locations.begin(); rand_loc_it != rand_synapse_locations.end(); ++rand_loc_it) {
-			while (syn_location != *rand_loc_it && syn_location < synapses_.size()) {
+			while (syn_location != *rand_loc_it && syn_location < synapses_.size()) { //TODO: fix the types here in the comparison to be the same
 				syn_location++;	syn_it++;
 			}
 			if (syn_location == *rand_loc_it) {
@@ -70,22 +94,3 @@ void Neuron::MutateSynapses(int num_mutated_synapses, const int num_neurons) {
 		}
 	}
 }
-
-
-//TODO: the functionality here needs to be done in Brain::Cycle() since it needs access to Brain::neurons_.
-void Neuron::Cycle() {
-	if (decay_rate_ < TIME_STEP)
-		new_activation_ = 0;
-	else
-		new_activation_ = activation_ * (1 - TIME_STEP/decay_rate_);
-	for (unordered_map<int, float>::iterator syn_it = synapses_.begin(); syn_it != synapses_.end(); ++syn_it) {
-		int origin_neuron = syn_it->first;
-		float syn_strength = syn_it->second;
-		new_activation_ = TIME_STEP * syn_strength * neurons_[origin_neuron].ActivationFunction();
-		if (new_activation_ > MAX_ACTIVATION) new_activation_ = MAX_ACTIVATION;
-	}
-}
-
-
-
-
