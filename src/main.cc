@@ -15,7 +15,8 @@
 #include <random>
 
 #include "tasks/MazeTask.h"
-#include "testing/MazeTest.h"
+//#include "testing/MazeTest.h"
+#include "testing/BrainTest.h"
 
 using std::cout;
 using std::endl;
@@ -24,6 +25,8 @@ using std::cin;
 
 int main() {
 
+	BrainTest tester;
+	tester.Test();
 	return 1;
 }
 

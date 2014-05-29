@@ -12,13 +12,17 @@
 
 using std::unordered_map;
 using std::list;
+using std::random_device;
+using std::uniform_real_distribution;
+using std::uniform_int_distribution;
+using std::size_t;
 
 Neuron::Neuron(const int num_neurons) {
 	activation_ = 0; new_activation_ = 0;
 
-	std::random_device generator;
-	std::uniform_real_distribution<> unit_distro(0, 1);
-	std::uniform_int_distribution<int> neuron_distro(0, num_neurons);
+	random_device generator;
+	uniform_real_distribution<> unit_distro(0, 1);
+	uniform_int_distribution<int> neuron_distro(0, num_neurons);
 
 	decay_rate_ = MAX_DECAY_RATE * unit_distro(generator);
 	active_threshold_ = (MAX_ACTIVATION - MIN_ACTIVATION) * unit_distro(generator) - MIN_ACTIVATION;
@@ -39,9 +43,9 @@ Neuron::Neuron(const float start_activation, const float decay_rate, const float
 	decay_rate_ = decay_rate;
 	active_threshold_ = active_threshold;
 
-	std::random_device generator;
-	std::uniform_real_distribution<> unit_distro(0, 1);
-	std::uniform_int_distribution<int> neuron_distro(0, num_neurons);
+	random_device generator;
+	uniform_real_distribution<> unit_distro(0, 1);
+	uniform_int_distribution<int> neuron_distro(0, num_neurons);
 
 	//Loop through each synapse assigning random strength and origin neuron
 	for (int i = 0; i < num_synapses; i++) {
@@ -53,30 +57,33 @@ Neuron::Neuron(const float start_activation, const float decay_rate, const float
 
 
 void Neuron::MutateSynapses(int num_mutated_synapses, const int num_neurons) {
-	std::random_device generator;
-	std::uniform_int_distribution<int> neuron_distro(0, num_neurons);
-	std::uniform_real_distribution<> strength_distro(0, MAX_STRENGTH);
+	random_device generator;
+	uniform_int_distribution<int> neuron_distro(0, num_neurons);
+	uniform_real_distribution<float> strength_distro(MIN_STRENGTH, MAX_STRENGTH);
 
 	if (num_mutated_synapses > 0) {		//add synapses
-		//At most num_mutated_synapses will be added (could be less if there are duplicates; in that case the corresponding synapse strength is changed to a random value).
-		for (int i = 0; i < num_mutated_synapses; i++) {
+		//At most num_mutated_synapses will be added (could be less if there are duplicates;
+		//in that case the corresponding synapse strength is changed to a random value).
+		for (int ii = 0; ii < num_mutated_synapses; ii++) {
 			int rand_neuron_id = neuron_distro(generator);
 			synapses_[rand_neuron_id] = strength_distro(generator);
 		}
 	}
 	else if (num_mutated_synapses < 0) {	//delete synapses
-		int original_size = synapses_.size();
+		size_t original_size = synapses_.size();
 		num_mutated_synapses *= -1;	//make it positive
 		//Make a list of random synapse locations such that corresponding synapses in the unsorted_map will be deleted.
-		//The list will be sorted and duplicate values removed. This means that at most num_mutated_synapses will be removed (could be less if there are duplicates).
-		std::uniform_int_distribution<int> synapse_location_distro(0, original_size);
+		//The list will be sorted and duplicate values removed. This means that at most num_mutated_synapses will be removed
+		//(could be less if there are duplicates).
+		uniform_int_distribution<int> synapse_location_distro(0, original_size);
 		list<int> rand_synapse_locations(num_mutated_synapses, synapse_location_distro(generator));	//TODO erm... not a clue if this will work.. Make sure the generator is called every time, and different random values are passed to each element of the list!!
 		rand_synapse_locations.sort();
 		rand_synapse_locations.unique();
 		//Loop through synapses and delete synapses matching the random locations above
 		unordered_map<int, float>::iterator syn_it = synapses_.begin();	//loop though existing synapses
 		int syn_location = 0;	//location of corresponding synapse in the synapses map
-		for (list<int>::iterator rand_loc_it = rand_synapse_locations.begin(); rand_loc_it != rand_synapse_locations.end(); ++rand_loc_it) {
+		for (list<int>::iterator rand_loc_it = rand_synapse_locations.begin();
+				 rand_loc_it != rand_synapse_locations.end(); ++rand_loc_it) {
 			while (syn_location != *rand_loc_it && syn_location < synapses_.size()) { //TODO: fix the types here in the comparison to be the same
 				syn_location++;	syn_it++;
 			}

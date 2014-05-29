@@ -9,15 +9,13 @@
 #define BRAIN__BRAIN_H_
 
 #include <deque>
+#include "Neuron.h"
 
 using std::deque;
 
 class Brain {
 
 public:
-	//TODO: why do we have this constructor, when would it be useful? It also doesn't define neurons_ so invalid.
-	//Brain() { num_neurons_ = 0; num_input_neurons_ = 0; num_output_neurons_ = 0; fitness_score_ = 0; }
-
 	//Creates brain where neuron are created with the most basic neuron constructor
 	//(see constructors in Neuron.h for details)
 	Brain(const int num_neurons, const size_t num_input_neurons, const size_t num_output_neurons);
@@ -57,6 +55,9 @@ private:
 	//number of input and output neurons.  The type was 'int', but if looking where it's used, this type makes more sense.
 	size_t num_input_neurons_, num_output_neurons_;
 	float fitness_score_;		//describes how well the brain has performed at the given task
+
+	//grant access for unit testing
+	friend class BrainTest;
 };
 
 
