@@ -5,8 +5,8 @@
  *      Author: Andreea
  */
 
-#include "/../Brain/Neuron.h"		//TODO is that how you go back??
-#include "/../Brain/Brain.h"
+#include "../brain/Neuron.h"		//TODO is that how you go back??
+#include "../brain/Brain.h"
 #include "Evolution.h"
 #include <iostream>
 #include <math.h>	//for floor function

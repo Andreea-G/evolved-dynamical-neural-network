@@ -299,7 +299,6 @@ bool MazeTask::AdvancePosition() {
 
 
 MazeTile MazeTask::GetTileLeft() const {
-	int next_row = row_, next_col = col_;
 	MazeTile tile_left;
 	switch (player_direction_)
 		{
@@ -326,7 +325,6 @@ MazeTile MazeTask::GetTileLeft() const {
 
 
 MazeTile MazeTask::GetTileRight() const {
-	int next_row = row_, next_col = col_;
 	MazeTile tile_right;
 	switch (player_direction_)
 		{
@@ -354,7 +352,6 @@ MazeTile MazeTask::GetTileRight() const {
 
 
 MazeTile MazeTask::GetTileFront() const {
-	int next_row = row_, next_col = col_;
 	MazeTile tile_front;
 	switch (player_direction_)
 		{

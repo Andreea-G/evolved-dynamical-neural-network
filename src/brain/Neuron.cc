@@ -21,7 +21,7 @@ Neuron::Neuron(const int num_neurons) {
 	std::uniform_int_distribution<int> neuron_distro(0, num_neurons);
 
 	decay_rate_ = MAX_DECAY_RATE * unit_distro(generator);
-	active_threshold_ = MAX_ACTIVATION * unit_distro(generator);
+	active_threshold_ = (MAX_ACTIVATION - MIN_ACTIVATION) * unit_distro(generator) - MIN_ACTIVATION;
 
 	int num_synapses = neuron_distro(generator);
 	//Loop through each synapse assigning random strength and origin neuron
@@ -51,12 +51,6 @@ Neuron::Neuron(const float start_activation, const float decay_rate, const float
 	}
 }
 
-/*Neuron::Neuron(const Neuron &neur) : synapses_(neur.synapses_) {
-	activation_ = neur.activation_;
-	new_activation_ = neur.new_activation_;
-	decay_rate_ = neur.decay_rate_;
-	active_threshold_ = neur.active_threshold_;
-}*/
 
 void Neuron::MutateSynapses(int num_mutated_synapses, const int num_neurons) {
 	std::random_device generator;

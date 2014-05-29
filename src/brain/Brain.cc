@@ -14,8 +14,14 @@
 
 
 using std::deque;
+using std::random_device;
+using std::normal_distribution;
+using std::min;
+using std::max;
+using std::size_t;
 
-Brain::Brain(const int num_neurons, const int num_input_neurons, const int num_output_neurons) {
+Brain::Brain(const int num_neurons, const size_t num_input_neurons,
+						 const size_t num_output_neurons) {
 	num_neurons_ = num_neurons;
 	num_input_neurons_ = num_input_neurons;
 	num_output_neurons_ = num_output_neurons;
@@ -27,50 +33,70 @@ Brain::Brain(const int num_neurons, const int num_input_neurons, const int num_o
 	}
 }
 
-Brain::Brain(const int num_neurons, const int num_input_neurons, const int num_output_neurons, const int av_num_syn,
-			const float av_syn_strength, const float av_active_threshold, const float av_start_activation) {
+Brain::Brain(const int num_neurons, const size_t num_input_neurons, const size_t num_output_neurons,
+						 const int av_num_syn, const int st_dev_num_syn,
+						 const float av_active_threshold, const float st_dev_active_threshold,
+						 const float av_start_activation, const float st_dev_start_activation,
+						 const float av_decay_rate, const float st_dev_decay_rate) {
 	//TODO: implement this.  For randomizing the floats, we could use Gaussian and use std::max/std::min to make sure it doesn't
 	//go out of bounds.  The other option is a Beta distribution, but we'd have to rely on someone else's code.
+		num_neurons_ = num_neurons;
+		num_input_neurons_ = num_input_neurons;
+		num_output_neurons_ = num_output_neurons;
 
+		random_device gen;
+		normal_distribution<float> num_syn_distro(av_num_syn, st_dev_num_syn);
+		normal_distribution<float> active_threshold_distro(av_active_threshold, st_dev_active_threshold);
+		normal_distribution<float> start_activation_distro(av_start_activation, st_dev_start_activation);
+		normal_distribution<float> decay_rate_distro(av_decay_rate, st_dev_decay_rate);
+
+		//loop to create each neuron
+		for (int ii = 0; ii < num_neurons; ii++) {
+			//generate number of synapses for current neuron, make sure it's in interval [0, num_neurons]
+			int num_syn = min(max( static_cast<int>(num_syn_distro(gen)) , 0), num_neurons);
+			//generate active threshold
+			float active_threshold = min(max(active_threshold_distro(gen), MIN_ACTIVATION), MAX_ACTIVATION);
+			//generate start activation
+			float start_activation = min(max(start_activation_distro(gen), MIN_ACTIVATION), MAX_ACTIVATION);
+			//generate decay rate
+			float decay_rate = min(max(decay_rate_distro(gen), MIN_DECAY_RATE), MAX_DECAY_RATE);
+
+			Neuron neuron_ii(start_activation, decay_rate, active_threshold, num_neurons, num_syn);
+		}
 
 }
 
-//TODO: get rid of this.  No need to explicitly write out the implicit copy constructor
-/*Brain::Brain(const Brain &br) : neurons_(br.neurons_) {
-	num_neurons_ = br.num_neurons_;
-	num_input_neurons_ = br.num_input_neurons_; num_output_neurons_ = br.num_output_neurons_;
-	fitness_score_ = br.fitness_score_;
-}*/
 
 void Brain::give_input(const deque<bool> &input_vals) {
 	if (input_vals.size() != num_input_neurons_) {
-		std::cerr << std::endl << "Error! Number of input neurons is not the same \
-																as number of input signal bits!\n";
+		std::cerr << "\nError! Number of input neurons is not the same as number of input signal bits!\n" << std::endl;
 	}
-	for (int i = 0; i < num_input_neurons_; i++) 		//the first few neurons are input
+	for (size_t i = 0; i < num_input_neurons_; i++) 		//the first few neurons are input
 		neurons_[i].set_activation(input_vals[i] * MAX_ACTIVATION);
 }
 
 
 deque<bool> Brain::get_output() const {
 	deque<bool> output;
-	//output neurons are the one coming after the input ones
-	for (int i = num_output_neurons_; i < num_input_neurons_ + num_output_neurons_; i++)
-		//return 1 of activation > threshold, and 0 else
+	//output neurons are the ones coming after the input ones
+	for (size_t i = num_output_neurons_; i < num_input_neurons_ + num_output_neurons_; i++)
+		//return 1 if activation is greater than threshold, and 0 otherwise
 		output.push_back(neurons_[i].ActivationFunction());
 	return output;
 }
 
 
 void Brain::MutateNeurons(const int num_mutated_neurons, const int num_mutated_synapses) {
-	std::random_device generator;
+	random_device generator;
 	std::uniform_int_distribution<int> neuron_distro(0, num_neurons_);
 	std::uniform_real_distribution<> unit_distro(0, 1);	//returns number from 0 to 1
 
 	for (int i = 0; i < num_mutated_neurons; i++) {
-		Neuron rand_neuron = neurons_[neuron_distro(generator)];
+		Neuron rand_neuron = neurons_[neuron_distro(generator)];  //TODO: Possible bug, shouldn't we pass by reference, not invoke copy assignment here?
 		rand_neuron.set_decay_rate(MAX_DECAY_RATE * unit_distro(generator));
-		rand_neuron.set_active_threshold(MAX_ACTIVATION * unit_distro(generator));
+
+		//generate random activation using uniform distribution over [MIN_ACTIVATION, MAX_ACTIVATION].
+		rand_neuron.set_active_threshold((MAX_ACTIVATION - MIN_ACTIVATION) * unit_distro(generator) - MIN_ACTIVATION);
 		rand_neuron.MutateSynapses(num_mutated_synapses, num_neurons_);
 	}
 }
