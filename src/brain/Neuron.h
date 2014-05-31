@@ -1,6 +1,8 @@
 /*
  * Neuron.h
  *
+ * Note: the synapses of a neuron can connect back to the same neuron.
+ *
  *  Created on: May 15, 2014
  *      Author: Andreea
  */
@@ -29,12 +31,9 @@ public:
 	//make MutateSynapses public.  Another idea is to make the whole Neuron class private.  After all, only Brain accesses it right?
 	friend class Brain;
 
-	//TODO: remove this constructor, it doesn't define synapses_ so invalid
-	//Neuron() { activation_ = 0; new_activation_ = 0; decay_rate_ = 0; active_threshold_ = 0; }
-
 	//generate neuron with random active_threshold and decay_rate and with synapses (with random strengths) coming from
-	//random origin neurons.  It needs to know how many neurons are in the brain.  The number of synapses is given by uniform
-	//distribution: [0,num_neurons].
+	//random origin neurons.  It needs to know how many neurons are in the brain.  The number of synapses is given by
+	//uniform distribution: [0,num_neurons], but if duplicate synapses are removed.
 	Neuron(const int num_neurons);
 	//Assigns the synapses to random originating neurons
 	Neuron(const float start_activation, const float decay_rate, const float active_threshold,

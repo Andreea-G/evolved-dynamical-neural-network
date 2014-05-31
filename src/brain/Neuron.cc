@@ -30,7 +30,7 @@ Neuron::Neuron(const int num_neurons) {
 	int num_synapses = neuron_distro(generator);
 	//Loop through each synapse assigning random strength and origin neuron
 	for (int i = 0; i < num_synapses; i++) {
-		//get random origin  (where synapse comes from)
+		//get random origin  (where synapse comes from).  If it is a duplicate, then the last one is overwritten.
 		int origin_neuron = neuron_distro(generator);
 		synapses_[origin_neuron] = MAX_STRENGTH * unit_distro(generator);
 	}
@@ -70,28 +70,44 @@ void Neuron::MutateSynapses(int num_mutated_synapses, const int num_neurons) {
 		}
 	}
 	else if (num_mutated_synapses < 0) {	//delete synapses
+
 		size_t original_size = synapses_.size();
+
 		num_mutated_synapses *= -1;	//make it positive
+
 		//Make a list of random synapse locations such that corresponding synapses in the unsorted_map will be deleted.
 		//The list will be sorted and duplicate values removed. This means that at most num_mutated_synapses will be removed
 		//(could be less if there are duplicates).
 		uniform_int_distribution<int> synapse_location_distro(0, original_size);
-		list<int> rand_synapse_locations(num_mutated_synapses, synapse_location_distro(generator));	//TODO erm... not a clue if this will work.. Make sure the generator is called every time, and different random values are passed to each element of the list!!
+		list<int> rand_synapse_locations(num_mutated_synapses);
+		//Loop through and assign random new origin neurons
+		for (list<int>::iterator rand_assign_it = rand_synapse_locations.begin();
+							rand_assign_it != rand_synapse_locations.end(); ++rand_assign_it) {
+			*rand_assign_it = synapse_location_distro(generator);
+		}
+
 		rand_synapse_locations.sort();
 		rand_synapse_locations.unique();
+
 		//Loop through synapses and delete synapses matching the random locations above
-		unordered_map<int, float>::iterator syn_it = synapses_.begin();	//loop though existing synapses
+		//OPINION: the following block is confusing.  If synapses_ had been a vector instead of unordered_map, this would
+		//have been trivial. -Garrett
+		unordered_map<int, float>::iterator syn_it = synapses_.begin();
 		int syn_location = 0;	//location of corresponding synapse in the synapses map
 		for (list<int>::iterator rand_loc_it = rand_synapse_locations.begin();
-				 rand_loc_it != rand_synapse_locations.end(); ++rand_loc_it) {
-			while (syn_location != *rand_loc_it && syn_location < synapses_.size()) { //TODO: fix the types here in the comparison to be the same
-				syn_location++;	syn_it++;
+							rand_loc_it != rand_synapse_locations.end(); ++rand_loc_it) {
+			//Need to set syn_location to our next rand_synapse_location, but must use while loop to go through unordered_map
+			while (syn_location != *rand_loc_it && syn_location < static_cast<int>(synapses_.size()) ) {  //Should we make syn_location size_t to avoid typecast here?
+				//Note: rand_synapse_locations is ordered, so we only have to increase syn_location
+				syn_location++;	++syn_it;
 			}
 			if (syn_location == *rand_loc_it) {
+				//erase this synapse after moving to the next one
 				unordered_map<int, float>::iterator old_it = syn_it;
-				syn_location++; syn_it++;
+				syn_location++; ++syn_it;
 				synapses_.erase(old_it);
 			}
 		}
+
 	}
 }

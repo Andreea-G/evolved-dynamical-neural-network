@@ -2,19 +2,15 @@
 // Name        : MazeTester.cpp
 // Author      :
 // Version     :
-// Copyright   : Your copyright notice
-// Description : Hello World in C++, Ansi-style
+// Copyright   :
+// Description :
 //============================================================================
 
 //TODO: clean up these headers and namespace declarations at some point.
 #include <iostream>
-#include <vector>
 #include <string>
-#include <stdlib.h>
 
-#include <random>
-
-#include "tasks/MazeTask.h"
+//#include "tasks/MazeTask.h"
 //#include "testing/MazeTest.h"
 #include "testing/BrainTest.h"
 
@@ -26,7 +22,7 @@ using std::cin;
 int main() {
 
 	BrainTest tester;
-	tester.Test();
+	tester.Test1();
 	return 1;
 }
 

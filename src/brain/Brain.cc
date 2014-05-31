@@ -21,7 +21,10 @@ using std::max;
 using std::size_t;
 
 Brain::Brain(const int num_neurons, const size_t num_input_neurons,
-						 const size_t num_output_neurons) {
+						 const size_t num_output_neurons) {	
+	if (num_neurons < num_input_neurons + num_output_neurons)
+		std::cerr << "WARNING: The brain has too many input and output neurons!";
+
 	num_neurons_ = num_neurons;
 	num_input_neurons_ = num_input_neurons;
 	num_output_neurons_ = num_output_neurons;
@@ -38,8 +41,9 @@ Brain::Brain(const int num_neurons, const size_t num_input_neurons, const size_t
 						 const float av_active_threshold, const float st_dev_active_threshold,
 						 const float av_start_activation, const float st_dev_start_activation,
 						 const float av_decay_rate, const float st_dev_decay_rate) {
-	//TODO: implement this.  For randomizing the floats, we could use Gaussian and use std::max/std::min to make sure it doesn't
-	//go out of bounds.  The other option is a Beta distribution, but we'd have to rely on someone else's code.
+	if (num_neurons < num_input_neurons + num_output_neurons)
+		std::cerr << "WARNING: The brain has too many input and output neurons!";
+
 		num_neurons_ = num_neurons;
 		num_input_neurons_ = num_input_neurons;
 		num_output_neurons_ = num_output_neurons;
@@ -114,7 +118,6 @@ void Brain::Cycle() {
 		float new_activation = std::max(neur_it->get_activation() * (1-TIME_STEP/neur_it->get_decay_rate()), 0.f);
 
 		neur_it->synapses_.begin();
-		neur_it->synapses_.begin();
 
 		//Loop through every (incoming) synapse linked to current neuron.
 		for (syn_it_type syn_it = neur_it->synapses_.begin(); syn_it != neur_it->synapses_.end(); ++syn_it) {
@@ -125,7 +128,7 @@ void Brain::Cycle() {
 		}
 
 		//save new activation, but limit it to MAX_ACTIVATION
-		neur_it->set_activation(std::min(new_activation, MAX_ACTIVATION));
+		neur_it->set_new_activation(std::min(new_activation, MAX_ACTIVATION));
 	}
 
 	//then update all activations of the neurons

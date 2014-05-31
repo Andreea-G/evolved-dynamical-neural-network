@@ -31,9 +31,10 @@ public:
 				const float av_start_activation, const float st_dev_start_activation,
 				const float av_decay_rate, const float st_dev_decay_rate);
 
+	//neurons comprising brain, each with incoming synapses from other neurons
 	deque<Neuron> neurons_;
 
-	void set_fitness_score(const int &fitness_score) { fitness_score_ = fitness_score; }
+	void set_fitness_score(const int fitness_score) { fitness_score_ = fitness_score; }
 	float get_fitness_score() const { return fitness_score_; }
 
 	//The input neurons take in a signal from the outside, in the form of a binary signal.
@@ -54,7 +55,8 @@ private:
 	int num_neurons_;	//total number of neurons
 	//number of input and output neurons.  The type was 'int', but if looking where it's used, this type makes more sense.
 	size_t num_input_neurons_, num_output_neurons_;
-	float fitness_score_;		//describes how well the brain has performed at the given task
+	//describes how well the brain has performed at the given task.  This is used by evolution class for choosing brains.
+	float fitness_score_;
 
 	//grant access for unit testing
 	friend class BrainTest;
