@@ -11,8 +11,10 @@
 #define BRAIN__NEURON_H_
 
 #include <unordered_map>
+#include <random>
 
 using std::unordered_map;
+
 
 constexpr float MIN_STRENGTH = 0.0;
 constexpr float MAX_STRENGTH = 100.0;		//TODO find better way to define this somewhere...
@@ -20,7 +22,15 @@ constexpr float MIN_ACTIVATION = 0.0;		//TODO find better way to define this som
 constexpr float MAX_ACTIVATION = 100.0;		//TODO find better way to define this somewhere...
 constexpr float TIME_STEP = 0.001;		//TODO find better way to define this somewhere...
 constexpr float MIN_DECAY_RATE = 0.0;
-constexpr float MAX_DECAY_RATE = 100.0;		//TODO find better way to define this somewhere...
+constexpr float MAX_DECAY_RATE = 5.0;		//TODO find better way to define this somewhere...
+//Not sure if this is good, but we'll occasionally want pseudo-random numbers instead of using random_device
+//for example, with testing, pseudo-random is better.
+namespace my_types {
+	//Type of random generator used for all randomness in program
+	//(including neuron creation, brain creation, evolution, etc.)
+	typedef std::random_device gen_type;
+//	typedef std::default_random_engine gen_type;
+}
 
 
 class Neuron {
@@ -54,8 +64,8 @@ public:
 	//Updates the current activation to be the new activation at time t + delta t,
 	//and sets the future new_activation to zero
 	void update_activation() { activation_ = new_activation_; new_activation_ = 0; }
-	//Decides if activation is above threshold, in order for the neuron to fire.
-	bool ActivationFunction() const { return (activation_ > active_threshold_); }
+	//Decides if neuron is active enough for the neuron to fire.
+	bool ActivationFunction() const;
 
 public:
 	//map of synapses where the first element is the origin neuron and the second element is the connection strength

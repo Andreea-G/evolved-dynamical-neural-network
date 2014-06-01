@@ -1,0 +1,136 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+At any given time, neuron 
+\begin_inset Formula $i$
+\end_inset
+
+ has an activation 
+\begin_inset Formula $y_{i}(t)$
+\end_inset
+
+.
+ The differential equation describing how the activation changes is
+\begin_inset Formula 
+\[
+\frac{dy_{i}}{dt}=-Ky_{i}+\sum_{j=1}^{N}w_{ji}\sigma(y_{j}-\theta_{j})
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $K$
+\end_inset
+
+ is the rate of decay (DECAY_RATE), 
+\begin_inset Formula $w_{ji}$
+\end_inset
+
+ is the strength of the synapse leading from 
+\begin_inset Formula $j$
+\end_inset
+
+ to 
+\begin_inset Formula $i$
+\end_inset
+
+ (which is stored in neurons_[i].synapses[j]), 
+\begin_inset Formula $\sigma(.)$
+\end_inset
+
+ is the activation function for neuron 
+\begin_inset Formula $j$
+\end_inset
+
+, and 
+\begin_inset Formula $dt$
+\end_inset
+
+ is called TIME_STEP in the code.
+\end_layout
+
+\begin_layout Standard
+After one time step 
+\begin_inset Formula $dt$
+\end_inset
+
+, the new activation 
+\begin_inset Formula $\tilde{y_{i}}$
+\end_inset
+
+ is
+\begin_inset Formula 
+\[
+\widetilde{y_{i}}=y_{i}-Ky_{i}dt+\sum_{j=1}^{N}w_{ji}\sigma(y_{j}-\theta_{j})dt
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+which is found in Brain::Cycle().
+\end_layout
+
+\end_body
+\end_document

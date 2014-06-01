@@ -10,6 +10,8 @@ public:
 	BrainTest() {};
 	//Executes a bunch of unit tests
 	void Test1();
+
+	void DisplaySynapses(const deque<Neuron> & neurons, int num_neuron_to_display);
 };
 
 

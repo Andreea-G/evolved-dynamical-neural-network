@@ -18,14 +18,14 @@ class Brain {
 public:
 	//Creates brain where neuron are created with the most basic neuron constructor
 	//(see constructors in Neuron.h for details)
-	Brain(const int num_neurons, const size_t num_input_neurons, const size_t num_output_neurons);
+	Brain(const size_t num_neurons, const size_t num_input_neurons, const size_t num_output_neurons);
 	//Gives more control over average activation, average number of synapses per neuron, etc.
 	//For example, this will use a Gaussian distribution to with the specified average and standard deviation to set
 	//the active threshold of each neuron.  The active threshold is also enforced to be in the
 	//interval [MIN_ACTIVATION, MAX_ACTIVATION].
 	//For now, you can't set the synapse strength.  Instead, each synapse has strength chosen from uniform distro on
 	//the interval [MIN_STRENGTH, MAX_STRENGTH].
-	Brain(const int num_neurons, const size_t num_input_neurons, const size_t num_output_neurons,
+	Brain(const size_t num_neurons, const size_t num_input_neurons, const size_t num_output_neurons,
 				const int av_num_syn, const int st_dev_num_syn,
 				const float av_active_threshold, const float st_dev_active_threshold,
 				const float av_start_activation, const float st_dev_start_activation,

@@ -20,7 +20,7 @@ using std::size_t;
 Neuron::Neuron(const int num_neurons) {
 	activation_ = 0; new_activation_ = 0;
 
-	random_device generator;
+	my_types::gen_type generator;
 	uniform_real_distribution<> unit_distro(0, 1);
 	uniform_int_distribution<int> neuron_distro(0, num_neurons);
 
@@ -43,7 +43,7 @@ Neuron::Neuron(const float start_activation, const float decay_rate, const float
 	decay_rate_ = decay_rate;
 	active_threshold_ = active_threshold;
 
-	random_device generator;
+	my_types::gen_type generator;
 	uniform_real_distribution<> unit_distro(0, 1);
 	uniform_int_distribution<int> neuron_distro(0, num_neurons);
 
@@ -57,7 +57,7 @@ Neuron::Neuron(const float start_activation, const float decay_rate, const float
 
 
 void Neuron::MutateSynapses(int num_mutated_synapses, const int num_neurons) {
-	random_device generator;
+	my_types::gen_type generator;
 	uniform_int_distribution<int> neuron_distro(0, num_neurons);
 	uniform_real_distribution<float> strength_distro(MIN_STRENGTH, MAX_STRENGTH);
 
@@ -110,4 +110,8 @@ void Neuron::MutateSynapses(int num_mutated_synapses, const int num_neurons) {
 		}
 
 	}
+}
+
+bool Neuron::ActivationFunction() const {
+	return (activation_ > active_threshold_);
 }
