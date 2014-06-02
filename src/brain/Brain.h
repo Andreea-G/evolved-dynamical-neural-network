@@ -48,7 +48,7 @@ public:
 	//See also MutateSynapses inside of the Neuron class.
 	void MutateNeurons(const int num_mutated_neurons, const int num_mutated_synapses);
 
-	//Causes one network firing inside the brain.
+	//Causes one network firing inside the brain.  See the .lyx file in ./docs for explanation.
 	void Cycle();
 
 private:

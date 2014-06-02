@@ -125,11 +125,17 @@ After one time step
 
 \end_inset
 
-
+which is found in Brain::Cycle().
 \end_layout
 
 \begin_layout Standard
-which is found in Brain::Cycle().
+Also, we're now setting 
+\begin_inset Formula $dt$
+\end_inset
+
+ to be 1 in order to get a faster brain, and also, if a neuron fired during
+ the current round, it is depleted and gets set to zero at the end of the
+ round.
 \end_layout
 
 \end_body

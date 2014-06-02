@@ -16,9 +16,11 @@ using std::random_device;
 using std::uniform_real_distribution;
 using std::uniform_int_distribution;
 using std::size_t;
+using std::min;
 
 Neuron::Neuron(const int num_neurons) {
 	activation_ = 0; new_activation_ = 0;
+	just_fired = 0;
 
 	my_types::gen_type generator;
 	uniform_real_distribution<> unit_distro(0, 1);
@@ -26,6 +28,8 @@ Neuron::Neuron(const int num_neurons) {
 
 	decay_rate_ = MAX_DECAY_RATE * unit_distro(generator);
 	active_threshold_ = (MAX_ACTIVATION - MIN_ACTIVATION) * unit_distro(generator) - MIN_ACTIVATION;
+	//make sure active_threshold_ is not zero, or else neuron will just be constantly firing
+	active_threshold_ = min(active_threshold_, 1.f);
 
 	int num_synapses = neuron_distro(generator);
 	//Loop through each synapse assigning random strength and origin neuron
@@ -42,6 +46,7 @@ Neuron::Neuron(const float start_activation, const float decay_rate, const float
 	new_activation_ = 0;
 	decay_rate_ = decay_rate;
 	active_threshold_ = active_threshold;
+	just_fired = 0;
 
 	my_types::gen_type generator;
 	uniform_real_distribution<> unit_distro(0, 1);
@@ -114,4 +119,21 @@ void Neuron::MutateSynapses(int num_mutated_synapses, const int num_neurons) {
 
 bool Neuron::ActivationFunction() const {
 	return (activation_ > active_threshold_);
+}
+
+void Neuron::AttemptToActivate() {
+	if (ActivationFunction())
+		just_fired = true;
+}
+
+void Neuron::UpdateActivation() {
+	//if neuron just fired, it gets depleted.
+	if (just_fired) {
+		activation_ = 0;
+		just_fired = false;
+	}	else {
+		activation_ = new_activation_;
+	}
+
+	new_activation_ = 0;
 }

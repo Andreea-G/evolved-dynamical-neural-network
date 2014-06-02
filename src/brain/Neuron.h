@@ -15,14 +15,17 @@
 
 using std::unordered_map;
 
-
+//TODO find better way to define this somewhere...
+//Also: note that it's bad to have these in the header (http://stackoverflow.com/questions/11967502/c-okay-to-declare-static-global-variable-in-h-file)
 constexpr float MIN_STRENGTH = 0.0;
-constexpr float MAX_STRENGTH = 100.0;		//TODO find better way to define this somewhere...
-constexpr float MIN_ACTIVATION = 0.0;		//TODO find better way to define this somewhere...
-constexpr float MAX_ACTIVATION = 100.0;		//TODO find better way to define this somewhere...
-constexpr float TIME_STEP = 0.001;		//TODO find better way to define this somewhere...
-constexpr float MIN_DECAY_RATE = 0.0;
-constexpr float MAX_DECAY_RATE = 5.0;		//TODO find better way to define this somewhere...
+constexpr float MAX_STRENGTH = 100.0;
+constexpr float MIN_ACTIVATION = 0.0;
+constexpr float MAX_ACTIVATION = 100.0;
+//For now, I'm setting TIME_STEP to 1, which has the advantage of cycling the brain much faster
+//(basically, we're moving from continues to discrete)
+constexpr float TIME_STEP = 1;
+constexpr float MIN_DECAY_RATE = 1.0;
+constexpr float MAX_DECAY_RATE = 100.0;
 //Not sure if this is good, but we'll occasionally want pseudo-random numbers instead of using random_device
 //for example, with testing, pseudo-random is better.
 namespace my_types {
@@ -38,7 +41,8 @@ class Neuron {
 public:
 
 	//TODO: Brain::MutateNeurons(.) accesses Neuron::MutateSynapses, so either we keep this friendship or
-	//make MutateSynapses public.  Another idea is to make the whole Neuron class private.  After all, only Brain accesses it right?
+	//make MutateSynapses public.  Another idea is to make the whole Neuron class private.
+	//After all, only Brain accesses it right?
 	friend class Brain;
 
 	//generate neuron with random active_threshold and decay_rate and with synapses (with random strengths) coming from
@@ -61,20 +65,25 @@ public:
 	void set_decay_rate(const float &decay_rate) { decay_rate_ = decay_rate; }
 	float get_decay_rate() const { return decay_rate_; }
 
-	//Updates the current activation to be the new activation at time t + delta t,
+	//set activation to be the activation after current cycle (or zero if neuron just fired)
 	//and sets the future new_activation to zero
-	void update_activation() { activation_ = new_activation_; new_activation_ = 0; }
-	//Decides if neuron is active enough for the neuron to fire.
+	void UpdateActivation();
+	//return true if neuron's activation is high enough to fire.
 	bool ActivationFunction() const;
+	//set just_fired to true if neuron can fire.
+	void AttemptToActivate();
 
-public:
+public://TODO: this is supposed to be private
 	//map of synapses where the first element is the origin neuron and the second element is the connection strength
 	unordered_map<int, float> synapses_;
 
 	float activation_;				//current activation of the neuron
+	//temporary variable to activation for next round (since we don't want it to affect other neurons in this round)
 	float new_activation_;
 	float active_threshold_;
 	float decay_rate_;				//strength of each neuron decays exponentially with a certain decay rate
+
+	bool just_fired; //during a brain cycle, remember if a neuron fired, and if so we set it to zero after cycle's over.
 
 	//Randomly mutates synapses. num_mutated_synapses is the number of synapses
 	//that will undergo a mutation. If it is positive, new connections will be formed

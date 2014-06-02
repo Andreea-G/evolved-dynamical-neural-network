@@ -37,12 +37,12 @@ void BrainTest::Test1() {
 		test_brain1.Cycle();
 	}
 
-	//////////////////Brain 2 using the more detailed constructor
-	num_neurons=8;
-	const int av_num_syn=5; const int st_dev_num_syn=2;
-	const float av_active_threshold=25; const float st_dev_active_threshold=5;
+	//////////////////  Brain 2 using the more detailed constructor
+	num_neurons=80;
+	const int av_num_syn=8; const int st_dev_num_syn=2;
+	const float av_active_threshold=15; const float st_dev_active_threshold=4;
 	const float av_start_activation=0; const float st_dev_start_activation=0;
-	const float av_decay_rate=4; const float st_dev_decay_rate=2;
+	const float av_decay_rate=5; const float st_dev_decay_rate=5;
 	Brain test_brain2(num_neurons, 3, 2,
 										av_num_syn, st_dev_num_syn,
 										av_active_threshold, st_dev_active_threshold,
@@ -60,21 +60,38 @@ void BrainTest::Test1() {
 	//run through a few cycles
 	cout << endl << "Here's a few rounds of neuronal activity for your visual inspection.";
 	//set precision for reporting activation
-	cout << std::setprecision(4) << std::fixed;
+	cout << std::setprecision(0) << std::fixed;
 	for (int ii=0; ii<10000; ii++) {
 		cout << "\nRound " << ii << ": ";
-		//loop through the neurons outputting their activations
-		for (int jj=0; jj<num_neurons; jj++) {
+		//loop through the neurons outputting their activations, but max out at reporting 10 activations
+		for (int jj=0; jj<min(num_neurons,10); jj++) {
 			cout << " " << neurons2[jj].activation_;
 		}
-		cout << std::flush;
+		//cout << std::flush;
 		test_brain2.Cycle();
-		//now just provoke the brain and see if it finds same steady-state sol'n
-		if (ii==5000) {
+		//now just provoke the brain and see if it finds the same steady-state sol'n
+		if (ii==3000) {
 			test_brain2.give_input(brain_input2);
 			test_brain2.neurons_[4].set_activation(MAX_ACTIVATION);
 			test_brain2.neurons_[5].set_activation(MAX_ACTIVATION);
 			test_brain2.neurons_[6].set_activation(MAX_ACTIVATION);
+			test_brain2.neurons_[7].set_activation(MAX_ACTIVATION);
+			test_brain2.neurons_[8].set_activation(MAX_ACTIVATION);
+			test_brain2.neurons_[9].set_activation(MAX_ACTIVATION);
+		}
+		if (ii==6000) {
+			test_brain2.neurons_[4].set_activation(MIN_ACTIVATION);
+			test_brain2.neurons_[5].set_activation(MIN_ACTIVATION);
+			test_brain2.neurons_[6].set_activation(MIN_ACTIVATION);
+			test_brain2.neurons_[7].set_activation(MIN_ACTIVATION);
+			test_brain2.neurons_[8].set_activation(MIN_ACTIVATION);
+			test_brain2.neurons_[9].set_activation(MIN_ACTIVATION);
+			test_brain2.neurons_[14].set_activation(MAX_ACTIVATION);
+			test_brain2.neurons_[15].set_activation(MAX_ACTIVATION);
+			test_brain2.neurons_[16].set_activation(MAX_ACTIVATION);
+			test_brain2.neurons_[17].set_activation(MAX_ACTIVATION);
+			test_brain2.neurons_[18].set_activation(MIN_ACTIVATION);
+			test_brain2.neurons_[19].set_activation(MIN_ACTIVATION);
 		}
 
 	}

@@ -113,6 +113,11 @@ void Brain::Cycle() {
 	//iterator type for synapses
 	typedef std::unordered_map<int, float>::iterator syn_it_type;
 
+	//loop through neurons to see which are firing this round
+	for (neur_it_type neur_activate_it = neurons_.begin(); neur_activate_it != neurons_.end(); ++neur_activate_it) {
+		neur_activate_it->AttemptToActivate();
+	}
+
 	//Loop through neurons calculating the new activation
 	for (neur_it_type neur_it = neurons_.begin(); neur_it != neurons_.end(); ++neur_it) {
 		//Neuron's activation decays exponentially, but cannot go into the negative.
@@ -125,16 +130,16 @@ void Brain::Cycle() {
 			int origin_neuron = syn_it->first;
 			float syn_strength = syn_it->second;
 			//add influence of this synapse to current neuron
-			new_activation += TIME_STEP * syn_strength * neurons_[origin_neuron].ActivationFunction();
+			new_activation += TIME_STEP * syn_strength * neurons_[origin_neuron].just_fired;
 		}
 
 		//save new activation, but limit it to MAX_ACTIVATION
-		neur_it->set_new_activation(std::min(new_activation, MAX_ACTIVATION));
+		neur_it->set_new_activation(min(new_activation, MAX_ACTIVATION));
 	}
 
 	//then update all activations of the neurons
-	for (neur_it_type neur_it = neurons_.begin(); neur_it != neurons_.end(); ++neur_it) {
-		neur_it->update_activation();
+	for (neur_it_type neur_update_it = neurons_.begin(); neur_update_it != neurons_.end(); ++neur_update_it) {
+		neur_update_it->UpdateActivation();
 	}
 }
 
