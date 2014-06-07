@@ -23,13 +23,15 @@ public:
 	//For example, this will use a Gaussian distribution to with the specified average and standard deviation to set
 	//the active threshold of each neuron.  The active threshold is also enforced to be in the
 	//interval [MIN_ACTIVATION, MAX_ACTIVATION].
-	//For now, you can't set the synapse strength.  Instead, each synapse has strength chosen from uniform distro on
+	//-For now, you can't set the synapse strength.  Instead, each synapse has strength chosen from uniform distro on
 	//the interval [MIN_STRENGTH, MAX_STRENGTH].
+	//-If the syn_strength parameters aren't specified, a uniform distribution is used
 	Brain(const size_t num_neurons, const size_t num_input_neurons, const size_t num_output_neurons,
-				const int av_num_syn, const int st_dev_num_syn,
 				const float av_active_threshold, const float st_dev_active_threshold,
 				const float av_start_activation, const float st_dev_start_activation,
-				const float av_decay_rate, const float st_dev_decay_rate);
+				const float av_decay_rate, const float st_dev_decay_rate,
+				const int av_num_syn, const int st_dev_num_syn,
+				const float av_syn_strength=0, const float st_dev_syn_strength=0);
 
 	//neurons comprising brain, each with incoming synapses from other neurons
 	deque<Neuron> neurons_;
@@ -43,9 +45,11 @@ public:
 	//The output neurons give the result, also in the form of a binary signal. The next few neurons will be output neurons.
 	deque<bool> get_output() const;
 
-	//Randomly mutates num_mutated_synapses synapses inside of randomly selected neurons, as well as the activation threshold and decay rate.
+	//Randomly mutates num_mutated_synapses synapses inside of randomly selected neurons
+	//(which may or may not already exist),
+	//as well as the activation threshold and decay rate.
 	//The number of neurons selected for mutation is num_mutated_neurons.
-	//See also MutateSynapses inside of the Neuron class.
+	//It will create new synapses if num_mutated is positive, or destroy synapes if it's negative
 	void MutateNeurons(const int num_mutated_neurons, const int num_mutated_synapses);
 
 	//Causes one network firing inside the brain.  See the .lyx file in ./docs for explanation.

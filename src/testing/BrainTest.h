@@ -8,7 +8,8 @@ class BrainTest {
 public:
 
 	BrainTest() {};
-	//Executes a bunch of unit tests
+	//Executes a bunch of unit tests (these are a bit messy at the moment)
+	//although to have a permanent proper unit test, we'd need to rewrite the code to work on a pseudo-random generator.
 	void Test1();
 
 	void DisplaySynapses(const deque<Neuron> & neurons, int num_neuron_to_display);

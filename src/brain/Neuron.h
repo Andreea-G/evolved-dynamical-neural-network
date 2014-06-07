@@ -24,8 +24,9 @@ constexpr float MAX_ACTIVATION = 100.0;
 //For now, I'm setting TIME_STEP to 1, which has the advantage of cycling the brain much faster
 //(basically, we're moving from continues to discrete)
 constexpr float TIME_STEP = 1;
-constexpr float MIN_DECAY_RATE = 1.0;
-constexpr float MAX_DECAY_RATE = 100.0;
+//since TIME_STEP is set to 1, I'm setting a max decay rate of 1.0, anything higher is overkill
+constexpr float MIN_DECAY_RATE = 0.01;
+constexpr float MAX_DECAY_RATE = 1.0;
 //Not sure if this is good, but we'll occasionally want pseudo-random numbers instead of using random_device
 //for example, with testing, pseudo-random is better.
 namespace my_types {
@@ -50,8 +51,10 @@ public:
 	//uniform distribution: [0,num_neurons], but if duplicate synapses are removed.
 	Neuron(const int num_neurons);
 	//Assigns the synapses to random originating neurons
+	//-If the syn_strength parameters aren't specified (or set to zero), a uniform distribution is used
 	Neuron(const float start_activation, const float decay_rate, const float active_threshold,
-					const int num_neurons, const int num_synapses);
+					const int num_neurons, const int num_synapses,
+				 const float av_syn_strength=0, const float st_dev_syn_strength=0);
 
 	//Neuron(const Neuron &neur);		//copy constructor
 	//Neuron& operator=(const Neuron &neur) { return *this; }

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <iomanip>
+#include <fstream>
 #include "BrainTest.h"
 
 using std::cout;
@@ -37,63 +38,88 @@ void BrainTest::Test1() {
 		test_brain1.Cycle();
 	}
 
-	//////////////////  Brain 2 using the more detailed constructor
-	num_neurons=80;
-	const int av_num_syn=8; const int st_dev_num_syn=2;
-	const float av_active_threshold=15; const float st_dev_active_threshold=4;
-	const float av_start_activation=0; const float st_dev_start_activation=0;
-	const float av_decay_rate=5; const float st_dev_decay_rate=5;
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	///// Brain 2 using the more detailed constructor
+//	num_neurons=800;  //These settings gave a non-repeating brain!
+//	const float av_active_threshold=25; const float st_dev_active_threshold=4;
+//	const float av_start_activation=25 ; const float st_dev_start_activation=5;
+//	const float av_decay_rate=0.1; const float st_dev_decay_rate=0.03;
+//	const int av_num_syn=10; const int st_dev_num_syn=2;
+//	const float av_syn_strength=5; const float st_dev_syn_strength=4;
+	num_neurons=10;
+	const float av_active_threshold=25; const float st_dev_active_threshold=4;
+	const float av_start_activation=25 ; const float st_dev_start_activation=5;
+	const float av_decay_rate=0.05; const float st_dev_decay_rate=0.02;
+	const int av_num_syn=4; const int st_dev_num_syn=2;
+	const float av_syn_strength=28; const float st_dev_syn_strength=4;
 	Brain test_brain2(num_neurons, 3, 2,
-										av_num_syn, st_dev_num_syn,
 										av_active_threshold, st_dev_active_threshold,
 										av_start_activation, st_dev_start_activation,
-										av_decay_rate, st_dev_decay_rate);
+										av_decay_rate, st_dev_decay_rate,
+										av_num_syn, st_dev_num_syn,
+										av_syn_strength, st_dev_syn_strength);
 
 	deque<Neuron> & neurons2 = test_brain2.neurons_;
 
 	//give input
-	deque<bool> brain_input2 = {1, 1, 0};
-	test_brain2.give_input(brain_input2);
+//	deque<bool> brain_input2 = {1, 1, 0};
+//	test_brain2.give_input(brain_input2);
+
+	//I'll send all the output to a temporary file.
+	std::ofstream outputFile("tmp_output.txt");
+	if (outputFile.good()==false) {
+		cerr << "ERROR: problem opening temporary file!";
+	}
 
 	this->DisplaySynapses(neurons2, 8);
 
 	//run through a few cycles
-	cout << endl << "Here's a few rounds of neuronal activity for your visual inspection.";
+	outputFile << endl << "Here's a few rounds of neuronal activity for your visual inspection.";
 	//set precision for reporting activation
-	cout << std::setprecision(0) << std::fixed;
-	for (int ii=0; ii<10000; ii++) {
-		cout << "\nRound " << ii << ": ";
+	outputFile << std::setprecision(0) << std::fixed;
+	for (int ii=0; ii<100; ii++) {
+		outputFile << "\nRound " << ii << ": ";
 		//loop through the neurons outputting their activations, but max out at reporting 10 activations
 		for (int jj=0; jj<min(num_neurons,10); jj++) {
-			cout << " " << neurons2[jj].activation_;
+			outputFile << " " << neurons2[jj].activation_;
 		}
-		//cout << std::flush;
+		outputFile << std::flush;
 		test_brain2.Cycle();
-		//now just provoke the brain and see if it finds the same steady-state sol'n
-		if (ii==3000) {
-			test_brain2.give_input(brain_input2);
-			test_brain2.neurons_[4].set_activation(MAX_ACTIVATION);
-			test_brain2.neurons_[5].set_activation(MAX_ACTIVATION);
-			test_brain2.neurons_[6].set_activation(MAX_ACTIVATION);
-			test_brain2.neurons_[7].set_activation(MAX_ACTIVATION);
-			test_brain2.neurons_[8].set_activation(MAX_ACTIVATION);
-			test_brain2.neurons_[9].set_activation(MAX_ACTIVATION);
-		}
-		if (ii==6000) {
-			test_brain2.neurons_[4].set_activation(MIN_ACTIVATION);
-			test_brain2.neurons_[5].set_activation(MIN_ACTIVATION);
-			test_brain2.neurons_[6].set_activation(MIN_ACTIVATION);
-			test_brain2.neurons_[7].set_activation(MIN_ACTIVATION);
-			test_brain2.neurons_[8].set_activation(MIN_ACTIVATION);
-			test_brain2.neurons_[9].set_activation(MIN_ACTIVATION);
-			test_brain2.neurons_[14].set_activation(MAX_ACTIVATION);
-			test_brain2.neurons_[15].set_activation(MAX_ACTIVATION);
-			test_brain2.neurons_[16].set_activation(MAX_ACTIVATION);
-			test_brain2.neurons_[17].set_activation(MAX_ACTIVATION);
-			test_brain2.neurons_[18].set_activation(MIN_ACTIVATION);
-			test_brain2.neurons_[19].set_activation(MIN_ACTIVATION);
-		}
-
+		//now just provoke the brain and see if it finds the same steady state sol'n
+//		if (3000<=ii && ii<3005) {
+////			test_brain2.give_input(brain_input2);
+////			test_brain2.neurons_[4].set_activation(MAX_ACTIVATION);
+////			test_brain2.neurons_[5].set_activation(MAX_ACTIVATION);
+////			test_brain2.neurons_[6].set_activation(MAX_ACTIVATION);
+////			test_brain2.neurons_[7].set_activation(MAX_ACTIVATION);
+////			test_brain2.neurons_[8].set_activation(MAX_ACTIVATION);
+////			test_brain2.neurons_[9].set_activation(MAX_ACTIVATION);
+//			//Hold a bunch of neurons at MAX_ACTIVATION
+//			for (int jj=0; jj<100; ++jj) {
+//				test_brain2.neurons_[jj].set_activation(MAX_ACTIVATION);
+//			}
+//		}
+//		int tmp_stopper=ii%2000;
+//		if (0<=tmp_stopper && tmp_stopper<5) {
+////			test_brain2.give_input(brain_input2);
+////			test_brain2.neurons_[4].set_activation(MIN_ACTIVATION);
+////			test_brain2.neurons_[5].set_activation(MIN_ACTIVATION);
+////			test_brain2.neurons_[6].set_activation(MIN_ACTIVATION);
+////			test_brain2.neurons_[7].set_activation(MIN_ACTIVATION);
+////			test_brain2.neurons_[8].set_activation(MIN_ACTIVATION);
+////			test_brain2.neurons_[9].set_activation(MIN_ACTIVATION);
+////			test_brain2.neurons_[14].set_activation(MAX_ACTIVATION);
+////			test_brain2.neurons_[15].set_activation(MAX_ACTIVATION);
+////			test_brain2.neurons_[16].set_activation(MAX_ACTIVATION);
+////			test_brain2.neurons_[17].set_activation(MAX_ACTIVATION);
+////			test_brain2.neurons_[18].set_activation(MIN_ACTIVATION);
+////			test_brain2.neurons_[19].set_activation(MIN_ACTIVATION);
+//			//Hold a bunch of neurons at MAX_ACTIVATION
+//			for (int jj=0; jj<100; ++jj) {
+//				test_brain2.neurons_[jj].set_activation(MAX_ACTIVATION);
+//			}
+//		}
 	}
 
 	//practice brain output
@@ -103,9 +129,24 @@ void BrainTest::Test1() {
 	if (output2 != expected_output2)
 		cerr << "\n\nERROR: brain output 2 differs from expected output!!!";
 
+	///////////////////////////////////
+	////Brain 3
+
+	cout << "Starting tests on Brain 3";
+
+	int num_neurons3=8;
+	Brain test_brain3(num_neurons3, 2, 2);
+	deque<Neuron> & neurons3 = test_brain3.neurons_;
+
+	this->DisplaySynapses(neurons3, 8);
+
+	test_brain3.MutateNeurons(8, -1);
+	cout << "OK, I just mutated them!";
+	this->DisplaySynapses(neurons3, 8);
 
 	cout << endl << "The test is complete." << endl;
 }
+
 
 
 void BrainTest::DisplaySynapses(const deque<Neuron> & neurons, int num_neuron_to_display) {
@@ -116,7 +157,7 @@ void BrainTest::DisplaySynapses(const deque<Neuron> & neurons, int num_neuron_to
 		cout << "\nNeuron " << ii << ": ";
 		int count=0;
 		for (unordered_map<int,float>::iterator it=neuron_ii.synapses_.begin();
-				 it != neuron_ii.synapses_.end(); ++it) {
+				 it != neuron_ii.synapses_.end(); it++) {
 			cout << it->first << "(" << it->second << ") ";
 			count++;
 			//report no more than 10 synapses for each neuron

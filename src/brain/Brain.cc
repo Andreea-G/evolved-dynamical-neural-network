@@ -37,10 +37,11 @@ Brain::Brain(const size_t num_neurons, const size_t num_input_neurons,
 }
 
 Brain::Brain(const size_t num_neurons, const size_t num_input_neurons, const size_t num_output_neurons,
-						 const int av_num_syn, const int st_dev_num_syn,
 						 const float av_active_threshold, const float st_dev_active_threshold,
 						 const float av_start_activation, const float st_dev_start_activation,
-						 const float av_decay_rate, const float st_dev_decay_rate) {
+						 const float av_decay_rate, const float st_dev_decay_rate,
+						 const int av_num_syn, const int st_dev_num_syn,
+						 const float av_syn_strength, const float st_dev_syn_strength) {
 	if (num_neurons < num_input_neurons + num_output_neurons)
 		std::cerr << "WARNING: The brain has too many input and output neurons!";
 
@@ -65,7 +66,8 @@ Brain::Brain(const size_t num_neurons, const size_t num_input_neurons, const siz
 		//generate decay rate
 		float decay_rate = min(max(decay_rate_distro(gen), MIN_DECAY_RATE), MAX_DECAY_RATE);
 
-		Neuron new_neuron(start_activation, decay_rate, active_threshold, num_neurons, num_syn);
+		Neuron new_neuron(start_activation, decay_rate, active_threshold,
+											num_neurons, num_syn, av_syn_strength, st_dev_syn_strength);
 		neurons_.push_back(new_neuron);
 	}
 
@@ -93,15 +95,17 @@ deque<bool> Brain::get_output() const {
 
 void Brain::MutateNeurons(const int num_mutated_neurons, const int num_mutated_synapses) {
 	my_types::gen_type generator;
-	std::uniform_int_distribution<int> neuron_distro(0, num_neurons_);
-	std::uniform_real_distribution<> unit_distro(0, 1);	//returns number from 0 to 1
+	std::uniform_int_distribution<int> neuron_distro(0, num_neurons_-1);
+	std::uniform_real_distribution<> unit_distro(0, 1);
 
 	for (int i = 0; i < num_mutated_neurons; i++) {
-		Neuron rand_neuron = neurons_[neuron_distro(generator)];  //TODO: Possible bug, shouldn't we pass by reference, not invoke copy assignment here?
-		rand_neuron.set_decay_rate(MAX_DECAY_RATE * unit_distro(generator));
+		//Randomly pick a neuron
+		//(it's possible a neuron could get mutated twice in a small brain, so losing 2x the synapses for example)
+		Neuron & rand_neuron = neurons_[neuron_distro(generator)];
+		rand_neuron.set_decay_rate((MAX_DECAY_RATE-MIN_DECAY_RATE) * unit_distro(generator) + MIN_DECAY_RATE);
 
 		//generate random activation using uniform distribution over [MIN_ACTIVATION, MAX_ACTIVATION].
-		rand_neuron.set_active_threshold((MAX_ACTIVATION - MIN_ACTIVATION) * unit_distro(generator) - MIN_ACTIVATION);
+		rand_neuron.set_active_threshold((MAX_ACTIVATION - MIN_ACTIVATION) * unit_distro(generator) + MIN_ACTIVATION);
 		rand_neuron.MutateSynapses(num_mutated_synapses, num_neurons_);
 	}
 }
@@ -121,7 +125,7 @@ void Brain::Cycle() {
 	//Loop through neurons calculating the new activation
 	for (neur_it_type neur_it = neurons_.begin(); neur_it != neurons_.end(); ++neur_it) {
 		//Neuron's activation decays exponentially, but cannot go into the negative.
-		float new_activation = std::max(neur_it->get_activation() * (1-TIME_STEP*neur_it->get_decay_rate()), 0.f);
+		float new_activation = std::max(neur_it->get_activation() * (1-TIME_STEP*neur_it->get_decay_rate()), 0.f);  //TODO:  BUG!  imagine decay rate 1, TIME_STEP 1!
 
 		neur_it->synapses_.begin();
 
