@@ -38,6 +38,9 @@ public:
 
 	void set_fitness_score(const int fitness_score) { fitness_score_ = fitness_score; }
 	float get_fitness_score() const { return fitness_score_; }
+	size_t get_num_neurons() const { return num_neurons_; }
+	size_t get_num_input_neurons() const { return num_input_neurons_; }
+	size_t get_num_output_neurons() const { return num_output_neurons_; }
 
 	//The input neurons take in a signal from the outside, in the form of a binary signal.
 	//The first few neurons will be input neurons, each taking in one bit of signal.
@@ -51,12 +54,14 @@ public:
 	//The number of neurons selected for mutation is num_mutated_neurons.
 	//It will create new synapses if num_mutated is positive, or destroy synapes if it's negative
 	void MutateNeurons(const int num_mutated_neurons, const int num_mutated_synapses);
+	//TODO: I think num_mutated_neurons should be size_t
+
 
 	//Causes one network firing inside the brain.  See the .lyx file in ./docs for explanation.
 	void Cycle();
 
 private:
-	int num_neurons_;	//total number of neurons
+	size_t num_neurons_;	//total number of neurons
 	//number of input and output neurons.  The type was 'int', but if looking where it's used, this type makes more sense.
 	size_t num_input_neurons_, num_output_neurons_;
 	//describes how well the brain has performed at the given task.  This is used by evolution class for choosing brains.
