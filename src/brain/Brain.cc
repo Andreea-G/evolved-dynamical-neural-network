@@ -113,24 +113,24 @@ void Brain::MutateNeurons(const int num_mutated_neurons, const int num_mutated_s
 
 void Brain::Cycle() {
 	//iterator type for our vector
-	typedef std::deque<Neuron>::iterator neur_it_type;
+//	typedef std::deque<Neuron>::iterator neur_it_type;  DEL
 	//iterator type for synapses
-	typedef std::unordered_map<int, float>::iterator syn_it_type;
+//	typedef std::unordered_map<int, float>::iterator syn_it_type;  DEL
 
 	//loop through neurons to see which are firing this round
-	for (neur_it_type neur_activate_it = neurons_.begin(); neur_activate_it != neurons_.end(); ++neur_activate_it) {
+	for (auto neur_activate_it = neurons_.begin(); neur_activate_it != neurons_.end(); ++neur_activate_it) {
 		neur_activate_it->AttemptToActivate();
 	}
 
 	//Loop through neurons calculating the new activation
-	for (neur_it_type neur_it = neurons_.begin(); neur_it != neurons_.end(); ++neur_it) {
+	for (auto neur_it = neurons_.begin(); neur_it != neurons_.end(); ++neur_it) {
 		//Neuron's activation decays exponentially, but cannot go into the negative.
 		float new_activation = std::max(neur_it->get_activation() * (1-TIME_STEP*neur_it->get_decay_rate()), 0.f);  //TODO:  BUG!  imagine decay rate 1, TIME_STEP 1!
 
 		neur_it->synapses_.begin();
 
 		//Loop through every (incoming) synapse linked to current neuron.
-		for (syn_it_type syn_it = neur_it->synapses_.begin(); syn_it != neur_it->synapses_.end(); ++syn_it) {
+		for (auto syn_it = neur_it->synapses_.begin(); syn_it != neur_it->synapses_.end(); ++syn_it) {
 			int origin_neuron = syn_it->first;
 			float syn_strength = syn_it->second;
 			//add influence of this synapse to current neuron
@@ -142,7 +142,7 @@ void Brain::Cycle() {
 	}
 
 	//then update all activations of the neurons
-	for (neur_it_type neur_update_it = neurons_.begin(); neur_update_it != neurons_.end(); ++neur_update_it) {
+	for (auto neur_update_it = neurons_.begin(); neur_update_it != neurons_.end(); ++neur_update_it) {
 		neur_update_it->UpdateActivation();
 	}
 }

@@ -2,26 +2,19 @@
  * Evolution.cc
  *
  *  Created on: May 16, 2014
- *      Author: Andreea
+ *      Author: Andreea, Garrett
  */
 
 #include "../brain/Neuron.h"		//TODO: find better way for this include
-#include "../brain/Brain.h"
 #include "Evolution.h"
 #include <iostream>
-#include <math.h>	//for floor function
+#include <math.h>	//floor function
+#include <algorithm> //for_each
 
 using std::deque;
 
-Evolution::Evolution() {
-	prob_asexual_ = 0;
-	prob_mutated_neurons_ = 0;
-}
-
-
-Evolution::Evolution(const float prob_asexual, const float prob_mutated_neurons) {
+Evolution::Evolution(const float prob_asexual) {
 	prob_asexual_ = prob_asexual;
-	prob_mutated_neurons_ = prob_mutated_neurons;
 }
 
 int Evolution::FitnessWeighting(const int fitness) {
@@ -29,26 +22,33 @@ int Evolution::FitnessWeighting(const int fitness) {
 	return fitness * fitness;
 }
 
-void Evolution::set_brain_cum_odds(const deque<Brain> &brains) {
+void Evolution::ChooseMostFitBrains(const deque<Brain> &brains) {
 	size_t num_brains = brains.size();
-	deque<float> unnorm_cum_odds;		//unnormalized cummulated mating odds;
-	unnorm_cum_odds.push_back(0);
-	for (deque<Brain>::iterator brain_it = brains.begin(); brain_it != brains.end(); brain_it++) {
-		unnorm_cum_odds.push_back(unnorm_cum_odds.end() + FitnessWeighting(brain_it->get_fitness_score()));
+	deque<float> unnorm_mating_priorities;		//unnormalized mating priority;
+
+	for (auto brain_it = brains.begin(); brain_it != brains.end(); brain_it++) {
+		unnorm_mating_priorities.push_back(FitnessWeighting(brain_it->get_fitness_score()) );
 	}
-	unnorm_cum_odds.pop_front();		//get rid of useless 0 in the begining
-	brain_cum_mating_odds_.clear();		//reset to empty deque
-	float sum_odds = unnorm_cum_odds.back();
-	for (size_t br = 0; br < num_brains; br++) {
-		int mating_odds = floor(unnorm_cum_odds[i] * num_brains / sum_odds);		//normalized s.t. sum over mating_odds ~ number of brains
-		for (int i = 0; i < mating_odds; i++) {
-			brain_cum_mating_odds_.push_back(br);
+
+	most_fit_brains_.clear();		//reset to empty deque
+
+	//get the sum of mating priorities of all brains to help normalize (implemented with a lambda for practice)
+	//	float sum_mating_priorities = unnorm_mating_priority.back();  DEL
+	float sum_mating_priorities=0;
+	std::for_each(unnorm_mating_priorities.begin(), unnorm_mating_priorities.end(),
+								[&](float priority) {sum_mating_priorities+=priority;});
+
+	for (size_t brain_index = 0; brain_index < num_brains; brain_index++) {
+		//TODO: isn't floor(.) going to cause our populations to shrink?
+		int mating_priority = floor(unnorm_mating_priorities[brain_index] * num_brains / sum_mating_priorities);		//normalized s.t. sum over mating_odds ~ number of brains
+		for (int i = 0; i < mating_priority; i++) {
+			most_fit_brains_.push_back(static_cast<int>(brain_index));
 		}
 	}
 
 	//The size of brain_cum_mating_odds_ is at most num_brains; it can be smaller due to the floor function above, but should not be larger...
-	if (brain_cum_mating_odds_.size() > num_brains) {
-		std::cerr << std::cout << "Error! Cumulating odds deque is larger than total number of brains... What went wrong??\n";
+	if (most_fit_brains_.size() > num_brains) {
+		std::cerr << "Error! Cumulating odds deque is larger than total number of brains.. What went wrong??\n";
 	}
 }
 
@@ -82,19 +82,19 @@ deque<Brain> Evolution::GetNextGeneration (const deque<Brain> &brains, const int
 	size_t num_brains = brains.size();
 
 	std::random_device generator;
-	std::uniform_int_distribution<int> mating_distro(0, brain_cum_mating_odds_.size()-1);
+	std::uniform_int_distribution<int> mating_distro(0, most_fit_brains_.size()-1);
 	std::uniform_real_distribution<float> asexual_distro(0.0, 1.0);
 
 	deque<Brain> next_gen;
 	//Create a new generation of num_brains children
 	for (size_t br = 0; br < num_brains; br++) {
 		//Randomly pick parent 1
-		int parent1_index = brain_cum_mating_odds_[mating_distro(generator)];
+		int parent1_index = most_fit_brains_[mating_distro(generator)];
 		if (asexual_distro(generator) < prob_asexual_) {	//asexual reproduction
 			Brain new_brain = MutateBrain(brains[parent1_index], num_mutated_neurons, num_mutated_synapses);
 			next_gen.push_back(new_brain);
 		} else {		//sexual reproduction
-			int parent2_index = brain_cum_mating_odds_[mating_distro(generator)];
+			int parent2_index = most_fit_brains_[mating_distro(generator)];
 			//if both parents the same, do asexual reproduction
 			if (parent2_index == parent1_index) {
 				Brain new_brain = MutateBrain(brains[parent1_index], num_mutated_neurons, num_mutated_synapses);

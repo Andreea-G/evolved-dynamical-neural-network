@@ -12,7 +12,8 @@
 
 //#include "tasks/MazeTask.h"
 //#include "testing/MazeTest.h"
-#include "testing/BrainTest.h"
+//#include "testing/BrainTest.h"
+#include "testing/EvolutionTest.h"
 
 using std::cout;
 using std::endl;
@@ -21,8 +22,9 @@ using std::cin;
 
 int main() {
 
-	BrainTest tester;
-	tester.Test1();
+	EvolutionTest test;
+	test.test1();
+
 	return 1;
 }
 

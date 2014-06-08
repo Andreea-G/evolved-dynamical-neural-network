@@ -156,7 +156,7 @@ void BrainTest::DisplaySynapses(const deque<Neuron> & neurons, int num_neuron_to
 		Neuron neuron_ii = neurons[ii];
 		cout << "\nNeuron " << ii << ": ";
 		int count=0;
-		for (unordered_map<int,float>::iterator it=neuron_ii.synapses_.begin();
+		for (auto it=neuron_ii.synapses_.begin();
 				 it != neuron_ii.synapses_.end(); it++) {
 			cout << it->first << "(" << it->second << ") ";
 			count++;

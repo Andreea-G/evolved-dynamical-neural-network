@@ -106,7 +106,7 @@ void Neuron::MutateSynapses(int num_mutated_synapses, const int num_neurons) {
 		uniform_int_distribution<int> synapse_location_distro(0, original_size-1);
 		list<int> rand_synapse_locations(num_mutated_synapses);
 		//Loop through and assign random new origin neurons
-		for (list<int>::iterator rand_assign_it = rand_synapse_locations.begin();
+		for (auto rand_assign_it = rand_synapse_locations.begin();
 							rand_assign_it != rand_synapse_locations.end(); rand_assign_it++) {
 			*rand_assign_it = synapse_location_distro(generator);
 		}
@@ -115,9 +115,9 @@ void Neuron::MutateSynapses(int num_mutated_synapses, const int num_neurons) {
 		rand_synapse_locations.unique();
 
 		//Loop through synapses and delete synapses matching the random locations above
-		unordered_map<int, float>::iterator syn_it = synapses_.begin();
+		auto syn_it = synapses_.begin();
 		int syn_location = 0;	//location of corresponding synapse in the synapses map
-		for (list<int>::iterator rand_loc_it = rand_synapse_locations.begin();
+		for (auto rand_loc_it = rand_synapse_locations.begin();
 							rand_loc_it != rand_synapse_locations.end(); rand_loc_it++) {
 			//Need to set syn_location to our next rand_synapse_location, but must use while loop to go through unordered_map
 			while (syn_location != *rand_loc_it && syn_location < static_cast<int>(synapses_.size()) ) {  //TODO: Should we make syn_location size_t to avoid typecast here?
