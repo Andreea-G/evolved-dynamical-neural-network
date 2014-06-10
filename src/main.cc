@@ -24,8 +24,9 @@ int main() {
 
 	EvolutionTest test;
 	test.test1();
+	
 
-	return 1;
+	return 0;
 }
 
 
