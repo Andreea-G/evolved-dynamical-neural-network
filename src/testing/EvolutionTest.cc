@@ -48,8 +48,8 @@ void EvolutionTest::test1() {
 
 //		BrainTest::DisplaySynapses(mutated_brain.neurons_, 10);
 
-	skip_to:
-		{}
+		skip_to:
+			{}
 
 		cout << "Brain 1:\n\n";
 		BrainTest::DisplaySynapses(brain1.neurons_,10);

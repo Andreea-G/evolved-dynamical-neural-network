@@ -15,26 +15,12 @@
 
 using std::unordered_map;
 
-//TODO find better way to define this somewhere...
-//Also: note that it's bad to have these in the header (http://stackoverflow.com/questions/11967502/c-okay-to-declare-static-global-variable-in-h-file)
-constexpr float MIN_STRENGTH = 0.0;
-constexpr float MAX_STRENGTH = 100.0;
-constexpr float MIN_ACTIVATION = 0.0;
-constexpr float MAX_ACTIVATION = 100.0;
-//For now, I'm setting TIME_STEP to 1, which has the advantage of cycling the brain much faster
-//(basically, we're moving from continues to discrete)
-constexpr float TIME_STEP = 1;
-//since TIME_STEP is set to 1, I'm setting a max decay rate of 1.0, anything higher is overkill
-constexpr float MIN_DECAY_RATE = 0.01;
-constexpr float MAX_DECAY_RATE = 1.0;
-//Not sure if this is good, but we'll occasionally want pseudo-random numbers instead of using random_device
-//for example, with testing, pseudo-random is better.
-namespace my_types {
-	//Type of random generator used for all randomness in program
-	//(including neuron creation, brain creation, evolution, etc.)
-	typedef std::random_device gen_type;
-//	typedef std::default_random_engine gen_type;
-}
+//namespace my_types {  TODO: delete this, this is lame.
+//	//Type of random global_generator used for all randomness in program
+//	//(including neuron creation, brain creation, evolution, etc.)
+//	typedef std::random_device gen_type;
+//	//typedef std::default_random_engine gen_type;
+//}
 
 
 class Neuron {

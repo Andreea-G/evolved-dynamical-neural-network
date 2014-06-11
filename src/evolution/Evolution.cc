@@ -5,11 +5,12 @@
  *      Author: Andreea, Garrett
  */
 
-#include "../brain/Neuron.h"		//TODO: find better way for this include
-#include "Evolution.h"
+//DEL #include "../brain/Neuron.h"
 #include <iostream>
 #include <math.h>	//floor function
 #include <algorithm> //for_each
+#include "Evolution.h"
+#include "../Globals.h" //TODO: find better way for this include
 
 using std::deque;
 
@@ -63,9 +64,8 @@ Brain Evolution::MateBrains(const Brain &parent1, const Brain &parent2) const {
 	size_t num_neurons = parent1.get_num_neurons();
 	Brain child(num_neurons, parent1.get_num_input_neurons(), parent1.get_num_output_neurons());
 
-	std::random_device generator;
 	std::uniform_int_distribution<size_t> cross_over_distro(0, num_neurons-1);
-	size_t cross_over = cross_over_distro(generator);
+	size_t cross_over = cross_over_distro(globals::gen);
 
 	for (size_t i = 0; i < cross_over; i++) {
 		child.neurons_.push_back(parent1.neurons_[i]);
@@ -81,7 +81,6 @@ deque<Brain> Evolution::GetNextGeneration (const deque<Brain> &brains, const int
 																					 const int num_mutated_synapses) const {
 	size_t num_brains = brains.size();
 
-	std::random_device generator;
 	std::uniform_int_distribution<int> mating_distro(0, most_fit_brains_.size()-1);
 	std::uniform_real_distribution<float> asexual_distro(0.0, 1.0);
 
@@ -89,12 +88,12 @@ deque<Brain> Evolution::GetNextGeneration (const deque<Brain> &brains, const int
 	//Create a new generation of num_brains children
 	for (size_t br = 0; br < num_brains; br++) {
 		//Randomly pick parent 1
-		int parent1_index = most_fit_brains_[mating_distro(generator)];
-		if (asexual_distro(generator) < prob_asexual_) {	//asexual reproduction
+		int parent1_index = most_fit_brains_[mating_distro(globals::gen)];
+		if (asexual_distro(globals::gen) < prob_asexual_) {	//asexual reproduction
 			Brain new_brain = MutateBrain(brains[parent1_index], num_mutated_neurons, num_mutated_synapses);
 			next_gen.push_back(new_brain);
 		} else {		//sexual reproduction
-			int parent2_index = most_fit_brains_[mating_distro(generator)];
+			int parent2_index = most_fit_brains_[mating_distro(globals::gen)];
 			//if both parents the same, do asexual reproduction
 			if (parent2_index == parent1_index) {
 				Brain new_brain = MutateBrain(brains[parent1_index], num_mutated_neurons, num_mutated_synapses);

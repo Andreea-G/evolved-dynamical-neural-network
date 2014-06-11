@@ -9,6 +9,7 @@
 #include <list>
 
 #include "Neuron.h"
+#include "../Globals.h"
 
 using std::unordered_map;
 using std::list;
@@ -24,21 +25,21 @@ Neuron::Neuron(const int num_neurons) {
 	activation_ = 0; new_activation_ = 0;
 	just_fired = 0;
 
-	my_types::gen_type generator;
 	uniform_real_distribution<float> unit_distro(0, 1);
 	uniform_int_distribution<int> neuron_distro(0, num_neurons-1);
 
-	decay_rate_ = MAX_DECAY_RATE * unit_distro(generator);
-	active_threshold_ = (MAX_ACTIVATION - MIN_ACTIVATION) * unit_distro(generator) + MIN_ACTIVATION;
+	decay_rate_ = globals::MAX_DECAY_RATE * unit_distro(globals::gen);
+	active_threshold_ = (globals::MAX_ACTIVATION - globals::MIN_ACTIVATION) * unit_distro(globals::gen)
+											+ globals::MIN_ACTIVATION;
 	//make sure active_threshold_ is not zero, or else neuron will just be constantly firing
 	active_threshold_ = max(active_threshold_, 1.f);
 
-	int num_synapses = neuron_distro(generator);
+	int num_synapses = neuron_distro(globals::gen);
 	//Loop through each synapse assigning random strength and origin neuron
 	for (int i = 0; i < num_synapses; i++) {
 		//get random origin  (where synapse comes from).  If it is a duplicate, then the last one is overwritten.
-		int origin_neuron = neuron_distro(generator);
-		synapses_[origin_neuron] = MAX_STRENGTH * unit_distro(generator);
+		int origin_neuron = neuron_distro(globals::gen);
+		synapses_[origin_neuron] = globals::MAX_STRENGTH * unit_distro(globals::gen);
 	}
 }
 
@@ -51,42 +52,40 @@ Neuron::Neuron(const float start_activation, const float decay_rate, const float
 	active_threshold_ = active_threshold;
 	just_fired = 0;
 
-	my_types::gen_type generator;
 	uniform_int_distribution<int> neuron_distro(0, num_neurons-1);
 
 	//if the default parameters for syn strength are given, then use uniform distribution
 	if (av_syn_strength==0 && st_dev_syn_strength==0) {
-		uniform_real_distribution<float> strength_uniform_distro(MIN_STRENGTH, MAX_STRENGTH);
+		uniform_real_distribution<float> strength_uniform_distro(globals::MIN_STRENGTH, globals::MAX_STRENGTH);
 		//Loop through each synapse assigning random strength and origin neuron
 		for (int i = 0; i < num_synapses; i++) {
 			//get random origin neuron (where synapse comes from)
-			int origin_neuron = neuron_distro(generator);
-			synapses_[origin_neuron] = strength_uniform_distro(generator);
+			int origin_neuron = neuron_distro(globals::gen);
+			synapses_[origin_neuron] = strength_uniform_distro(globals::gen);
 		}
 	} else {
 		normal_distribution<float> strength_normal_distro(av_syn_strength, st_dev_syn_strength);
 		//Loop through each synapse assigning random strength and origin neuron
 		for (int i = 0; i < num_synapses; i++) {
 			//get random origin neuron (where synapse comes from)
-			int origin_neuron = neuron_distro(generator);
+			int origin_neuron = neuron_distro(globals::gen);
 			//generate synapse strength and make sure it's within valid range.
-			synapses_[origin_neuron] = min(max(strength_normal_distro(generator), MIN_STRENGTH), MAX_STRENGTH);
+			synapses_[origin_neuron] = min(max(strength_normal_distro(globals::gen), globals::MIN_STRENGTH), globals::MAX_STRENGTH);
 		}
 	}
 }
 
 
 void Neuron::MutateSynapses(int num_mutated_synapses, const int num_neurons) {
-	my_types::gen_type generator;
 	uniform_int_distribution<int> neuron_distro(0, num_neurons-1); //-1 since the bounds are inclusive
-	uniform_real_distribution<float> strength_distro(MIN_STRENGTH, MAX_STRENGTH);
+	uniform_real_distribution<float> strength_distro(globals::MIN_STRENGTH, globals::MAX_STRENGTH);
 
 	if (num_mutated_synapses >= 0) {		//add synapses
 		//At most num_mutated_synapses will be added (could be less if there are duplicates;
 		//in that case the corresponding synapse strength is changed to a random value).
 		for (int ii = 0; ii < num_mutated_synapses; ii++) {
-			int rand_neuron_id = neuron_distro(generator);
-			synapses_[rand_neuron_id] = strength_distro(generator);
+			int rand_neuron_id = neuron_distro(globals::gen);
+			synapses_[rand_neuron_id] = strength_distro(globals::gen);
 		}
 	}
 	else if (num_mutated_synapses < 0) {	//delete synapses
@@ -108,7 +107,7 @@ void Neuron::MutateSynapses(int num_mutated_synapses, const int num_neurons) {
 		//Loop through and assign random new origin neurons
 		for (auto rand_assign_it = rand_synapse_locations.begin();
 							rand_assign_it != rand_synapse_locations.end(); rand_assign_it++) {
-			*rand_assign_it = synapse_location_distro(generator);
+			*rand_assign_it = synapse_location_distro(globals::gen);
 		}
 
 		rand_synapse_locations.sort();

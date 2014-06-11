@@ -12,6 +12,7 @@
 #include <assert.h>
 
 #include "MazeTask.h"
+#include "../Globals.h"
 
 using std::vector;
 using std::cerr;
@@ -37,15 +38,14 @@ MazeTask::MazeTask(const std::string map_file, const bool random_start) {
 		//generate two random coordinates and check if it's a valid start point,
 		//if not, try again.
 
-		std::random_device generator;
 		std::uniform_int_distribution<int> row_distro(0, height_-1);
 		std::uniform_int_distribution<int> col_distro(0, width_-1);
 
 		int rand_row=0;
 		int rand_col=0;
 		while(true) {
-			rand_row = row_distro(generator);
-			rand_col = col_distro(generator);
+			rand_row = row_distro(globals::gen);
+			rand_col = col_distro(globals::gen);
 			//Check if this position is valid, and if so, set it as player's position
 			if (map_[rand_row][rand_col] == MazeTile::NORMAL || map_[rand_row][rand_col] == MazeTile::START ) {
 				row_ = rand_row;

@@ -11,6 +11,7 @@
 
 #include "Neuron.h"
 #include "Brain.h"
+#include "../Globals.h"
 
 
 using std::deque;
@@ -49,7 +50,7 @@ Brain::Brain(const size_t num_neurons, const size_t num_input_neurons, const siz
 	num_input_neurons_ = num_input_neurons;
 	num_output_neurons_ = num_output_neurons;
 
-	my_types::gen_type gen;
+	//my_types::gen_type gen; //DEL
 	normal_distribution<float> num_syn_distro(av_num_syn, st_dev_num_syn);
 	normal_distribution<float> active_threshold_distro(av_active_threshold, st_dev_active_threshold);
 	normal_distribution<float> start_activation_distro(av_start_activation, st_dev_start_activation);
@@ -58,13 +59,13 @@ Brain::Brain(const size_t num_neurons, const size_t num_input_neurons, const siz
 	//loop to create each neuron
 	for (size_t ii = 0; ii < num_neurons; ii++) {
 		//generate number of synapses for current neuron, make sure it's in interval [0, num_neurons]
-		int num_syn = min(max( static_cast<size_t>(num_syn_distro(gen)) , static_cast<size_t>(0)), num_neurons);
+		int num_syn = min(max( static_cast<size_t>(num_syn_distro(globals::gen)) , static_cast<size_t>(0)), num_neurons);
 		//generate active threshold
-		float active_threshold = min(max(active_threshold_distro(gen), MIN_ACTIVATION), MAX_ACTIVATION);
+		float active_threshold = min(max(active_threshold_distro(globals::gen), globals::MIN_ACTIVATION), globals::MAX_ACTIVATION);
 		//generate start activation
-		float start_activation = min(max(start_activation_distro(gen), MIN_ACTIVATION), MAX_ACTIVATION);
+		float start_activation = min(max(start_activation_distro(globals::gen), globals::MIN_ACTIVATION), globals::MAX_ACTIVATION);
 		//generate decay rate
-		float decay_rate = min(max(decay_rate_distro(gen), MIN_DECAY_RATE), MAX_DECAY_RATE);
+		float decay_rate = min(max(decay_rate_distro(globals::gen), globals::MIN_DECAY_RATE), globals::MAX_DECAY_RATE);
 
 		Neuron new_neuron(start_activation, decay_rate, active_threshold,
 											num_neurons, num_syn, av_syn_strength, st_dev_syn_strength);
@@ -79,7 +80,7 @@ void Brain::give_input(const deque<bool> &input_vals) {
 		std::cerr << "\nError! Number of input neurons is not the same as number of input signal bits!\n" << std::endl;
 	}
 	for (size_t i = 0; i < num_input_neurons_; i++) 		//the first few neurons are input
-		neurons_[i].set_activation(input_vals[i] * MAX_ACTIVATION);
+		neurons_[i].set_activation(input_vals[i] * globals::MAX_ACTIVATION);
 }
 
 
@@ -94,18 +95,17 @@ deque<bool> Brain::get_output() const {
 
 
 void Brain::MutateNeurons(const int num_mutated_neurons, const int num_mutated_synapses) {
-	my_types::gen_type generator;
 	std::uniform_int_distribution<int> neuron_distro(0, num_neurons_-1);
 	std::uniform_real_distribution<> unit_distro(0, 1);
 
 	for (int i = 0; i < num_mutated_neurons; i++) {
 		//Randomly pick a neuron
 		//(it's possible a neuron could get mutated twice in a small brain, so losing 2x the synapses for example)
-		Neuron & rand_neuron = neurons_[neuron_distro(generator)];
-		rand_neuron.set_decay_rate((MAX_DECAY_RATE-MIN_DECAY_RATE) * unit_distro(generator) + MIN_DECAY_RATE);
+		Neuron & rand_neuron = neurons_[neuron_distro(globals::gen)];
+		rand_neuron.set_decay_rate((globals::MAX_DECAY_RATE-globals::MIN_DECAY_RATE) * unit_distro(globals::gen) + globals::MIN_DECAY_RATE);
 
 		//generate random activation using uniform distribution over [MIN_ACTIVATION, MAX_ACTIVATION].
-		rand_neuron.set_active_threshold((MAX_ACTIVATION - MIN_ACTIVATION) * unit_distro(generator) + MIN_ACTIVATION);
+		rand_neuron.set_active_threshold((globals::MAX_ACTIVATION - globals::MIN_ACTIVATION) * unit_distro(globals::gen) + globals::MIN_ACTIVATION);
 		rand_neuron.MutateSynapses(num_mutated_synapses, num_neurons_);
 	}
 }
@@ -125,7 +125,7 @@ void Brain::Cycle() {
 	//Loop through neurons calculating the new activation
 	for (auto neur_it = neurons_.begin(); neur_it != neurons_.end(); ++neur_it) {
 		//Neuron's activation decays exponentially, but cannot go into the negative.
-		float new_activation = std::max(neur_it->get_activation() * (1-TIME_STEP*neur_it->get_decay_rate()), 0.f);  //TODO:  BUG!  imagine decay rate 1, TIME_STEP 1!
+		float new_activation = std::max(neur_it->get_activation() * (1-globals::TIME_STEP*neur_it->get_decay_rate()), 0.f);
 
 		neur_it->synapses_.begin();
 
@@ -134,11 +134,11 @@ void Brain::Cycle() {
 			int origin_neuron = syn_it->first;
 			float syn_strength = syn_it->second;
 			//add influence of this synapse to current neuron
-			new_activation += TIME_STEP * syn_strength * neurons_[origin_neuron].just_fired;
+			new_activation += globals::TIME_STEP * syn_strength * neurons_[origin_neuron].just_fired;
 		}
 
 		//save new activation, but limit it to MAX_ACTIVATION
-		neur_it->set_new_activation(min(new_activation, MAX_ACTIVATION));
+		neur_it->set_new_activation(min(new_activation, globals::MAX_ACTIVATION));
 	}
 
 	//then update all activations of the neurons

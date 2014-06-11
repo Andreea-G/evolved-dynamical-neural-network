@@ -2,6 +2,7 @@
 #include <iomanip>
 #include <fstream>
 #include "BrainTest.h"
+#include "../Globals.h"
 
 using std::cout;
 using std::cerr;
@@ -19,9 +20,9 @@ void BrainTest::Test1() {
 	//practice giving input
 	deque<bool> brain_input1 = {1, 0, 1};
 	test_brain1.give_input(brain_input1);
-	if (neurons1[0].activation_!=MAX_ACTIVATION ||
-			neurons1[1].activation_!=MIN_ACTIVATION ||
-			neurons1[2].activation_!=MAX_ACTIVATION)
+	if (neurons1[0].activation_!=globals::MAX_ACTIVATION ||
+			neurons1[1].activation_!=globals::MIN_ACTIVATION ||
+			neurons1[2].activation_!=globals::MAX_ACTIVATION)
 		cerr << "After input, there seems to have been an issue";
 
 	//run through a few cycles
@@ -89,35 +90,35 @@ void BrainTest::Test1() {
 		//now just provoke the brain and see if it finds the same steady state sol'n
 //		if (3000<=ii && ii<3005) {
 ////			test_brain2.give_input(brain_input2);
-////			test_brain2.neurons_[4].set_activation(MAX_ACTIVATION);
-////			test_brain2.neurons_[5].set_activation(MAX_ACTIVATION);
-////			test_brain2.neurons_[6].set_activation(MAX_ACTIVATION);
-////			test_brain2.neurons_[7].set_activation(MAX_ACTIVATION);
-////			test_brain2.neurons_[8].set_activation(MAX_ACTIVATION);
-////			test_brain2.neurons_[9].set_activation(MAX_ACTIVATION);
+////			test_brain2.neurons_[4].set_activation(globals::MAX_ACTIVATION);
+////			test_brain2.neurons_[5].set_activation(globals::MAX_ACTIVATION);
+////			test_brain2.neurons_[6].set_activation(globals::MAX_ACTIVATION);
+////			test_brain2.neurons_[7].set_activation(globals::MAX_ACTIVATION);
+////			test_brain2.neurons_[8].set_activation(globals::MAX_ACTIVATION);
+////			test_brain2.neurons_[9].set_activation(globals::MAX_ACTIVATION);
 //			//Hold a bunch of neurons at MAX_ACTIVATION
 //			for (int jj=0; jj<100; ++jj) {
-//				test_brain2.neurons_[jj].set_activation(MAX_ACTIVATION);
+//				test_brain2.neurons_[jj].set_activation(globals::MAX_ACTIVATION);
 //			}
 //		}
 //		int tmp_stopper=ii%2000;
 //		if (0<=tmp_stopper && tmp_stopper<5) {
 ////			test_brain2.give_input(brain_input2);
-////			test_brain2.neurons_[4].set_activation(MIN_ACTIVATION);
-////			test_brain2.neurons_[5].set_activation(MIN_ACTIVATION);
-////			test_brain2.neurons_[6].set_activation(MIN_ACTIVATION);
-////			test_brain2.neurons_[7].set_activation(MIN_ACTIVATION);
-////			test_brain2.neurons_[8].set_activation(MIN_ACTIVATION);
-////			test_brain2.neurons_[9].set_activation(MIN_ACTIVATION);
-////			test_brain2.neurons_[14].set_activation(MAX_ACTIVATION);
-////			test_brain2.neurons_[15].set_activation(MAX_ACTIVATION);
-////			test_brain2.neurons_[16].set_activation(MAX_ACTIVATION);
-////			test_brain2.neurons_[17].set_activation(MAX_ACTIVATION);
-////			test_brain2.neurons_[18].set_activation(MIN_ACTIVATION);
-////			test_brain2.neurons_[19].set_activation(MIN_ACTIVATION);
+////			test_brain2.neurons_[4].set_activation(globals::MIN_ACTIVATION);
+////			test_brain2.neurons_[5].set_activation(globals::MIN_ACTIVATION);
+////			test_brain2.neurons_[6].set_activation(globals::MIN_ACTIVATION);
+////			test_brain2.neurons_[7].set_activation(globals::MIN_ACTIVATION);
+////			test_brain2.neurons_[8].set_activation(globals::MIN_ACTIVATION);
+////			test_brain2.neurons_[9].set_activation(globals::MIN_ACTIVATION);
+////			test_brain2.neurons_[14].set_activation(globals::MAX_ACTIVATION);
+////			test_brain2.neurons_[15].set_activation(globals::MAX_ACTIVATION);
+////			test_brain2.neurons_[16].set_activation(globals::MAX_ACTIVATION);
+////			test_brain2.neurons_[17].set_activation(globals::MAX_ACTIVATION);
+////			test_brain2.neurons_[18].set_activation(globals::MIN_ACTIVATION);
+////			test_brain2.neurons_[19].set_activation(globals::MIN_ACTIVATION);
 //			//Hold a bunch of neurons at MAX_ACTIVATION
 //			for (int jj=0; jj<100; ++jj) {
-//				test_brain2.neurons_[jj].set_activation(MAX_ACTIVATION);
+//				test_brain2.neurons_[jj].set_activation(globals::MAX_ACTIVATION);
 //			}
 //		}
 	}
