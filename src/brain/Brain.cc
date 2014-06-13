@@ -22,10 +22,7 @@ using std::max;
 using std::size_t;
 
 Brain::Brain(const size_t num_neurons, const size_t num_input_neurons,
-						 const size_t num_output_neurons) {	
-	if (num_neurons < num_input_neurons + num_output_neurons)
-		std::cerr << "WARNING: The brain has too many input and output neurons!";
-
+						 const size_t num_output_neurons) {
 	num_neurons_ = num_neurons;
 	num_input_neurons_ = num_input_neurons;
 	num_output_neurons_ = num_output_neurons;
@@ -43,12 +40,10 @@ Brain::Brain(const size_t num_neurons, const size_t num_input_neurons, const siz
 						 const float av_decay_rate, const float st_dev_decay_rate,
 						 const int av_num_syn, const int st_dev_num_syn,
 						 const float av_syn_strength, const float st_dev_syn_strength) {
-	if (num_neurons < num_input_neurons + num_output_neurons)
-		std::cerr << "WARNING: The brain has too many input and output neurons!";
-
 	num_neurons_ = num_neurons;
 	num_input_neurons_ = num_input_neurons;
 	num_output_neurons_ = num_output_neurons;
+	fitness_score_ = 0;
 
 	//my_types::gen_type gen; //DEL
 	normal_distribution<float> num_syn_distro(av_num_syn, st_dev_num_syn);
@@ -68,19 +63,20 @@ Brain::Brain(const size_t num_neurons, const size_t num_input_neurons, const siz
 		float decay_rate = min(max(decay_rate_distro(globals::gen), globals::MIN_DECAY_RATE), globals::MAX_DECAY_RATE);
 
 		Neuron new_neuron(start_activation, decay_rate, active_threshold,
-											num_neurons, num_syn, av_syn_strength, st_dev_syn_strength);
+											num_neurons, num_syn,
+											av_syn_strength, st_dev_syn_strength);
 		neurons_.push_back(new_neuron);
 	}
 
 }
 
-
+//TODO add exception handling for neurons going out of range.
 void Brain::give_input(const deque<bool> &input_vals) {
-	if (input_vals.size() != num_input_neurons_) {
+	if (input_vals.size() != num_input_neurons_)
 		std::cerr << "\nError! Number of input neurons is not the same as number of input signal bits!\n" << std::endl;
-	}
+
 	for (size_t i = 0; i < num_input_neurons_; i++) 		//the first few neurons are input
-		neurons_[i].set_activation(input_vals[i] * globals::MAX_ACTIVATION);
+		neurons_.at(i).set_activation(input_vals[i] * globals::MAX_ACTIVATION);
 }
 
 
@@ -89,7 +85,7 @@ deque<bool> Brain::get_output() const {
 	//output neurons are the ones coming after the input ones
 	for (size_t i = num_input_neurons_; i < num_input_neurons_ + num_output_neurons_; i++)
 		//return 1 if activation is greater than threshold, and 0 otherwise
-		output.push_back(neurons_[i].ActivationFunction());
+		output.push_back(neurons_.at(i).ActivationFunction());
 	return output;
 }
 

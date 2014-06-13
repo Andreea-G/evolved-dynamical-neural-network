@@ -40,16 +40,17 @@ void Evolution::ChooseMostFitBrains(const deque<Brain> &brains) {
 								[&](float priority) {sum_mating_priorities+=priority;});
 
 	for (size_t brain_index = 0; brain_index < num_brains; brain_index++) {
-		//TODO: isn't floor(.) going to cause our populations to shrink?
 		int mating_priority = floor(unnorm_mating_priorities[brain_index] * num_brains / sum_mating_priorities);		//normalized s.t. sum over mating_odds ~ number of brains
 		for (int i = 0; i < mating_priority; i++) {
 			most_fit_brains_.push_back(static_cast<int>(brain_index));
 		}
 	}
+	//TODO:  floor function is basically going to cut out all brains below the mean fitness
+	//Instead, we could use round(.) and then after that for loop adjust the number of brains by cutting or adding (add by sampling the existing brains)
 
 	//The size of brain_cum_mating_odds_ is at most num_brains; it can be smaller due to the floor function above, but should not be larger...
 	if (most_fit_brains_.size() > num_brains) {
-		std::cerr << "Error! Cumulating odds deque is larger than total number of brains.. What went wrong??\n";
+		std::cerr << "Error! most_fit_brains_ deque is larger than total number of brains.. What went wrong??\n";
 	}
 }
 
@@ -62,9 +63,11 @@ Brain Evolution::MutateBrain(Brain parent_brain, const int num_mutated_neurons, 
 
 Brain Evolution::MateBrains(const Brain &parent1, const Brain &parent2) const {
 	size_t num_neurons = parent1.get_num_neurons();
-	Brain child(num_neurons, parent1.get_num_input_neurons(), parent1.get_num_output_neurons());
+	//create an empty brain
+	Brain child(0, parent1.get_num_input_neurons(), parent1.get_num_output_neurons());
 
 	std::uniform_int_distribution<size_t> cross_over_distro(0, num_neurons-1);
+	//neurons 0 to (cross_over) will come from brain 1 and the rest from brain 2
 	size_t cross_over = cross_over_distro(globals::gen);
 
 	for (size_t i = 0; i < cross_over; i++) {

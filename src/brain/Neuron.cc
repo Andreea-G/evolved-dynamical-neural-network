@@ -35,11 +35,19 @@ Neuron::Neuron(const int num_neurons) {
 	active_threshold_ = max(active_threshold_, 1.f);
 
 	int num_synapses = neuron_distro(globals::gen);
-	//Loop through each synapse assigning random strength and origin neuron
-	for (int i = 0; i < num_synapses; i++) {
-		//get random origin  (where synapse comes from).  If it is a duplicate, then the last one is overwritten.
+	//Loop assigning random strength and origin neuron until we have required number of synapses
+	int syn_count=0;
+	while (syn_count < num_synapses) {
+		//get random origin  (where synapse comes from).
 		int origin_neuron = neuron_distro(globals::gen);
-		synapses_[origin_neuron] = globals::MAX_STRENGTH * unit_distro(globals::gen);
+		//check if this synapse already exists and, if so, then try again
+		if (synapses_.count(origin_neuron)==1) {
+			continue;
+		}	else {
+			synapses_[origin_neuron] = (globals::MAX_ACTIVATION -globals::MIN_ACTIVATION) * unit_distro(globals::gen)
+																	+ globals::MIN_ACTIVATION;
+			++syn_count;
+		}
 	}
 }
 
@@ -54,23 +62,36 @@ Neuron::Neuron(const float start_activation, const float decay_rate, const float
 
 	uniform_int_distribution<int> neuron_distro(0, num_neurons-1);
 
-	//if the default parameters for syn strength are given, then use uniform distribution
+	//if default parameters for syn strength are given, use uniform distribution
 	if (av_syn_strength==0 && st_dev_syn_strength==0) {
 		uniform_real_distribution<float> strength_uniform_distro(globals::MIN_STRENGTH, globals::MAX_STRENGTH);
-		//Loop through each synapse assigning random strength and origin neuron
-		for (int i = 0; i < num_synapses; i++) {
-			//get random origin neuron (where synapse comes from)
+		//Loop assigning random strength and origin neuron until we have required number of synapses
+		int syn_count=0;
+		while (syn_count < num_synapses) {
+			//get random origin  (where synapse comes from).
 			int origin_neuron = neuron_distro(globals::gen);
-			synapses_[origin_neuron] = strength_uniform_distro(globals::gen);
+			//check if this synapse already exists and, if so, then try again
+			if (synapses_.count(origin_neuron)==1) {
+				continue;
+			}	else {
+				synapses_[origin_neuron] = strength_uniform_distro(globals::gen);
+				++syn_count;
+			}
 		}
-	} else {
+	} else { //syn_strength parameters were specified
 		normal_distribution<float> strength_normal_distro(av_syn_strength, st_dev_syn_strength);
-		//Loop through each synapse assigning random strength and origin neuron
-		for (int i = 0; i < num_synapses; i++) {
-			//get random origin neuron (where synapse comes from)
+		//Loop assigning random strength and origin neuron until we have required number of synapses
+		int syn_count=0;
+		while (syn_count < num_synapses) {
+			//get random origin  (where synapse comes from).
 			int origin_neuron = neuron_distro(globals::gen);
-			//generate synapse strength and make sure it's within valid range.
-			synapses_[origin_neuron] = min(max(strength_normal_distro(globals::gen), globals::MIN_STRENGTH), globals::MAX_STRENGTH);
+			//check if this synapse already exists and, if so, then try again
+			if (synapses_.count(origin_neuron)==1) {
+				continue;
+			}	else {
+				synapses_[origin_neuron] = strength_normal_distro(globals::gen);
+				++syn_count;
+			}
 		}
 	}
 }

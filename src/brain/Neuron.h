@@ -15,13 +15,6 @@
 
 using std::unordered_map;
 
-//namespace my_types {  TODO: delete this, this is lame.
-//	//Type of random global_generator used for all randomness in program
-//	//(including neuron creation, brain creation, evolution, etc.)
-//	typedef std::random_device gen_type;
-//	//typedef std::default_random_engine gen_type;
-//}
-
 
 class Neuron {
 
@@ -34,16 +27,13 @@ public:
 
 	//generate neuron with random active_threshold and decay_rate and with synapses (with random strengths) coming from
 	//random origin neurons.  It needs to know how many neurons are in the brain.  The number of synapses is given by
-	//uniform distribution: [0,num_neurons], but if duplicate synapses are removed.
+	//uniform distribution: [0,num_neurons].
 	Neuron(const int num_neurons);
 	//Assigns the synapses to random originating neurons
-	//-If the syn_strength parameters aren't specified (or set to zero), a uniform distribution is used
+	//If the syn_strength parameters aren't specified (or set to zero), a uniform distribution is used
 	Neuron(const float start_activation, const float decay_rate, const float active_threshold,
 					const int num_neurons, const int num_synapses,
 				 const float av_syn_strength=0, const float st_dev_syn_strength=0);
-
-	//Neuron(const Neuron &neur);		//copy constructor
-	//Neuron& operator=(const Neuron &neur) { return *this; }
 
 	void set_activation(const float &activation) { activation_ = activation; }
 	float get_activation() const { return activation_; }
