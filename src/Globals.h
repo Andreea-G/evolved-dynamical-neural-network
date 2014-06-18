@@ -1,6 +1,5 @@
 //include file for all global variables (all of which are constants)
 //The only non-constant thing defined here is the random generator.
-
 #include <random>
 
 #ifndef GLOBALS_H
