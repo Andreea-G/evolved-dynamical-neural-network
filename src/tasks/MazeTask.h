@@ -52,7 +52,13 @@ public:
 	// [true,true] and [true,false] -> Stay pointed straight
 	// [false,false] -> turn left,  [false,true] -> turn right.
 	//return false if decision is invalid (i.e. it would have the player facing the wall)
-    bool ActOnDecision(const deque<bool> decision);
+    bool ActOnDecision(const deque<bool> decision); //TODO: rename to TestDecision
+
+    //player moves forward until they reach a decision point (not including dead-ends upon which the player reverses
+    //direction and continues automatically, and corners which the player turns and continues)
+    //return false if player was not able to move at all (i.e. they were facing a wall)
+    //If the player ever steps on the FINISH, advance position will stop there.
+    bool AdvancePosition();
 
 	//return 3 booleans, the first for if a left-turn is possible, the second for straight,
 	//and the third for right-turn.
@@ -83,12 +89,6 @@ private:
 	void TurnLeft();
 	void TurnRight();
 	void TurnAround(); //go in opposite direction
-
-	//player moves forward until they reach a decision point (not including dead-ends upon which the player reverses
-	//direction and continues automatically, and corners which the player turns and continues)
-	//return false if player was not able to move at all (i.e. they were facing a wall)
-	//If the player ever steps on the FINISH, advance position will stop there.
-	bool AdvancePosition();
 
 	//Get the tiles in front, to the left and to the right of player
 	MazeTile GetTileLeft() const;
