@@ -12,9 +12,9 @@
 #ifndef TASKS__TASKINTERFACE_H_
 #define TASKS__TASKINTERFACE_H_
 
-#include <vector>
+#include <deque>
 
-using std::vector;
+using std::deque;
 
 class TaskInterface {
 
@@ -29,8 +29,8 @@ public:
 	virtual bool ActOnDecision(const vector<bool> decision) = 0 ;
 
 	//This function gets input that is later given to the brain.  Since the brain expects
-	//a vector of Booleans, that's what the task object must return
-	virtual vector<bool> GetBrainInput() const = 0 ;
+    //a deque of Booleans, that's what the task object must return
+    virtual deque<bool> GetBrainInput() const = 0 ;
 
 	//Optional function to say if the task is completed.  For example, in a maze task, this
 	//would say if the player was at the finish of the maze. Returns 1 for finished, 0 for

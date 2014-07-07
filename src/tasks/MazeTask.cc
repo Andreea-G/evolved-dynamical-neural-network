@@ -15,6 +15,7 @@
 #include "../Globals.h"
 
 using std::vector;
+using std::deque;
 using std::cerr;
 using std::endl;
 
@@ -142,7 +143,7 @@ bool MazeTask::LoadMap(const std::string map_file) {
 }
 
 
-bool MazeTask::ActOnDecision(const vector<bool> decision) {
+bool MazeTask::ActOnDecision(const deque<bool> decision) {
 
 
   if (decision[0]==true) { //corresponds to decision to stay straigh, i.e. not turn
@@ -179,13 +180,13 @@ bool MazeTask::ActOnDecision(const vector<bool> decision) {
 }
 
 
-vector<bool> MazeTask::GetBrainInput() const {
+deque<bool> MazeTask::GetBrainInput() const {
 
 	bool can_turn_left = (GetTileLeft() !=  MazeTile::WALL);
 	bool can_turn_right = (GetTileRight() !=  MazeTile::WALL);
 	bool can_go_forward = (GetTileFront() !=  MazeTile::WALL);
 
-	vector<bool> input_for_brain = {can_turn_left, can_go_forward, can_turn_right};
+    deque<bool> input_for_brain = {can_turn_left, can_go_forward, can_turn_right};
 	return input_for_brain;
 }
 

@@ -20,10 +20,12 @@
 
 #include <string>
 #include <vector>
+#include <deque>
 
 #include "TaskInterface.h"
 
 using std::vector;
+using std::deque;
 
 //directions player may face in
 enum class Direction {LEFT, UP, DOWN, RIGHT};
@@ -49,11 +51,11 @@ public:
 	// [true,true] and [true,false] -> Stay pointed straight
 	// [false,false] -> turn left,  [false,true] -> turn right.
 	//return false if decision is invalid (i.e. it would have the player facing the wall)
-	bool ActOnDecision(const vector<bool> decision);
+    bool ActOnDecision(const deque<bool> decision);
 
 	//return 3 booleans, the first for if a left-turn is possible, the second for straight,
 	//and the third for right-turn.
-	vector<bool> GetBrainInput() const;
+    deque<bool> GetBrainInput() const;
 
 	//
 	int IsFinished() const;
