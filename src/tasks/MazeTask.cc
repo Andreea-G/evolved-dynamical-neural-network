@@ -14,7 +14,6 @@
 #include "MazeTask.h"
 #include "../Globals.h"
 
-using std::vector;
 using std::deque;
 using std::cerr;
 using std::endl;
@@ -122,8 +121,8 @@ bool MazeTask::LoadMap(const std::string map_file) {
 
 		std::istringstream line_stream(line);
 
-		//save current row into temporary vector
-		vector<MazeTile> temp_row_vec;
+        //save current row into temporary deque
+        deque<MazeTile> temp_row_vec;
 		while (line_stream >> num)    //TODO How come if it's just one number on the line this returns false and we never get into loop?
 			{
 			MazeTile temp_tile = static_cast<MazeTile>(num);

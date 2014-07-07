@@ -19,12 +19,10 @@
 #define TASKS_MAZETASK_H_
 
 #include <string>
-#include <vector>
 #include <deque>
 
 #include "TaskInterface.h"
 
-using std::vector;
 using std::deque;
 
 //directions player may face in
@@ -47,7 +45,7 @@ public:
 	//stopping when it finds a valid one.
 	MazeTask(const std::string map_file, const bool random_start = false);
 
-	//The argument decision should be a vector of length 2.
+    //The argument decision should be a deque of length 2.
 	//The first element shows if we're going straight, the second is right/left.
 	// [true,true] and [true,false] -> Stay pointed straight
 	// [false,false] -> turn left,  [false,true] -> turn right.
@@ -73,7 +71,7 @@ private:
 
 	//A matrix representing the map, where 0s are walls, 1s are valid paths,
 	//2 is the suggested starting point, and 3 is the finish.
-	vector<vector<MazeTile> > map_;
+    deque<deque<MazeTile> > map_;
 
 	//Current location of the player given by row and height
 	int row_;

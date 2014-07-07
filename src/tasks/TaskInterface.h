@@ -26,7 +26,7 @@ public:
 	//object updates the current state of the game.  All decisions must be in binary form,
 	//i.e. a list of Booleans.
 	//return false if nothing was done because the decision was invalid.
-	virtual bool ActOnDecision(const vector<bool> decision) = 0 ;
+    virtual bool ActOnDecision(const deque<bool> decision) = 0 ;
 
 	//This function gets input that is later given to the brain.  Since the brain expects
     //a deque of Booleans, that's what the task object must return

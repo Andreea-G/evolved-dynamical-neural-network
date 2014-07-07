@@ -4,7 +4,7 @@
  * Quick class to test out the Maze Class.
  *
  *  Created on: May 11, 2014
- *      Author: garrett
+ *      Author: Garrett
  */
 
 

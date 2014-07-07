@@ -108,7 +108,7 @@ void Brain::MutateNeurons(const int num_mutated_neurons, const int num_mutated_s
 
 
 void Brain::Cycle() {
-	//iterator type for our vector
+    //iterator type for our deque
 //	typedef std::deque<Neuron>::iterator neur_it_type;  DEL
 	//iterator type for synapses
 //	typedef std::unordered_map<int, float>::iterator syn_it_type;  DEL

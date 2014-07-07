@@ -20,7 +20,7 @@ void MazeTest::test() {
 
 	string test_maze="maze_files/test_maze";
 
-	vector<bool> left_turn={false,false};
+    deque<bool> left_turn={false,false};
 
 	//Test that random initialization works properly (try it 200 times)
   for (int i = 0; i < 200; i++) {
@@ -47,7 +47,7 @@ void MazeTest::test() {
 		cerr << "Didn't advance properly. We're at: " << maze2.row_ << ", " << maze2.col_;
 
 	//test brain input
-	vector<bool> brain_input = maze2.GetBrainInput();
+    deque<bool> brain_input = maze2.GetBrainInput();
     if (brain_input[0] == false || brain_input[1] == false || brain_input[2] == true)
 		cerr << "wrong brain input at (1,10)";
 

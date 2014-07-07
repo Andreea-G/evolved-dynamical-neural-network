@@ -110,7 +110,7 @@ void Neuron::MutateSynapses(int num_mutated_synapses, const int num_neurons) {
 		}
 	}
 	else if (num_mutated_synapses < 0) {	//delete synapses
-		//OPINION: the following block is confusing.  If synapses_ had been a vector instead of unordered_map, this would
+        //OPINION: the following block is confusing.  If synapses_ had been a deque instead of unordered_map, this would
 		//have been trivial. -Garrett
 
 		size_t original_size = synapses_.size();
