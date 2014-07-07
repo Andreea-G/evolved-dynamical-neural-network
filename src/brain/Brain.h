@@ -1,8 +1,8 @@
 /*
- * Brain.h
+ *	Brain.h
  *
- *  Created on: May 15, 2014
- *      Author: Andreea
+ *	Created on: May 15, 2014
+ *	Author: Andreea
  */
 
 #ifndef BRAIN__BRAIN_H_
@@ -31,7 +31,7 @@ public:
 				const float av_start_activation, const float st_dev_start_activation,
 				const float av_decay_rate, const float st_dev_decay_rate,
 				const int av_num_syn, const int st_dev_num_syn,
-                const float av_syn_strength = 0, const float st_dev_syn_strength = 0);
+				const float av_syn_strength = 0, const float st_dev_syn_strength = 0);
 
 	//neurons comprising brain, each with incoming synapses from other neurons
 	deque<Neuron> neurons_;

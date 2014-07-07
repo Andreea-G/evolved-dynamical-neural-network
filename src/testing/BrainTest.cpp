@@ -20,19 +20,19 @@ void BrainTest::Test1() {
 	//practice giving input
 	deque<bool> brain_input1 = {1, 0, 1};
 	test_brain1.give_input(brain_input1);
-    if (neurons1[0].activation_ != globals::MAX_ACTIVATION ||
-            neurons1[1].activation_ != globals::MIN_ACTIVATION ||
-            neurons1[2].activation_ != globals::MAX_ACTIVATION)
+	if (neurons1[0].activation_ != globals::MAX_ACTIVATION ||
+			neurons1[1].activation_ != globals::MIN_ACTIVATION ||
+			neurons1[2].activation_ != globals::MAX_ACTIVATION)
 		cerr << "After input, there seems to have been an issue";
 
 	//run through a few cycles
 	cout << endl << "Here's a few rounds of neuronal activity for your visual inspection.";
 	//set precision for reporting activation
 	cout << std::setprecision(4) << std::fixed;
-    for (int ii = 0; ii < 5; ii++) {
+	for (int ii = 0; ii < 5; ii++) {
 		cout << "\nRound " << ii << ": ";
 		//loop through the neurons outputting their activations
-        for (int jj = 0; jj < num_neurons; jj++) {
+		for (int jj = 0; jj < num_neurons; jj++) {
 			cout << " " << neurons1[jj].activation_;
 		}
 		cout << std::flush;
@@ -48,12 +48,12 @@ void BrainTest::Test1() {
 //	const float av_decay_rate=0.1; const float st_dev_decay_rate=0.03;
 //	const int av_num_syn=10; const int st_dev_num_syn=2;
 //	const float av_syn_strength=5; const float st_dev_syn_strength=4;
-    num_neurons = 10;
-    const float av_active_threshold = 25; const float st_dev_active_threshold = 4;
-    const float av_start_activation = 25 ; const float st_dev_start_activation = 5;
-    const float av_decay_rate = 0.05; const float st_dev_decay_rate = 0.02;
-    const int av_num_syn = 4; const int st_dev_num_syn = 2;
-    const float av_syn_strength = 28; const float st_dev_syn_strength = 4;
+	num_neurons = 10;
+	const float av_active_threshold = 25; const float st_dev_active_threshold = 4;
+	const float av_start_activation = 25 ; const float st_dev_start_activation = 5;
+	const float av_decay_rate = 0.05; const float st_dev_decay_rate = 0.02;
+	const int av_num_syn = 4; const int st_dev_num_syn = 2;
+	const float av_syn_strength = 28; const float st_dev_syn_strength = 4;
 	Brain test_brain2(num_neurons, 3, 2,
 										av_active_threshold, st_dev_active_threshold,
 										av_start_activation, st_dev_start_activation,
@@ -69,7 +69,7 @@ void BrainTest::Test1() {
 
 	//I'll send all the output to a temporary file.
 	std::ofstream outputFile("tmp_output.txt");
-    if (outputFile.good() == false) {
+	if (outputFile.good() == false) {
 		cerr << "ERROR: problem opening temporary file!";
 	}
 
@@ -79,10 +79,10 @@ void BrainTest::Test1() {
 	outputFile << endl << "Here's a few rounds of neuronal activity for your visual inspection.";
 	//set precision for reporting activation
 	outputFile << std::setprecision(0) << std::fixed;
-    for (int ii = 0; ii < 100; ii++) {
+	for (int ii = 0; ii < 100; ii++) {
 		outputFile << "\nRound " << ii << ": ";
 		//loop through the neurons outputting their activations, but max out at reporting 10 activations
-        for (int jj = 0; jj < min(num_neurons,10); jj++) {
+		for (int jj = 0; jj < min(num_neurons,10); jj++) {
 			outputFile << " " << neurons2[jj].activation_;
 		}
 		outputFile << std::flush;
@@ -135,7 +135,7 @@ void BrainTest::Test1() {
 
 	cout << "Starting tests on Brain 3";
 
-    int num_neurons3 = 8;
+	int num_neurons3 = 8;
 	Brain test_brain3(num_neurons3, 2, 2);
 	deque<Neuron> & neurons3 = test_brain3.neurons_;
 
@@ -153,7 +153,7 @@ void BrainTest::Test1() {
 void BrainTest::DisplaySynapses(const deque<Neuron> & neurons, int num_neuron_to_display) {
 	//Output the origin synapses and strengths for these neurons
 	cout << "\n\nCurrent strengths of neurons (origin neuron and strength)" << endl;
-    for (int ii = 0; ii < num_neuron_to_display; ii++) {
+	for (int ii = 0; ii < num_neuron_to_display; ii++) {
 		Neuron neuron_ii = neurons[ii];
 		cout << "\nNeuron " << ii << ": ";
 		int count=0;
@@ -162,7 +162,7 @@ void BrainTest::DisplaySynapses(const deque<Neuron> & neurons, int num_neuron_to
 			cout << it->first << "(" << it->second << ") ";
 			count++;
 			//report no more than 10 synapses for each neuron
-            if (count > 10)
+			if (count > 10)
 				break;
 		}
 		cout << endl << "   Activation:" << neuron_ii.activation_ << "  activation_thresh:" << neuron_ii.active_threshold_;

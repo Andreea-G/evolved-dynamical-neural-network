@@ -1,18 +1,18 @@
 /*
- * MazeTask.h
+ *	MazeTask.h
  *
- * An example maze textfile could look like:
+ *	An example maze textfile could look like:
  *
- *  0 0 0 0 0 0 0 0
- *  0 2 1 1 1 1 1 0
- *  0 0 0 1 0 0 0 0
- *  0 0 1 1 1 1 3 0
- *  0 0 0 0 0 0 0 0
+ *	0 0 0 0 0 0 0 0
+ *	0 2 1 1 1 1 1 0
+ *	0 0 0 1 0 0 0 0
+ *	0 0 1 1 1 1 3 0
+ *	0 0 0 0 0 0 0 0
  *
- *  Note that it should be padded with zeros.
+ *	Note that it should be padded with zeros.
  *
- *  Created on: May 4, 2014
- *      Author: Garrett
+ *	Created on: May 4, 2014
+ *	Author: Garrett
  */
 
 #ifndef TASKS_MAZETASK_H_
@@ -45,22 +45,22 @@ public:
 	//stopping when it finds a valid one.
 	MazeTask(const std::string map_file, const bool random_start = false);
 
-    //The argument decision should be a deque of length 2.
+	//The argument decision should be a deque of length 2.
 	//The first element shows if we're going straight, the second is right/left.
 	// [true,true] and [true,false] -> Stay pointed straight
 	// [false,false] -> turn left,  [false,true] -> turn right.
 	//return false if decision is invalid (i.e. it would have the player facing the wall)
-    bool ActOnDecision(const deque<bool> decision); //TODO: rename to TestDecision
+	bool ActOnDecision(const deque<bool> decision); //TODO: rename to TestDecision
 
-    //player moves forward until they reach a decision point (not including dead-ends upon which the player reverses
-    //direction and continues automatically, and corners which the player turns and continues)
-    //return false if player was not able to move at all (i.e. they were facing a wall)
-    //If the player ever steps on the FINISH, advance position will stop there.
-    bool AdvancePosition();
+	//player moves forward until they reach a decision point (not including dead-ends upon which the player reverses
+	//direction and continues automatically, and corners which the player turns and continues)
+	//return false if player was not able to move at all (i.e. they were facing a wall)
+	//If the player ever steps on the FINISH, advance position will stop there.
+	bool AdvancePosition();
 
 	//return 3 booleans, the first for if a left-turn is possible, the second for straight,
 	//and the third for right-turn.
-    deque<bool> GetBrainInput() const;
+	deque<bool> GetBrainInput() const;
 
 	//Returns 1 for finished, 0 for not finished
 	int IsFinished() const;
@@ -71,7 +71,7 @@ private:
 
 	//A matrix representing the map, where 0s are walls, 1s are valid paths,
 	//2 is the suggested starting point, and 3 is the finish.
-    deque<deque<MazeTile> > map_;
+	deque<deque<MazeTile> > map_;
 
 	//Current location of the player given by row and height
 	int row_;

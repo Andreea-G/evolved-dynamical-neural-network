@@ -1,10 +1,10 @@
 /*
- * MazeTest.h
+ *	MazeTest.h
  *
- * Quick class to test out the Maze Class.
+ *	Quick class to test out the Maze Class.
  *
- *  Created on: May 11, 2014
- *      Author: Garrett
+ *	Created on: May 11, 2014
+ *	Author: Garrett
  */
 
 

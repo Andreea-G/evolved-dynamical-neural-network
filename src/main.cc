@@ -1,9 +1,9 @@
 //============================================================================
-// Name        : MazeTester.cpp
-// Author      :
-// Version     :
-// Copyright   :
-// Description :
+// Name			: MazeTester.cpp
+// Author		:
+// Version		:
+// Copyright	:
+// Description	:
 //============================================================================
 
 //TODO: clean up these headers and namespace declarations at some point.
