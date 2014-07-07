@@ -16,7 +16,7 @@ using std::deque;
 class Brain {
 
 public:
-	//Creates brain where neuron are created with the most basic neuron constructor
+	//Creates brain where neurons are created with the most basic neuron constructor
 	//(see constructors in Neuron.h for details)
 	Brain(const size_t num_neurons, const size_t num_input_neurons, const size_t num_output_neurons);
 	//Gives more control over average activation, average number of synapses per neuron, etc.

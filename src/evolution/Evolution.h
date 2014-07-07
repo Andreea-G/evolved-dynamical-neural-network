@@ -16,15 +16,15 @@ using std::deque;
 class Evolution {
 
 public:
-	Evolution(const float prob_asexual=0);
+	Evolution(const float prob_asexual=0) : prob_asexual_(prob_asexual) {};
 
 	//Takes current brains and randomly selects some for asexual reproduction (which calls MutateBrain on that brain)
 	//and some for sexual reproduction (which calls MateBrains on two brains and MutateBrain on the result)
-	deque<Brain> GetNextGeneration (const deque<Brain> &brains, const int num_mutated_neurons,
+	deque<Brain> GetNextGeneration(const deque<Brain> &brains, const int num_mutated_neurons,
 																	const int num_mutated_synapses) const;
 
 	//Mutate a brain and returns the mutated brain
-	Brain MutateBrain(Brain parent_brain, const int num_mutated_neurons,
+	Brain MutateBrain(Brain parent_brain, const int num_mutated_neurons,   //TODO: shouldn't this be const Brain& parent_brain?
 									 const int num_mutated_synapses) const;
 	//Mate two different brains to get one child. No mutations (since the MutateBrain function can afterwards be
 	//called on the resulting child)
@@ -37,12 +37,12 @@ private:
 	//Look at fitness scores to choose the most_fit_brains_
 	void ChooseMostFitBrains(const deque<Brain> &brains);
 
-	//The odds of a brain being selected for mating will be proportional to the FitnessWeighting function.
+	//The probability of a brain being selected for mating will be proportional to the FitnessWeighting function.
 	int FitnessWeighting(const int fitness);
 
 	//Probability for each brain to undergo asexual reproduction (vs. sexual reproduction) inside GetNextGeneration(.)
-	float prob_asexual_;		
-	float prob_mutated_neurons_;
+	float prob_asexual_;
+
 	//most_fit_brains_ is a list of the most fit brains, where very fit brains can appear more than once.
 	//the more times brain i appears in this deque, the more likely it'll get chosen.  The size of the deque is
 	//the same size as the population of brains, so if brain i appears twice, it'll have twice the average amount of

@@ -20,7 +20,7 @@ void EvolutionTest::test1() {
 	const float av_decay_rate=0.05; const float st_dev_decay_rate=0.0;
 	const int av_num_syn=4; const int st_dev_num_syn=0;
 	const float av_syn_strength=28; const float st_dev_syn_strength=0;
-	Brain brain1(num_neurons, 3, 2,  //Problem: creating variable number of synapses!!
+	Brain brain1(num_neurons, 3, 2,
 								av_active_threshold, st_dev_active_threshold,
 								av_start_activation, st_dev_start_activation,
 								av_decay_rate, st_dev_decay_rate,
