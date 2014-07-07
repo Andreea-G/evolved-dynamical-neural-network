@@ -270,7 +270,7 @@ bool MazeTask::AdvancePosition() {
         if (tile_next == MazeTile::WALL) {
 			//we can't move forward, so check what options we have (we deal with a T intersection decision below)
             if (tile_left == MazeTile::WALL && tile_right != MazeTile::WALL) {
-				TurnRight();
+                TurnRight();
 				continue;
             } else if (tile_left != MazeTile::WALL && tile_right == MazeTile::WALL) {
 				TurnLeft();

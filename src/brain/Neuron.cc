@@ -43,7 +43,7 @@ Neuron::Neuron(const int num_neurons) {
 		//check if this synapse already exists and, if so, then try again
 		if (synapses_.count(origin_neuron)==1) {
 			continue;
-		}	else {
+        } else {
 			synapses_[origin_neuron] = (globals::MAX_ACTIVATION -globals::MIN_ACTIVATION) * unit_distro(globals::gen)
 																	+ globals::MIN_ACTIVATION;
 			++syn_count;
@@ -73,7 +73,7 @@ Neuron::Neuron(const float start_activation, const float decay_rate, const float
 			//check if this synapse already exists and, if so, then try again
             if (synapses_.count(origin_neuron) == 1) {
 				continue;
-			}	else {
+            } else {
 				synapses_[origin_neuron] = strength_uniform_distro(globals::gen);
 				++syn_count;
 			}
@@ -88,7 +88,7 @@ Neuron::Neuron(const float start_activation, const float decay_rate, const float
 			//check if this synapse already exists and, if so, then try again
             if (synapses_.count(origin_neuron) == 1) {
 				continue;
-			}	else {
+            } else {
 				synapses_[origin_neuron] = strength_normal_distro(globals::gen);
 				++syn_count;
 			}
@@ -172,7 +172,7 @@ void Neuron::UpdateActivation() {
 	if (just_fired) {
 		activation_ = 0;
 		just_fired = false;
-	}	else {
+    } else {
 		activation_ = new_activation_;
 	}
 

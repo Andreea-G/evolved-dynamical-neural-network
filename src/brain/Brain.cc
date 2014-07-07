@@ -62,9 +62,8 @@ Brain::Brain(const size_t num_neurons, const size_t num_input_neurons, const siz
 		//generate decay rate
 		float decay_rate = min(max(decay_rate_distro(globals::gen), globals::MIN_DECAY_RATE), globals::MAX_DECAY_RATE);
 
-		Neuron new_neuron(start_activation, decay_rate, active_threshold,
-											num_neurons, num_syn,
-											av_syn_strength, st_dev_syn_strength);
+        Neuron new_neuron(start_activation, decay_rate, active_threshold, num_neurons, num_syn,
+                          av_syn_strength, st_dev_syn_strength);
 		neurons_.push_back(new_neuron);
 	}
 
