@@ -14,10 +14,6 @@
 
 using std::deque;
 
-Evolution::Evolution(const float prob_asexual) {
-	prob_asexual_ = prob_asexual;
-}
-
 int Evolution::FitnessWeighting(const int fitness) {
 	//For now, using a quadratic function to make sure successful brains get mated often.
 	return fitness * fitness;
@@ -25,7 +21,10 @@ int Evolution::FitnessWeighting(const int fitness) {
 
 void Evolution::ChooseMostFitBrains(const deque<Brain> &brains) {
 	size_t num_brains = brains.size();
-	deque<float> unnorm_mating_priorities;		//unnormalized mating priority;
+	//unnormalized mating priorities.  After normalizing, these values will say each brain's chances of getting selected
+	//for the next generation.  For example, if brain 1 gets normalized to 5, then it'll appear 5 times and have a high
+	//probability of getting selected to "contribute" to the creation of each new brain.
+	deque<float> unnorm_mating_priorities;
 
 	for (auto brain_it = brains.begin(); brain_it != brains.end(); brain_it++) {
 		unnorm_mating_priorities.push_back(FitnessWeighting(brain_it->get_fitness_score()) );
@@ -40,7 +39,7 @@ void Evolution::ChooseMostFitBrains(const deque<Brain> &brains) {
 								[&](float priority) {sum_mating_priorities+=priority;});
 
 	for (size_t brain_index = 0; brain_index < num_brains; brain_index++) {
-		int mating_priority = floor(unnorm_mating_priorities[brain_index] * num_brains / sum_mating_priorities);		//normalized s.t. sum over mating_odds ~ number of brains
+		int mating_priority = floor(unnorm_mating_priorities[brain_index] * num_brains / sum_mating_priorities);		//normalized s.t. summing all the mating_priority values  ~= number of brains
 		for (int i = 0; i < mating_priority; i++) {
 			most_fit_brains_.push_back(static_cast<int>(brain_index));
 		}

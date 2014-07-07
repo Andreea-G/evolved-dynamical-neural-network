@@ -23,7 +23,7 @@ public:
 	virtual ~TaskInterface() { }
 
 	//ActOnDecision tells the task object that the brain has made a decision and the task
-	//object updates the current state of them game.  All decisions must be in binary form,
+	//object updates the current state of the game.  All decisions must be in binary form,
 	//i.e. a list of Booleans.
 	//return false if nothing was done because the decision was invalid.
 	virtual bool ActOnDecision(const vector<bool> decision) = 0 ;

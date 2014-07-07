@@ -35,7 +35,8 @@ class MazeTask : public TaskInterface {
 
 public:
 
-	friend class MazeTest; //TODO remove this.
+	//Grant access for unit-testing
+	friend class MazeTest;
 
 	//the map file (see docs at top of file) and whether you want
 	//a random starting position.  If random_start is false, then
@@ -55,10 +56,10 @@ public:
 	//and the third for right-turn.
 	vector<bool> GetBrainInput() const;
 
-	//
+	//Returns 1 for finished, 0 for not finished
 	int IsFinished() const;
 
-private: //set back to private
+private:
 
 	bool LoadMap(const std::string map_file);
 
@@ -81,7 +82,8 @@ private: //set back to private
 	void TurnRight();
 	void TurnAround(); //go in opposite direction
 
-	//player moves forward until they reach a decision point (not including dead-ends and corners)
+	//player moves forward until they reach a decision point (not including dead-ends upon which the player reverses
+	//direction and continues automatically, and corners which the player turns and continues)
 	//return false if player was not able to move at all (i.e. they were facing a wall)
 	//If the player ever steps on the FINISH, advance position will stop there.
 	bool AdvancePosition();
