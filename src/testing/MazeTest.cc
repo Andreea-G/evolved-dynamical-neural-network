@@ -20,13 +20,13 @@ void MazeTest::test() {
 
 	string test_maze="maze_files/test_maze";
 
-		deque<bool> left_turn={false,false};
+	deque<bool> left_turn={false,false};
 
 	//Test that random initialization works properly (try it 200 times)
-		for (int i = 0; i < 200; i++) {
-			MazeTask maze1(test_maze, true);
-			int start_tile = int(maze1.map_[maze1.row_][maze1.col_]);
-			if (start_tile != 1 && start_tile != 2)
+	for (int i = 0; i < 200; i++) {
+		MazeTask maze1(test_maze, true);
+		int start_tile = int(maze1.map_[maze1.row_][maze1.col_]);
+		if (start_tile != 1 && start_tile != 2)
 				cerr << "Unexpected start tile: " << start_tile << endl;
 	}
 
@@ -65,9 +65,9 @@ void MazeTest::test() {
 	brain_input = maze2.GetBrainInput();
 		if (brain_input[0] == false || brain_input[1] == false || brain_input[2] == false)
 		cerr << "wrong brain input at (3,10)";
-}
+
 	//make sure we're not finished
-		if (maze2.IsFinished() == true)
+	if (maze2.IsFinished() == true)
 		cerr << "We're not finished yet!!!";
 
 	//go to end and test if we're finished
@@ -76,7 +76,7 @@ void MazeTest::test() {
 	maze2.AdvancePosition();
 	maze2.ActOnDecision(left_turn);
 	maze2.AdvancePosition(); //should be done after this.
-	if (maze2.IsF}inished() == false)
+	if (maze2.IsFinished() == false)
 		cerr << "But, we ARE finished!!!";
 
 
