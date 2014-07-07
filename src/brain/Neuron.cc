@@ -63,15 +63,15 @@ Neuron::Neuron(const float start_activation, const float decay_rate, const float
 	uniform_int_distribution<int> neuron_distro(0, num_neurons-1);
 
 	//if default parameters for syn strength are given, use uniform distribution
-	if (av_syn_strength==0 && st_dev_syn_strength==0) {
+    if (av_syn_strength == 0 && st_dev_syn_strength == 0) {
 		uniform_real_distribution<float> strength_uniform_distro(globals::MIN_STRENGTH, globals::MAX_STRENGTH);
 		//Loop assigning random strength and origin neuron until we have required number of synapses
-		int syn_count=0;
+        int syn_count = 0;
 		while (syn_count < num_synapses) {
 			//get random origin  (where synapse comes from).
 			int origin_neuron = neuron_distro(globals::gen);
 			//check if this synapse already exists and, if so, then try again
-			if (synapses_.count(origin_neuron)==1) {
+            if (synapses_.count(origin_neuron) == 1) {
 				continue;
 			}	else {
 				synapses_[origin_neuron] = strength_uniform_distro(globals::gen);
@@ -81,12 +81,12 @@ Neuron::Neuron(const float start_activation, const float decay_rate, const float
 	} else { //syn_strength parameters were specified
 		normal_distribution<float> strength_normal_distro(av_syn_strength, st_dev_syn_strength);
 		//Loop assigning random strength and origin neuron until we have required number of synapses
-		int syn_count=0;
+        int syn_count = 0;
 		while (syn_count < num_synapses) {
 			//get random origin  (where synapse comes from).
 			int origin_neuron = neuron_distro(globals::gen);
 			//check if this synapse already exists and, if so, then try again
-			if (synapses_.count(origin_neuron)==1) {
+            if (synapses_.count(origin_neuron) == 1) {
 				continue;
 			}	else {
 				synapses_[origin_neuron] = strength_normal_distro(globals::gen);
@@ -115,7 +115,7 @@ void Neuron::MutateSynapses(int num_mutated_synapses, const int num_neurons) {
 
 		size_t original_size = synapses_.size();
 		//If neuron has no synapses, then we do nothing to it
-		if (original_size==0)
+        if (original_size == 0)
 			return;
 
 		num_mutated_synapses *= -1;	//make it positive

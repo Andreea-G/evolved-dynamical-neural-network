@@ -96,7 +96,7 @@ void ObtainBrainFitnesses() {
         } //end for loop through decisions
 
         //Set fitness score to 1/num_decisions
-        brain_it->fitness_score_ = 1/num_decisions;
+        brain_it->fitness_score_ = 1.0/num_decisions;
 
     } //end for loop through every brain
 }

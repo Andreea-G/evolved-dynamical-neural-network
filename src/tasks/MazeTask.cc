@@ -42,8 +42,8 @@ MazeTask::MazeTask(const std::string map_file, const bool random_start) {
 		std::uniform_int_distribution<int> row_distro(0, height_-1);
 		std::uniform_int_distribution<int> col_distro(0, width_-1);
 
-		int rand_row=0;
-		int rand_col=0;
+        int rand_row = 0;
+        int rand_col = 0;
 		while(true) {
 			rand_row = row_distro(globals::gen);
 			rand_col = col_distro(globals::gen);
@@ -56,8 +56,8 @@ MazeTask::MazeTask(const std::string map_file, const bool random_start) {
 		}//end while
 
 	}	else {     //if start is not random, then search for the start position
-		for (size_t row_i=0; row_i < height_; row_i++) {
-			for (size_t col_j=0; col_j < width_; col_j++)	{
+        for (size_t row_i = 0; row_i < height_; row_i++) {
+            for (size_t col_j = 0; col_j < width_; col_j++)	{
 				if (map_[row_i][col_j] == MazeTile::START) {
 					row_ = row_i;
 					col_ = col_j;
@@ -128,8 +128,8 @@ bool MazeTask::LoadMap(const std::string map_file) {
 			{
 			MazeTile temp_tile = static_cast<MazeTile>(num);
 			//Make sure temp_tile is a valid tile
-			if (temp_tile!=MazeTile::WALL && temp_tile!=MazeTile::NORMAL &&
-							temp_tile!=MazeTile::START && temp_tile!=MazeTile::FINISH) {
+            if (temp_tile != MazeTile::WALL && temp_tile != MazeTile::NORMAL &&
+                            temp_tile != MazeTile::START && temp_tile != MazeTile::FINISH) {
 				cerr << "The current tile is not valid since it has a value of " << int(temp_tile) << std::endl;
 			}
 			temp_row_vec.push_back(temp_tile);
@@ -157,15 +157,15 @@ bool MazeTask::ActOnDecision(const deque<bool> decision) {
 
 	} else {
 
-		if (decision[1]==false) { //corresponds to decision to turn left
-			if (GetTileLeft()==MazeTile::WALL) {
+        if (decision[1] == false) { //corresponds to decision to turn left
+            if (GetTileLeft() == MazeTile::WALL) {
 				return false;
 			} else {
 				TurnLeft();
 				return true;
 			}
 		} else {
-			if (GetTileRight()==MazeTile::WALL) {
+            if (GetTileRight() == MazeTile::WALL) {
 				return false;
 			} else {
 				TurnRight();
@@ -194,8 +194,8 @@ deque<bool> MazeTask::GetBrainInput() const {
 int MazeTask::IsFinished() const {
 
 	//Check current location, plus the neighboring 4 locations for the finish
-	if (map_[row_][col_]==MazeTile::FINISH || map_[row_][col_]==MazeTile::FINISH ||
-	    map_[row_][col_]==MazeTile::FINISH || map_[row_][col_]==MazeTile::FINISH ||
+    if (map_[row_][col_]==MazeTile::FINISH || map_[row_][col_] == MazeTile::FINISH ||
+        map_[row_][col_]==MazeTile::FINISH || map_[row_][col_] == MazeTile::FINISH ||
 	    map_[row_][col_]==MazeTile::FINISH) {
 		return 1;
 	} else {
@@ -256,7 +256,7 @@ bool MazeTask::AdvancePosition() {
 
 		//If it's the first move, just do it.
 		if (first_move) {
-			if (tile_next==MazeTile::WALL) {
+            if (tile_next == MazeTile::WALL) {
 				//cerr << "ERROR: the player was facing a wall, so was not able to advance!" << endl; //TODO erase this, no longer needed
 				return false;
 			} else {
@@ -268,15 +268,15 @@ bool MazeTask::AdvancePosition() {
 		}
 
 		//check if we can even move forward
-		if (tile_next==MazeTile::WALL) {
+        if (tile_next == MazeTile::WALL) {
 			//we can't move forward, so check what options we have (we deal with a T intersection decision below)
-			if (tile_left==MazeTile::WALL && tile_right!=MazeTile::WALL) {
+            if (tile_left == MazeTile::WALL && tile_right != MazeTile::WALL) {
 				TurnRight();
 				continue;
-			} else if (tile_left!=MazeTile::WALL && tile_right==MazeTile::WALL) {
+            } else if (tile_left != MazeTile::WALL && tile_right == MazeTile::WALL) {
 				TurnLeft();
 				continue;
-			} else if (tile_left==MazeTile::WALL && tile_right==MazeTile::WALL) {
+            } else if (tile_left == MazeTile::WALL && tile_right == MazeTile::WALL) {
 				TurnAround();
 				continue;
 			}
@@ -284,8 +284,8 @@ bool MazeTask::AdvancePosition() {
 
 		//move forward if the next tile along our path is valid and there's no decision to be made,
 		//i.e. to the left and right are walls.  Otherwise, stop there.
-		if ( (tile_next==MazeTile::NORMAL || tile_next==MazeTile::START || tile_next==MazeTile::FINISH) &&
-				 (tile_left==MazeTile::WALL && tile_right==MazeTile::WALL) ) {
+        if ( (tile_next == MazeTile::NORMAL || tile_next == MazeTile::START || tile_next == MazeTile::FINISH) &&
+                 (tile_left == MazeTile::WALL && tile_right == MazeTile::WALL) ) {
 			row_ = next_row;
 			col_ = next_col;
 			continue;

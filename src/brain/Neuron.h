@@ -33,7 +33,7 @@ public:
 	//If the syn_strength parameters aren't specified (or set to zero), a uniform distribution is used
 	Neuron(const float start_activation, const float decay_rate, const float active_threshold,
 					const int num_neurons, const int num_synapses,
-				 const float av_syn_strength=0, const float st_dev_syn_strength=0);
+                 const float av_syn_strength = 0, const float st_dev_syn_strength = 0);
 
 	void set_activation(const float &activation) { activation_ = activation; }
 	float get_activation() const { return activation_; }
