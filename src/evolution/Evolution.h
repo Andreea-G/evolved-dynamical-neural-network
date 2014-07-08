@@ -16,7 +16,7 @@ using std::deque;
 class Evolution {
 
 public:
-	Evolution(const float prob_asexual=0) : prob_asexual_(prob_asexual) {};
+	Evolution(const float prob_asexual = 0) : prob_asexual_(prob_asexual) {};
 
 	//Takes current brains and randomly selects some for asexual reproduction (which calls MutateBrain on that brain)
 	//and some for sexual reproduction (which calls MateBrains on two brains and MutateBrain on the result)
@@ -24,7 +24,7 @@ public:
 																	const int num_mutated_synapses) const;
 
 	//Mutate a brain and returns the mutated brain
-	Brain MutateBrain(Brain parent_brain, const int num_mutated_neurons,   //TODO: shouldn't this be const Brain& parent_brain?
+	Brain MutateBrain(const Brain &parent_brain, const int num_mutated_neurons,  
 									 const int num_mutated_synapses) const;
 	//Mate two different brains to get one child. No mutations (since the MutateBrain function can afterwards be
 	//called on the resulting child)
