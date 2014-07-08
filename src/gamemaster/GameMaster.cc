@@ -12,6 +12,7 @@
 
 using std::deque;
 using std::map;
+using std::unordered_map;
 using std::multimap;
 using std::pair;
 
@@ -42,7 +43,7 @@ void GameMaster::ObtainBrainFitnesses() {
             //Let the brain decide on an action
             //The first element in the map is an output of the brain, while the second is counting how many times times
                 //the brain has given this output
-			map<deque<bool>,int> brain_output_frequency;
+			map<deque<bool>, int> brain_output_frequency;
             for (int cycle = 0; cycle < (input_output_delay_ + output_duration_); cycle++) {
                 if (cycle < input_duration_) {
 					brain_it->give_input(brain_input); //give input to brain
@@ -59,12 +60,12 @@ void GameMaster::ObtainBrainFitnesses() {
             }
 
 			//Test the brain_outputs in order of the frequency, and try to find the first valid output (that doesn't send the brain into a wall)
-			//flip the map of <brain_output,frequency> to a multimap <frequency,brain_output> (which is now sorted by its frequency
-			//multimap<int, deque<bool>> brain_output_sorted = FlipMap(brain_output_frequency);
+			//flip the map of <brain_output, frequency> to a multimap <frequency, brain_output> (which is now sorted by its frequency
 			multimap<int, deque<bool>> brain_output_sorted;
-//			for (auto map_it = brain_output_frequency.begin(); map_it = brain_output_frequency.end(); map_it++) {
-//				brain_output_sorted.insert( pair<int, deque<bool> >(map_it->second, map_it->first) );
-//			}
+			map<deque<bool>, int>::iterator map_it;
+			for (auto map_it = brain_output_frequency.begin(); map_it != brain_output_frequency.end(); map_it++) {
+				brain_output_sorted.insert( pair<int, deque<bool> >(map_it->second, map_it->first) );
+			}
 
 			bool found_valid_decision = false;
             deque<bool> brain_output;

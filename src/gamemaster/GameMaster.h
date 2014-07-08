@@ -31,9 +31,6 @@ private: //TODO: many of these should be const
 
 };
 
-//std::multimap<int, deque<bool>> FlipMap(const std::map<deque<bool>, int> &input_map);
-
-
 
 
 #endif /* GAMEMASTER__MAGEMASTER_H_ */
