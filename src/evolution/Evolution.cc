@@ -54,9 +54,11 @@ void Evolution::ChooseMostFitBrains(const deque<Brain> &brains) {
 }
 
 
-Brain Evolution::MutateBrain(Brain parent_brain, const int num_mutated_neurons, const int num_mutated_synapses) const {
-	parent_brain.MutateNeurons(num_mutated_neurons, num_mutated_synapses);
-	return parent_brain;  //TODO: I'm a bit confused here, does this return reference or invoke copy constructor?
+Brain Evolution::MutateBrain(const Brain &parent_brain, const int num_mutated_neurons, const int num_mutated_synapses) const {
+	Brain child(parent_brain);
+	child.MutateNeurons(num_mutated_neurons, num_mutated_synapses);
+	return child;  //TODO: Garrett: I'm a bit confused here, does this return reference or invoke copy constructor?
+	//TODO: Andreea: I think copy constructor, this is returning by value.
 }
 
 

@@ -24,7 +24,7 @@ public:
 																	const int num_mutated_synapses) const;
 
 	//Mutate a brain and returns the mutated brain
-	Brain MutateBrain(Brain parent_brain, const int num_mutated_neurons,
+	Brain MutateBrain(const Brain &parent_brain, const int num_mutated_neurons,
 									 const int num_mutated_synapses) const;
 	//Mate two different brains to get one child. No mutations (since the MutateBrain function can afterwards be
 	//called on the resulting child)
