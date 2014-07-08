@@ -23,7 +23,7 @@ using std::endl;
 MazeTask::MazeTask(const std::string map_file, const bool random_start) {
 
 	//Load map file into map_ member variable
-	if (LoadMap(map_file)==false) {
+	if (LoadMap(map_file) == false) {
 		cerr << endl << "Error loading map!";
 	}
 
@@ -112,7 +112,7 @@ bool MazeTask::LoadMap(const std::string map_file) {
 	while (getline(in_file, line)) {
 
 		//the file may have some empty lines at the end, and we stop reading if we get to empty line
-		if (line=="") {
+		if (line == "") {
 			break;
 		}
 
@@ -145,7 +145,7 @@ bool MazeTask::LoadMap(const std::string map_file) {
 bool MazeTask::ActOnDecision(const deque<bool> decision) {
 
 
-  if (decision[0]==true) { //corresponds to decision to stay straigh, i.e. not turn
+  if (decision[0] == true) { //corresponds to decision to stay straigh, i.e. not turn
 
 		if (GetTileFront() == MazeTile::WALL) {
 			return false; //invalid move so return false
@@ -208,7 +208,7 @@ bool MazeTask::AdvancePosition() {
 
 	//the player should always be able to advance at least once, so we remember
 	//if we're on first move.
-	bool first_move=true;
+	bool first_move = true;
 
 	//Loop until we hit a wall in which case we break
 	while (true) {

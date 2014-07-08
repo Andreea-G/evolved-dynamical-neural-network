@@ -18,9 +18,9 @@ using std::string;
 
 void MazeTest::test() {
 
-	string test_maze="maze_files/test_maze";
+	string test_maze = "maze_files/test_maze";
 
-	deque<bool> left_turn={false,false};
+	deque<bool> left_turn = {false,false};
 
 	//Test that random initialization works properly (try it 200 times)
 	for (int i = 0; i < 200; i++) {

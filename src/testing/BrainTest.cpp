@@ -11,7 +11,7 @@ using std::min;
 
 void BrainTest::Test1() {
 	//Please don't change the numbers in this test suite.
-	int num_neurons=8;
+	int num_neurons = 8;
 	Brain test_brain1(num_neurons, 3, 2);
 	deque<Neuron> & neurons1 = test_brain1.neurons_;
 
@@ -42,12 +42,12 @@ void BrainTest::Test1() {
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	///// Brain 2 using the more detailed constructor
-//	num_neurons=800;  //These settings gave a non-repeating brain!
-//	const float av_active_threshold=25; const float st_dev_active_threshold=4;
-//	const float av_start_activation=25 ; const float st_dev_start_activation=5;
-//	const float av_decay_rate=0.1; const float st_dev_decay_rate=0.03;
-//	const int av_num_syn=10; const int st_dev_num_syn=2;
-//	const float av_syn_strength=5; const float st_dev_syn_strength=4;
+//	num_neurons = 800;  //These settings gave a non-repeating brain!
+//	const float av_active_threshold = 25; const float st_dev_active_threshold = 4;
+//	const float av_start_activation = 25 ; const float st_dev_start_activation = 5;
+//	const float av_decay_rate = 0.1; const float st_dev_decay_rate = 0.03;
+//	const int av_num_syn = 10; const int st_dev_num_syn = 2;
+//	const float av_syn_strength = 5; const float st_dev_syn_strength = 4;
 	num_neurons = 10;
 	const float av_active_threshold = 25; const float st_dev_active_threshold = 4;
 	const float av_start_activation = 25 ; const float st_dev_start_activation = 5;
@@ -88,7 +88,7 @@ void BrainTest::Test1() {
 		outputFile << std::flush;
 		test_brain2.Cycle();
 		//now just provoke the brain and see if it finds the same steady state sol'n
-//		if (3000<=ii && ii<3005) {
+//		if (3000 <= ii && ii < 3005) {
 ////			test_brain2.give_input(brain_input2);
 ////			test_brain2.neurons_[4].set_activation(globals::MAX_ACTIVATION);
 ////			test_brain2.neurons_[5].set_activation(globals::MAX_ACTIVATION);
@@ -156,8 +156,8 @@ void BrainTest::DisplaySynapses(const deque<Neuron> & neurons, int num_neuron_to
 	for (int ii = 0; ii < num_neuron_to_display; ii++) {
 		Neuron neuron_ii = neurons[ii];
 		cout << "\nNeuron " << ii << ": ";
-		int count=0;
-		for (auto it=neuron_ii.synapses_.begin();
+		int count = 0;
+		for (auto it = neuron_ii.synapses_.begin();
 				 it != neuron_ii.synapses_.end(); it++) {
 			cout << it->first << "(" << it->second << ") ";
 			count++;
