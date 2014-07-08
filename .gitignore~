@@ -10,6 +10,7 @@ Makefile
 
 #####files to ignore from Garrett###########
 #stuff from Qt Creator
+pinn.pro
 pinn.pro.user
 build-pinn-Desktop-Debug
 tmp*
