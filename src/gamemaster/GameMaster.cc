@@ -62,7 +62,6 @@ void GameMaster::ObtainBrainFitnesses() {
 			//Test the brain_outputs in order of the frequency, and try to find the first valid output (that doesn't send the brain into a wall)
 			//flip the map of <brain_output, frequency> to a multimap <frequency, brain_output> (which is now sorted by its frequency
 			multimap<int, deque<bool>> brain_output_sorted;
-			map<deque<bool>, int>::iterator map_it;
 			for (auto map_it = brain_output_frequency.begin(); map_it != brain_output_frequency.end(); map_it++) {
 				brain_output_sorted.insert( pair<int, deque<bool> >(map_it->second, map_it->first) );
 			}
