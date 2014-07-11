@@ -33,10 +33,10 @@ public:
 	//(TODO: in the future we could be more random about which neurons from which parents survive)
 	Brain MateBrains(const Brain &parent1, const Brain &parent2) const;
 
-private:
 	//Look at fitness scores to choose the most_fit_brains_
-	void ChooseMostFitBrains(const deque<Brain> &brains);
+	int ChooseMostFitBrains(const deque<Brain> &brains);
 
+private:
 	//The probability of a brain being selected for mating will be proportional to the FitnessWeighting function.
 	int FitnessWeighting(const int fitness);
 

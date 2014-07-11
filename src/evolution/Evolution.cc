@@ -19,7 +19,7 @@ int Evolution::FitnessWeighting(const int fitness) {
 	return fitness * fitness;
 }
 
-void Evolution::ChooseMostFitBrains(const deque<Brain> &brains) {
+int Evolution::ChooseMostFitBrains(const deque<Brain> &brains) {
 	size_t num_brains = brains.size();
 	//unnormalized mating priorities.  After normalizing, these values will say each brain's chances of getting selected
 	//for the next generation.  For example, if brain 1 gets normalized to 5, then it'll appear 5 times and have a high
@@ -50,7 +50,15 @@ void Evolution::ChooseMostFitBrains(const deque<Brain> &brains) {
 	//The size of brain_cum_mating_odds_ is at most num_brains; it can be smaller due to the floor function above, but should not be larger...
 	if (most_fit_brains_.size() > num_brains) {
 		std::cerr << "Error! most_fit_brains_ deque is larger than total number of brains.. What went wrong??\n";
+		return -1;
 	}
+	//The size of brain_cum_mating_odds_ should be greater than zero
+	if (most_fit_brains_.size() == 0) {
+		std::cerr << "Error! most_fit_brains is empty! There are no parents that can form the next generation...";
+		return -1;
+	}
+
+	return 0;
 }
 
 
@@ -82,6 +90,7 @@ Brain Evolution::MateBrains(const Brain &parent1, const Brain &parent2) const {
 
 deque<Brain> Evolution::GetNextGeneration (const deque<Brain> &brains, const int num_mutated_neurons,
 																					 const int num_mutated_synapses) const {
+
 	size_t num_brains = brains.size();
 
 	std::uniform_int_distribution<int> mating_distro(0, most_fit_brains_.size()-1);
