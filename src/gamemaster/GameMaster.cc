@@ -16,6 +16,10 @@ using std::map;
 using std::multimap;
 using std::pair;
 
+//TODO
+void PrintGenerationInfo() {
+		//std::cout << "Print some info\n";
+}
 
 void GameMaster::ObtainBrainFitnesses() {
    for (auto brain_it = brains_.begin(); brain_it != brains_.end(); brain_it++) {
@@ -86,7 +90,29 @@ void GameMaster::ObtainBrainFitnesses() {
         //Set fitness score to 1/num_decisions
 		brain_it->set_fitness_score(1.0/num_decisions);
 
-	} //end for loop through every brain
+	} //end for loop through everyns brain
 }
+
+
+int GameMaster::MasterControl() {
+	for (int gen = 0; gen < num_generations_; gen++) {
+		//Obtain the fitness scores for each brain
+		ObtainBrainFitnesses();
+
+		//find the list of most fit brains
+		int test = evolution_.ChooseMostFitBrains(brains_);
+		if (test < 0) {
+			return -1;
+		}
+
+		//Obtain the next generation of brains
+		brains_ = evolution_.GetNextGeneration(brains_, num_mutated_neurons_, num_mutated_synapses_);
+
+		PrintGenerationInfo();
+	}
+
+	return 0;
+}
+
 
 
