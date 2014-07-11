@@ -28,7 +28,7 @@ public:
 	//generate neuron with random active_threshold and decay_rate and with synapses (with random strengths) coming from
 	//random origin neurons.  It needs to know how many neurons are in the brain.  The number of synapses is given by
 	//uniform distribution: [0,num_neurons].
-	Neuron(const int num_neurons);
+	explicit Neuron(const int num_neurons);
 	//Assigns the synapses to random originating neurons
 	//If the syn_strength parameters aren't specified (or set to zero), a uniform distribution is used
 	Neuron(const float start_activation, const float decay_rate, const float active_threshold,
