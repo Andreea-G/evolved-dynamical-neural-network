@@ -43,7 +43,7 @@ public:
 	//player is started at place in map where value is 2.
 	//To set the starting direction, it will loop through the 4 directions
 	//stopping when it finds a valid one.
-	MazeTask(const std::string map_file, const bool random_start = false);
+	explicit MazeTask(const std::string map_file, const bool random_start = false);
 
 	//The argument decision should be a deque of length 2.
 	//The first element shows if we're going straight, the second is right/left.

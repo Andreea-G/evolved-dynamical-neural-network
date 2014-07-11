@@ -54,7 +54,8 @@ void Evolution::ChooseMostFitBrains(const deque<Brain> &brains) {
 }
 
 
-Brain Evolution::MutateBrain(const Brain &parent_brain, const int num_mutated_neurons, const int num_mutated_synapses) const {
+Brain Evolution::MutateBrain(const Brain &parent_brain, const int num_mutated_neurons,
+														 const int num_mutated_synapses) const {
 	Brain child(parent_brain);
 	child.MutateNeurons(num_mutated_neurons, num_mutated_synapses);
 	return child;
@@ -103,8 +104,10 @@ deque<Brain> Evolution::GetNextGeneration (const deque<Brain> &brains, const int
 				Brain new_brain = MutateBrain(brains[parent1_index], num_mutated_neurons, num_mutated_synapses);
 				next_gen.push_back(new_brain);
 			} else {
-				Brain new_brain = MateBrains(brains[parent1_index], brains[parent2_index]);		//first mate two brains to get one child
-				new_brain = MutateBrain(new_brain, num_mutated_neurons, num_mutated_synapses);  //then mutations occur
+				//first mate two brains to get one child
+				Brain new_brain = MateBrains(brains[parent1_index], brains[parent2_index]);
+				//then mutations occur
+				new_brain = MutateBrain(new_brain, num_mutated_neurons, num_mutated_synapses);
 				next_gen.push_back(new_brain);
 			}
 		}
