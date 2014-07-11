@@ -16,7 +16,7 @@ using std::deque;
 class Evolution {
 
 public:
-	Evolution(const float prob_asexual = 0) : prob_asexual_(prob_asexual) {};
+	explicit Evolution(const float prob_asexual = 0) : prob_asexual_(prob_asexual) {};
 
 	//Takes current brains and randomly selects some for asexual reproduction (which calls MutateBrain on that brain)
 	//and some for sexual reproduction (which calls MateBrains on two brains and MutateBrain on the result)
