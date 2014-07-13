@@ -36,7 +36,7 @@ public:
 	//neurons comprising brain, each with incoming synapses from other neurons
 	deque<Neuron> neurons_;
 
-	void set_fitness_score(const int fitness_score) { fitness_score_ = fitness_score; }
+	void set_fitness_score(const float fitness_score) { fitness_score_ = fitness_score; }
 	float get_fitness_score() const { return fitness_score_; }
 	size_t get_num_neurons() const { return num_neurons_; }
 	size_t get_num_input_neurons() const { return num_input_neurons_; }
@@ -56,7 +56,6 @@ public:
 	void MutateNeurons(const int num_mutated_neurons, const int num_mutated_synapses);
 	//TODO: I think num_mutated_neurons should be size_t
 
-
 	//Causes one network firing inside the brain.  See the .lyx file in ./docs for explanation.
 	void Cycle();
 
@@ -69,6 +68,8 @@ private:
 
 	//grant access for unit testing
 	friend class BrainTest;
+
+	friend void PrintGenerationInfo(const deque<Brain> brains);
 };
 
 

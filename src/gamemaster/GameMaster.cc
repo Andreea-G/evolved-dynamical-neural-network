@@ -15,10 +15,16 @@ using std::map;
 //using std::unordered_map;
 using std::multimap;
 using std::pair;
+using std::cout;
+using std::endl;
 
 //TODO
-void PrintGenerationInfo() {
-		//std::cout << "Print some info\n";
+void PrintGenerationInfo(const deque<Brain> brains) {
+	//std::cout << "Print some info\n";
+	std::cout << "Printing brain fitness scores: \n";
+	for (auto brain_it = brains.begin(); brain_it != brains.end(); brain_it++) {
+		std::cout << brain_it->fitness_score_ << std::endl;
+	}
 }
 
 GameMaster::GameMaster(const size_t num_brains,
@@ -84,7 +90,7 @@ GameMaster::GameMaster(const size_t num_brains,
 	output_duration_ = output_duration;
 
 	//member variables for maze task
-	string maze_map_file_ = maze_map_file;
+	maze_map_file_ = maze_map_file;
 	maze_random_start_ = maze_random_start;
 
 	//construct evolution
@@ -95,13 +101,15 @@ GameMaster::GameMaster(const size_t num_brains,
 }
 
 void GameMaster::ObtainBrainFitnesses() {
-   for (auto brain_it = brains_.begin(); brain_it != brains_.end(); brain_it++) {
+	cout << "Entered ObtainBrainFitnesses\n";
+	cout << brains_.size() << endl;
+	for (auto brain_it = brains_.begin(); brain_it != brains_.end(); brain_it++) {
 	   //Default to worst outcome. If the brain doesn't finish the maze in max_decisions_ time then it receives the worst score.
 		int num_decisions = max_decisions_;
 
         MazeTask maze_task(maze_map_file_, maze_random_start_);
 
-        //Loop through every decision the brain must make
+		//Loop through every decision the brain must make
 		for (int decision = 0; decision < max_decisions_; decision++) {
 			//Advance position through the maze (either from the starting line or from the previous decision)
             if (!maze_task.AdvancePosition()) {
@@ -158,19 +166,25 @@ void GameMaster::ObtainBrainFitnesses() {
             if (!found_valid_decision) {
                 break;
             }
+
 		} //end for loop through decisions
+
 
         //Set fitness score to 1/num_decisions
 		brain_it->set_fitness_score(1.0/num_decisions);
-
-	} //end for loop through everyns brain
+		cout << brain_it->get_fitness_score() << endl;
+		cout << "Here1" << endl;
+	} //end for loop through every brain
+	cout << "Finished ObtainBrainFitnesses" << endl;
 }
 
 
 int GameMaster::MasterControl() {
-	for (int gen = 0; gen < num_generations_; gen++) {
+	for (int gener = 0; gener < num_generations_; gener++) {
+		std::cout << "Generation " << gener << std::endl;
 		//Obtain the fitness scores for each brain
 		ObtainBrainFitnesses();
+		std::cout << "Exited ObtainBrainFitnesses" << endl;
 
 		//find the list of most fit brains
 		int test = evolution_.ChooseMostFitBrains(brains_);
@@ -181,7 +195,7 @@ int GameMaster::MasterControl() {
 		//Obtain the next generation of brains
 		brains_ = evolution_.GetNextGeneration(brains_, num_mutated_neurons_, num_mutated_synapses_);
 
-		PrintGenerationInfo();
+		PrintGenerationInfo(brains_);
 	}
 
 	return 0;

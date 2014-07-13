@@ -49,12 +49,11 @@ public:
 		//find the most fit brains, and get the next generation. Return 0 if no errors were found, or -1 otherwise
 	int MasterControl();
 
-	friend void PrintGenerationInfo();
+	deque<Brain> brains_;
 
 private: //TODO: many of these should be const
 	//for brains:
 	size_t num_brains_;
-    deque<Brain> brains_;
 
 	//for brain cycles:
 	int max_decisions_;
@@ -68,6 +67,8 @@ private: //TODO: many of these should be const
 	Evolution evolution_;
 	int num_generations_;
 	size_t num_mutated_neurons_, num_mutated_synapses_;
+
+	//friend void PrintGenerationInfo(const deque<Brain> brains);
 };
 
 

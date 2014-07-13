@@ -14,7 +14,7 @@
 
 using std::deque;
 
-int Evolution::FitnessWeighting(const int fitness) {
+float Evolution::FitnessWeighting(const float fitness) {
 	//For now, using a quadratic function to make sure successful brains get mated often.
 	return fitness * fitness;
 }
@@ -40,6 +40,7 @@ int Evolution::ChooseMostFitBrains(const deque<Brain> &brains) {
 
 	for (size_t brain_index = 0; brain_index < num_brains; brain_index++) {
 		int mating_priority = floor(unnorm_mating_priorities[brain_index] * num_brains / sum_mating_priorities);		//normalized s.t. summing all the mating_priority values  ~= number of brains
+//		std::cout << "Mating priority " << mating_priority << std::endl;
 		for (int i = 0; i < mating_priority; i++) {
 			most_fit_brains_.push_back(static_cast<int>(brain_index));
 		}
@@ -54,7 +55,7 @@ int Evolution::ChooseMostFitBrains(const deque<Brain> &brains) {
 	}
 	//The size of brain_cum_mating_odds_ should be greater than zero
 	if (most_fit_brains_.size() == 0) {
-		std::cerr << "Error! most_fit_brains is empty! There are no parents that can form the next generation...";
+		std::cerr << "Error! most_fit_brains is empty! There are no parents that can form the next generation...\n";
 		return -1;
 	}
 
