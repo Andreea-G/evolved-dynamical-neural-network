@@ -73,7 +73,7 @@ Brain Evolution::MutateBrain(const Brain &parent_brain, const int num_mutated_ne
 Brain Evolution::MateBrains(const Brain &parent1, const Brain &parent2) const {
 	size_t num_neurons = parent1.get_num_neurons();
 	//create an empty brain
-	Brain child(0, parent1.get_num_input_neurons(), parent1.get_num_output_neurons());
+	Brain child(num_neurons, parent1.get_num_input_neurons(), parent1.get_num_output_neurons());
 
 	std::uniform_int_distribution<size_t> cross_over_distro(0, num_neurons-1);
 	//neurons 0 to (cross_over) will come from brain 1 and the rest from brain 2
