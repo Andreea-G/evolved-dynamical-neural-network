@@ -59,12 +59,14 @@ public:
 	//Causes one network firing inside the brain.  See the .lyx file in ./docs for explanation.
 	void Cycle();
 
+	//TODO: move back to private
+	//describes how well the brain has performed at the given task.  This is used by evolution class for choosing brains.
+	float fitness_score_;
+
 private:
 	size_t num_neurons_;	//total number of neurons
 	//number of input and output neurons.  The type was 'int', but if looking where it's used, this type makes more sense.
 	size_t num_input_neurons_, num_output_neurons_;
-	//describes how well the brain has performed at the given task.  This is used by evolution class for choosing brains.
-	float fitness_score_;
 
 	//grant access for unit testing
 	friend class BrainTest;
