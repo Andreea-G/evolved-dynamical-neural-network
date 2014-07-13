@@ -23,6 +23,14 @@ class GameMaster {
 public:
 	GameMaster(const size_t num_brains,
 			   const size_t num_neurons, const size_t num_input_neurons, const size_t num_output_neurons,
+			   const int max_decisions,
+			   const int input_duration, const int input_output_delay, const int output_duration,
+			   const string maze_map_file, const int maze_random_start,
+			   const int num_generations, const size_t num_mutated_neurons, const size_t num_mutated_synapses,
+			   const float prob_asexual);
+
+	GameMaster(const size_t num_brains,
+			   const size_t num_neurons, const size_t num_input_neurons, const size_t num_output_neurons,
 			   const float av_active_threshold, const float st_dev_active_threshold,
 			   const float av_start_activation, const float st_dev_start_activation,
 			   const float av_decay_rate, const float st_dev_decay_rate,
@@ -31,7 +39,7 @@ public:
 			   const int max_decisions,
 			   const int input_duration, const int input_output_delay, const int output_duration,
 			   const string maze_map_file, const int maze_random_start,
-			   const int num_generations, const int num_mutated_neurons, const int num_mutated_synapses,
+			   const int num_generations, const size_t num_mutated_neurons, const size_t num_mutated_synapses,
 			   const float prob_asexual);
 
 	//Loop through all brains, and find the fitness_score_ for each brain.
@@ -59,7 +67,7 @@ private: //TODO: many of these should be const
 	//for evolution:
 	Evolution evolution_;
 	int num_generations_;
-	int num_mutated_neurons_, num_mutated_synapses_;
+	size_t num_mutated_neurons_, num_mutated_synapses_;
 };
 
 
