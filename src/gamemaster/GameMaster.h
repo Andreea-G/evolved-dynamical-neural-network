@@ -16,10 +16,24 @@
 //#include <unordered_map>
 
 using std::deque;
+using std::string;
 
 class GameMaster {
 
 public:
+	GameMaster(const size_t num_brains,
+			   const size_t num_neurons, const size_t num_input_neurons, const size_t num_output_neurons,
+			   const float av_active_threshold, const float st_dev_active_threshold,
+			   const float av_start_activation, const float st_dev_start_activation,
+			   const float av_decay_rate, const float st_dev_decay_rate,
+			   const int av_num_syn, const int st_dev_num_syn,
+			   const float av_syn_strength, const float st_dev_syn_strength,
+			   const int max_decisions,
+			   const int input_duration, const int input_output_delay, const int output_duration,
+			   const string maze_map_file, const int maze_random_start,
+			   const int num_generations, const int num_mutated_neurons, const int num_mutated_synapses,
+			   const float prob_asexual);
+
 	//Loop through all brains, and find the fitness_score_ for each brain.
 	void ObtainBrainFitnesses();
 
@@ -31,6 +45,7 @@ public:
 
 private: //TODO: many of these should be const
 	//for brains:
+	size_t num_brains_;
     deque<Brain> brains_;
 
 	//for brain cycles:
@@ -38,7 +53,7 @@ private: //TODO: many of these should be const
 	int input_duration_, input_output_delay_, output_duration_;
 
 	//for the task
-	std::string maze_map_file_;
+	string maze_map_file_;
     bool maze_random_start_;
 
 	//for evolution:

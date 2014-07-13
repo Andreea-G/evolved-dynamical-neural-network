@@ -21,6 +21,47 @@ void PrintGenerationInfo() {
 		//std::cout << "Print some info\n";
 }
 
+GameMaster::GameMaster(const size_t num_brains,
+					   const size_t num_neurons, const size_t num_input_neurons, const size_t num_output_neurons,
+					   const float av_active_threshold, const float st_dev_active_threshold,
+					   const float av_start_activation, const float st_dev_start_activation,
+					   const float av_decay_rate, const float st_dev_decay_rate,
+					   const int av_num_syn, const int st_dev_num_syn,
+					   const float av_syn_strength, const float st_dev_syn_strength,
+					   const int max_decisions,
+					   const int input_duration, const int input_output_delay, const int output_duration,
+					   const string maze_map_file, const int maze_random_start,
+					   const int num_generations, const int num_mutated_neurons, const int num_mutated_synapses,
+					   const float prob_asexual) {
+	//construct brains
+	num_brains_ = num_brains;
+	for (size_t ii = 0; ii < num_brains_; ii++) {
+		Brain new_brain(num_neurons, num_input_neurons, num_output_neurons,
+						av_active_threshold, st_dev_active_threshold,
+						av_start_activation, st_dev_start_activation,
+						av_decay_rate, st_dev_decay_rate,
+						av_num_syn, st_dev_num_syn,
+						av_syn_strength, st_dev_syn_strength);
+		brains_.push_back(new_brain);
+	}
+
+	//member variables for brain cycles
+	max_decisions_ = max_decisions;
+	input_duration_ = input_duration;
+	input_output_delay_ = input_output_delay;
+	output_duration_ = output_duration;
+
+	//member variables for maze task
+	string maze_map_file_ = maze_map_file;
+	maze_random_start_ = maze_random_start;
+
+	//construct evolution
+	num_generations_ = num_generations;
+	num_mutated_neurons_ = num_mutated_neurons;
+	num_mutated_synapses_ = num_mutated_synapses;
+	Evolution evolution_(prob_asexual);
+}
+
 void GameMaster::ObtainBrainFitnesses() {
    for (auto brain_it = brains_.begin(); brain_it != brains_.end(); brain_it++) {
 	   //Default to worst outcome. If the brain doesn't finish the maze in max_decisions_ time then it receives the worst score.
