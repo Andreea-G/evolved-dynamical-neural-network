@@ -12,7 +12,7 @@
 #ifndef MAZETEST_H_
 #define MAZETEST_H_
 
-#include "../tasks/MazeTask.h"  //TODO: I need to figure out how to get rid of the ".."
+#include <src/tasks/MazeTask.h>
 
 
 class MazeTest {

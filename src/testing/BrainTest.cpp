@@ -1,8 +1,9 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
-#include "BrainTest.h"
-#include "../Globals.h"
+
+#include <src/testing/BrainTest.h>
+#include <src/Globals.h>
 
 using std::cout;
 using std::cerr;

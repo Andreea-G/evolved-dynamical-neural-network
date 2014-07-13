@@ -5,12 +5,12 @@
  *	Author: Andreea, Garrett
  */
 
-//DEL #include "../brain/Neuron.h"
 #include <iostream>
 #include <math.h>	//floor function
 #include <algorithm> //for_each
-#include "Evolution.h"
-#include "../Globals.h" //TODO: find better way for this include
+
+#include <src/evolution/Evolution.h>
+#include <src/Globals.h>
 
 using std::deque;
 

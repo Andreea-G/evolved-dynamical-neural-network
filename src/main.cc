@@ -10,10 +10,7 @@
 #include <iostream>
 #include <string>
 
-//#include "tasks/MazeTask.h"
-//#include "testing/MazeTest.h"
-//#include "testing/BrainTest.h"
-#include "testing/EvolutionTest.h"
+#include <src/testing/EvolutionTest.h>
 
 using std::cout;
 using std::endl;
@@ -21,6 +18,8 @@ using std::string;
 using std::cin;
 
 int main() {
+
+	cout << "Hello";
 
 	EvolutionTest test;
 	test.test1();

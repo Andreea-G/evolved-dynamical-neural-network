@@ -9,7 +9,8 @@
 #define EVOLUTION__EVOLUTION_H_
 
 #include <deque>
-#include "../brain/Brain.h"
+
+#include <src/brain/Brain.h>
 
 using std::deque;
 

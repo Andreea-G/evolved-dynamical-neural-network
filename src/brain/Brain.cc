@@ -9,9 +9,10 @@
 #include <random>
 #include <iostream>
 
-#include "Neuron.h"
-#include "Brain.h"
-#include "../Globals.h"
+//project-specific headers
+#include <src/brain/Neuron.h>
+#include <src/brain/Brain.h>
+#include <src/Globals.h>
 
 
 using std::deque;

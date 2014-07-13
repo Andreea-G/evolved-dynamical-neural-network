@@ -4,7 +4,8 @@
 
 TEMPLATE = app
 #TARGET = pinn
-INCLUDEPATH += . src/tasks src/testing src/brain src/evolution
+#INCLUDEPATH += . src/tasks src/testing src/brain src/evolution  ###DEL
+INCLUDEPATH += .
 CONFIG += c++11
 QMAKE_CXXFLAGS += -pedantic
 
