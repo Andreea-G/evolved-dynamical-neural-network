@@ -12,7 +12,6 @@
 #include <src/brain/Brain.hpp>
 #include <src/evolution/Evolution.hpp>
 #include <src/tasks/MazeTask.hpp>
-#include <map>  //TODO: does this get used in this file?
 //#include <unordered_map>
 
 using std::deque;
@@ -34,17 +33,17 @@ public:
 
 	//For now, main() will only call this constructor.  In the future, we may allow the above constructor to be invoked.
 	GameMaster(const size_t num_brains,
-			   const size_t num_neurons, const size_t num_input_neurons, const size_t num_output_neurons,
-			   const float av_active_threshold, const float st_dev_active_threshold,
-			   const float av_start_activation, const float st_dev_start_activation,
-			   const float av_decay_rate, const float st_dev_decay_rate,
-			   const int av_num_syn, const int st_dev_num_syn,
-			   const float av_syn_strength, const float st_dev_syn_strength,
-			   const int max_decisions,
-			   const int input_duration, const int input_output_delay, const int output_duration,
-			   const string maze_map_file, const int maze_random_start,
-			   const int num_generations, const size_t num_mutated_neurons, const size_t num_mutated_synapses,
-			   const float prob_asexual);
+						const size_t num_neurons, const size_t num_input_neurons, const size_t num_output_neurons,
+						const float av_active_threshold, const float st_dev_active_threshold,
+						const float av_start_activation, const float st_dev_start_activation,
+						const float av_decay_rate, const float st_dev_decay_rate,
+						const int av_num_syn, const int st_dev_num_syn,
+						const float av_syn_strength, const float st_dev_syn_strength,
+						const int max_decisions,
+						const int input_duration, const int input_output_delay, const int output_duration,
+						const string maze_map_file, const int maze_random_start,
+						const int num_generations, const size_t num_mutated_neurons, const size_t num_mutated_synapses,
+						const float prob_asexual);
 
 	//Loop through all brains, and find the fitness_score_ for each brain.
 	//Returns -1 if it fails and 0 otherwise.
@@ -62,7 +61,12 @@ private:
 
 	//for brain cycles:
 	const int max_decisions_;
-	const int input_duration_, input_output_delay_, output_duration_;
+	//number of cycles that input is given to brain for, for each input from the task
+	const int input_duration_;
+	//number of cycles between start of input and start of recording the output
+	const int input_output_delay_;
+	//number of cycles that output is read for
+	const int output_duration_;
 
 	//for the task
 	const string maze_map_file_;
