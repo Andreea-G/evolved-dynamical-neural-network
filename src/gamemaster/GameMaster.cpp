@@ -173,8 +173,10 @@ int GameMaster::ObtainBrainFitnesses() {
 			}
 			bool found_valid_decision = false;
 			deque<bool> brain_decision; //final (most common and valid) brain output will correspond to the decision
-			for (auto output_it = brain_output_sorted.begin(); output_it != brain_output_sorted.end(); output_it++) {
-				//check if brain has found a valid decision, and turn the brain in that direction if it has.
+			//loop through all outputs, checking if brain has found a valid decision,
+			//and turn the brain in that direction if it has.
+			//Note: the output is order from lowest frequency output to highest, so we loop in reverse order
+			for (auto output_it = brain_output_sorted.rbegin(); output_it != brain_output_sorted.rend(); output_it++) {
 				if (maze_task.ActOnDecision(output_it->second)) {
 					cout << "Found valid decision! It is: " << output_it->second[0] << output_it->second[1] << endl;
 					found_valid_decision = true;
