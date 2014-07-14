@@ -1,2 +1,0 @@
-Printing brain fitness scores: 
-0 0 0 
