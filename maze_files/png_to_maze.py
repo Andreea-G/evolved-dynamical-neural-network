@@ -11,12 +11,13 @@ import argparse
 import numpy as np
 
 
-##This snippet allows you to have new lines in the program description below
+##This snippet allows you to have the '\n' new lines in the program description below
 class MyParser( argparse.ArgumentParser):
     def error(self, message):
         sys.stderr.write( 'error: {}\n'.format(message) )
         self.print_help()
         sys.exit(2)
+
 
 def main():
 
@@ -36,8 +37,6 @@ def main():
 	
 	img = mpimg.imread(image_filename)
 	
-	#turn 3-channel image array into 1-channel array
-			
 	with open(output_filename, 'w') as file:
 		for row in range(img.shape[0]):
 			for col in range(img.shape[1]):
@@ -46,13 +45,12 @@ def main():
 				if np.where(current_pix!=0)[0].size == 0:
 					maze_value = 0
 				else:
-					#set maze value to be N if the N-th element of (R,G,B) != 0
+					#set maze value to be N if the N-th element of (R,G,B) is non-zero
+					#example: (0,50,0) would mean maze_value = 2
 					maze_value = np.where(current_pix!=0)[0][0] + 1
 				file.write(str(maze_value) + ' ')
 			file.write('\n')
 	
-
-
 
 if __name__ == '__main__':
 	main()
