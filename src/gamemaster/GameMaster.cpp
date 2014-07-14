@@ -101,34 +101,34 @@ GameMaster::GameMaster(const size_t num_brains,
 }
 
 int GameMaster::ObtainBrainFitnesses() {
-//	cout << brains_.size() << endl;
+	//Loop through each brain
 	for (auto brain_it = brains_.begin(); brain_it != brains_.end(); brain_it++) {
 		//Default to worst outcome. If the brain doesn't finish the maze in max_decisions_ time then it receives the worst score.
 		int num_decisions = max_decisions_;
 
-        MazeTask maze_task(maze_map_file_, maze_random_start_);
+		MazeTask maze_task(maze_map_file_, maze_random_start_);
 
 		//Loop through every decision the brain must make
 		for (int decision = 0; decision < max_decisions_; decision++) {
 			//Advance position through the maze (either from the starting line or from the previous decision)
 			if (!maze_task.AdvancePosition()) {
-				cout << "Brain tried to enter a wall; receive worst fitness score" << endl;
+				cout << "Brain tried to enter a wall; it will receive the worst fitness score" << endl;
 				break;
 			}
 
-		//Check if brain has finished the maze
-		if (maze_task.IsFinished()) {
-			num_decisions = decision;
-			break;
-		}
+			//Check if brain has finished the maze
+			if (maze_task.IsFinished()) {
+				num_decisions = decision;
+				break;
+			}
 
 			//Get brain input (which are the possible directions from this position)
 			deque<bool> brain_input = maze_task.GetBrainInput();
-			cout << "\nBrain input: ";
-			for (auto br_input_it = brain_input.begin(); br_input_it != brain_input.end(); br_input_it++) {
-				cout << *br_input_it << " ";
-			}
-			cout << endl;
+//			cout << "\nBrain input: ";   //TODO: delete this
+//			for (auto br_input_it = brain_input.begin(); br_input_it != brain_input.end(); br_input_it++) {
+//				cout << *br_input_it << " ";
+//			}
+//			cout << endl;
 
 			//Let the brain decide on an action
 			//The first element in the map is an output of the brain, while the second is counting how many times
@@ -156,8 +156,10 @@ int GameMaster::ObtainBrainFitnesses() {
 				}
 			}
 
-			//Test the brain_outputs in order of the frequency, and try to find the first (namely most common) valid output (that doesn't send the brain into a wall)
-			//flip the map of <brain_output, frequency> to a multimap <frequency, brain_output> (which is now sorted by its frequency
+			//Test the brain_outputs in order of the frequency, and try to find the first (namely most common) valid output
+			//(that doesn't send the brain into a wall)
+			//flip the map of <brain_output, frequency> to a multimap <frequency, brain_output>
+			//(which is now sorted by its frequency
 			multimap<int, deque<bool>> brain_output_sorted;
 			for (auto map_it = brain_output_frequency.begin(); map_it != brain_output_frequency.end(); map_it++) {
 				brain_output_sorted.insert( pair<int, deque<bool> >(map_it->second, map_it->first) );
@@ -165,7 +167,8 @@ int GameMaster::ObtainBrainFitnesses() {
 			bool found_valid_decision = false;
 			deque<bool> brain_decision; //final (most common and valid) brain output will correspond to the decision
 			for (auto output_it = brain_output_sorted.begin(); output_it != brain_output_sorted.end(); output_it++) {
-				if (maze_task.ActOnDecision(output_it->second)) { //succes! the brain has found a valid decision, and the brain has turned in the new direction
+				if (maze_task.ActOnDecision(output_it->second)) {
+					//succes! the brain has found a valid decision, and the brain has turned in the new direction
 					cout << "Found valid decision!" << endl;
 					found_valid_decision = true;
 					brain_decision = output_it->second;
@@ -179,7 +182,6 @@ int GameMaster::ObtainBrainFitnesses() {
 			}
 
 		} //end for loop through decisions
-
 
 		//Set fitness score to 1/num_decisions
 		//Test if the brain solved the maze in zero decisions
