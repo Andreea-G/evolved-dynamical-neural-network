@@ -76,6 +76,9 @@ private:
 	//friend void PrintGenerationInfo(const deque<Brain> brains);
 };
 
+namespace output {
+	void PrintGenerationInfo(const deque<Brain> brains);
+}
 
 
 #endif /* GAMEMASTER__MAGEMASTER_H_ */

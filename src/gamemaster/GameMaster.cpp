@@ -28,7 +28,7 @@ using std::endl;
 //stop...heeeheehee haaahaaahaahaaahaahaahaahaha...ahhh....Alright, I'll ignore you now.hah aahaahhaahahaha hee
 //heeeheehee ... <silently chuckling>  ... heeheeheeeheehaahahahahahahahahahahahahahehehaahahahahahahahahahaahah
 //<leaves room> hmmhmmhmmmhmmmhmmm <silent chuckling> hmmhmmmh mmmmhmmm hmmm hmmhmmhmmhmm hmmhmm haahaahaa
-void PrintGenerationInfo(const deque<Brain> brains) {
+void output::PrintGenerationInfo(const deque<Brain> brains) {
 	std::ofstream out("gamemaster_output.txt");
 	if (out.good() == false) {
 		std::cerr << "ERROR: problem opening temporary file!";
