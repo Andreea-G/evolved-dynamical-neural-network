@@ -68,14 +68,14 @@ void GameMasterTest::Test2() {
 	const int av_num_syn = 10; const int st_dev_num_syn = 2;
 	const float av_syn_strength = 0.05; const float st_dev_syn_strength = 0.04;
 
-	const int max_decisions = 10;
+	const int max_decisions = 10000;
 	const int input_duration = 10;
 	const int input_output_delay = 5;
 	const int output_duration = 10;
 
 	//const string maze_map_file = "maze_files/test_maze1";
 	//const string maze_map_file = "maze_files/test_maze2"; //Garrett's testing maze
-	const string maze_map_file = "maze_files/test_maze3"; //Garrett's testing maze
+	const string maze_map_file = "maze_files/example_maze1"; //Garrett's testing maze
 	const bool maze_random_start = false;
 
 	const int num_generations = 3;

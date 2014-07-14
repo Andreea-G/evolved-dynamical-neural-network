@@ -126,11 +126,11 @@ int GameMaster::ObtainBrainFitnesses() {
 
 			//Get brain input (which are the possible directions from this position)
 			deque<bool> brain_input = maze_task.GetBrainInput();
-			cout << "\nBrain input: ";   //TODO: delete this output, just debugging
-			for (auto br_input_it = brain_input.begin(); br_input_it != brain_input.end(); br_input_it++) {
-				cout << *br_input_it << " ";
-			}
-			cout << endl;
+								//			cout << "\nBrain input: ";   //TODO: delete this output, just debugging
+								//			for (auto br_input_it = brain_input.begin(); br_input_it != brain_input.end(); br_input_it++) {
+								//				cout << *br_input_it << " ";
+								//			}
+								//			cout << endl;
 
 			//Let the brain decide on an action
 			//The first element in the map is an output of the brain, while the second is counting how many times
@@ -149,11 +149,11 @@ int GameMaster::ObtainBrainFitnesses() {
 				//if we're in the output period, store the output for each cycle into brain_output
 				if (cycle >= input_output_delay_) {
 					deque<bool> brain_output = brain_it->get_output();
-					cout << "\nBrain output: "; //TODO: get rid of this, it's for debugging.
-					for (auto br_output_it = brain_output.begin(); br_output_it != brain_output.end(); br_output_it++) {
-						cout << *br_output_it << " ";
-					}
-					cout << endl;
+										//					cout << "\nBrain output: "; //TODO: get rid of this, it's for debugging.
+										//					for (auto br_output_it = brain_output.begin(); br_output_it != brain_output.end(); br_output_it++) {
+										//						cout << *br_output_it << " ";
+										//					}
+										//					cout << endl;
 
 					//check if this brain_output is already in the map and if so add 1 to its current frequency,
 					//otherwise add it to the map
@@ -180,7 +180,7 @@ int GameMaster::ObtainBrainFitnesses() {
 			//Note: the output is order from lowest frequency output to highest, so we loop in reverse order
 			for (auto output_it = brain_output_sorted.rbegin(); output_it != brain_output_sorted.rend(); output_it++) {
 				if (maze_task.ActOnDecision(output_it->second)) {
-					cout << "Found valid decision! It is: " << output_it->second[0] << output_it->second[1] << endl;
+							//del  //					cout << "Found valid decision! It is: " << output_it->second[0] << output_it->second[1] << endl;
 					found_valid_decision = true;
 					brain_decision = output_it->second;
 					break;
@@ -201,7 +201,7 @@ int GameMaster::ObtainBrainFitnesses() {
 			return -1;
 		}
 		brain_it->set_fitness_score(1.0/num_decisions);
-		cout << brain_it->get_fitness_score() << " ";
+												//del     cout << brain_it->get_fitness_score() << " ";
 	} //end for loop through every brain
 	cout << endl;
 	return 0;
