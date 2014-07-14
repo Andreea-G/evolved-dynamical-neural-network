@@ -29,6 +29,7 @@ using std::cin;
 
 int main(int argc, char* argv[]) {
 	//Parse the arguments from the commandline, then execute the GameMaster which is where the meat and potatoes are
+
 //	BrainTest test;
 //	brain.test1();
 	
@@ -43,25 +44,6 @@ int main(int argc, char* argv[]) {
 
 		//create commandline parser object and give description of program for when user gives the flag "--help"
 		TCLAP::CmdLine cmd("Evolved Dynamical Neural Network", ' ', "0.1");
-
-		// Define a value argument and add it to the command line.
-		// A value arg defines a flag and a type of value that it expects,
-		// such as "-n Bishop".
-		TCLAP::ValueArg<std::string> nameArg("n","name","Name to print",true,"homer","string");
-
-		// Add the argument nameArg to the CmdLine object. The CmdLine object
-		// uses this Arg to parse the command line.
-		cmd.add( nameArg );
-
-		//flag
-		TCLAP::SwitchArg reverseSwitch("r","reverse","Print name backwards", cmd, false);
-
-		// Parse the argv array.
-		cmd.parse( argc, argv );
-
-		// Get the value parsed by each arg.
-		std::string name = nameArg.getValue();
-		bool reverseName = reverseSwitch.getValue();
 
 
 	} catch (TCLAP::ArgException &e) {
