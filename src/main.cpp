@@ -40,7 +40,7 @@ int main(int argc, char* argv[]) {
 //	maze_test.test();
 
 	GameMasterTest gmtest;
-	gmtest.Test1();
+	gmtest.Test2();
 
 	return 0;
 	try {

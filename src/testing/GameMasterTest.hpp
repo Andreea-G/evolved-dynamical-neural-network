@@ -4,6 +4,7 @@
 class GameMasterTest {
 public:
 	void Test1();
+	void Test2();
 
 };
 

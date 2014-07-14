@@ -9,6 +9,9 @@ Makefile
 
 gamemaster_output.txt
 
+#Files starting with del are probably meant to be deleted.
+del*
+
 #####stuff from Qt Creator
 pinn.pro.user
 build-pinn-Desktop-Debug

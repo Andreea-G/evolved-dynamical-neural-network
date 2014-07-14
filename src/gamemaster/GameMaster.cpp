@@ -106,11 +106,13 @@ int GameMaster::ObtainBrainFitnesses() {
 		//Default to worst outcome. If the brain doesn't finish the maze in max_decisions_ time then it receives the worst score.
 		int num_decisions = max_decisions_;
 
+		//TODO: after profiling code, determine if this is creating this object each time costing us too much?
+		//if so, we could make a single maze_task and implement a "reset" function that puts the player back to start.
 		MazeTask maze_task(maze_map_file_, maze_random_start_);
 
 		//Loop through every decision the brain must make
 		for (int decision = 0; decision < max_decisions_; decision++) {
-			//Advance position through the maze (either from the starting line or from the previous decision)
+			//Advance position through the maze (either from the start or from the previous loop's decision)
 			if (!maze_task.AdvancePosition()) {
 				cout << "Brain tried to enter a wall; it will receive the worst fitness score" << endl;
 				break;
@@ -214,7 +216,7 @@ int GameMaster::MasterControl() {
 			return -1;
 		}
 
-		cout << "Exited ObtainBrainFitnesses" << endl;
+		cout << "Exitted ObtainBrainFitnesses" << endl;
 		output::PrintGenerationInfo(brains_);
 
 		//find the list of most fit brains
