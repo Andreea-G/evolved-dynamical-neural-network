@@ -38,6 +38,7 @@ int main(int argc, char* argv[]) {
 //	MazeTest maze_test;
 //	maze_test.test();
 
+	return 0;
 	try {
 
 		//create commandline parser object and give description of program for when user gives the flag "--help"
@@ -66,7 +67,6 @@ int main(int argc, char* argv[]) {
 	} catch (TCLAP::ArgException &e) {
 		std::cerr << "error: " << e.error() << " for arg " << e.argId() << std::endl;
 	}
-
 
 
 	return 0;
