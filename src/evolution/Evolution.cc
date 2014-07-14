@@ -40,7 +40,6 @@ int Evolution::ChooseMostFitBrains(const deque<Brain> &brains) {
 
 	for (size_t brain_index = 0; brain_index < num_brains; brain_index++) {
 		int mating_priority = floor(unnorm_mating_priorities[brain_index] * num_brains / sum_mating_priorities);		//normalized s.t. summing all the mating_priority values  ~= number of brains
-//		std::cout << "Mating priority " << mating_priority << std::endl;
 		for (int i = 0; i < mating_priority; i++) {
 			most_fit_brains_.push_back(static_cast<int>(brain_index));
 		}

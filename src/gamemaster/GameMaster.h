@@ -43,7 +43,7 @@ public:
 			   const float prob_asexual);
 
 	//Loop through all brains, and find the fitness_score_ for each brain.
-	void ObtainBrainFitnesses();
+	int ObtainBrainFitnesses();
 
 	//Loop through the number of generations. For each generation, get the fitness scores of brains,
 		//find the most fit brains, and get the next generation. Return 0 if no errors were found, or -1 otherwise

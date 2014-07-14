@@ -31,6 +31,9 @@ int main() {
 	GameMasterTest gamemaster_test;
 	gamemaster_test.Test1();
 	
+//	BrainTest brain_test1;
+//	brain_test1.Test1();
+
 //	MazeTest maze_test;
 //	maze_test.test();
 

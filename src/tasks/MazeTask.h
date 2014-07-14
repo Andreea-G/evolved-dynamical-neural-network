@@ -45,6 +45,7 @@ public:
 	//stopping when it finds a valid one.
 	MazeTask(const std::string map_file, const bool random_start = false);
 
+	//Turns the brain in the new direction of motion
 	//The argument decision should be a deque of length 2.
 	//The first element shows if we're going straight, the second is right/left.
 	// [true,true] and [true,false] -> Stay pointed straight
@@ -53,7 +54,7 @@ public:
 	bool ActOnDecision(const deque<bool> decision); //TODO: rename to TestDecision
 
 	//player moves forward until they reach a decision point (not including dead-ends upon which the player reverses
-	//direction and continues automatically, and corners which the player turns and continues)
+		//direction and continues automatically, and corners which the player turns and continues)
 	//return false if player was not able to move at all (i.e. they were facing a wall)
 	//If the player ever steps on the FINISH, advance position will stop there.
 	bool AdvancePosition();

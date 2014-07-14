@@ -14,21 +14,21 @@ using std::endl;
 using std::string;
 
 void GameMasterTest::Test1() {
-	size_t num_brains = 10;
-	size_t num_neurons = 1000;
 
-	const float av_active_threshold = 25; const float st_dev_active_threshold = 4;
-	const float av_start_activation = 25 ; const float st_dev_start_activation = 5;
-	const float av_decay_rate = 0.05; const float st_dev_decay_rate = 0.02;
-	const int av_num_syn = 4; const int st_dev_num_syn = 2;
-	const float av_syn_strength = 28; const float st_dev_syn_strength = 4;
+	size_t num_brains = 3;
+	size_t num_neurons = 800;  //These settings gave a non-repeating brain!
+	const float av_active_threshold = 0.25; const float st_dev_active_threshold = 0.04;
+	const float av_start_activation = 0.25 ; const float st_dev_start_activation = 0.05;
+	const float av_decay_rate = 0.001; const float st_dev_decay_rate = 0.0003;
+	const int av_num_syn = 10; const int st_dev_num_syn = 2;
+	const float av_syn_strength = 0.05; const float st_dev_syn_strength = 0.04;
 
-	const int max_decisions = 100000;
+	const int max_decisions = 1000;
 	const int input_duration = 10;
-	const int input_output_delay = 10;
+	const int input_output_delay = 5;
 	const int output_duration = 10;
 
-	const string maze_map_file = "maze_files/test_maze";
+	const string maze_map_file = "maze_files/test_maze1";
 	const bool maze_random_start = false;
 
 	const int num_generations = 100;
@@ -49,15 +49,11 @@ void GameMasterTest::Test1() {
 								num_generations, num_mutated_neurons, num_mutated_synapses,
 								prob_asexual);
 
-//	test_GameMaster1.ObtainBrainFitnesses();
-//	std::cout << "Finished ObtainBrainFitnesses\n";
-
 	PrintGenerationInfo(test_GameMaster1.brains_);
 
 	int test = test_GameMaster1.MasterControl();
 	if (test == -1) {
 		std::cerr << "-1 returned by MasterControl!\n";
 	}
-
 }
 
