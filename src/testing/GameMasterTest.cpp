@@ -49,7 +49,7 @@ void GameMasterTest::Test1() {
 								num_generations, num_mutated_neurons, num_mutated_synapses,
 								prob_asexual);
 
-	PrintGenerationInfo(test_GameMaster1.brains_);
+	output::PrintGenerationInfo(test_GameMaster1.brains_);
 
 	int test = test_GameMaster1.MasterControl();
 	if (test == -1) {

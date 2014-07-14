@@ -10,8 +10,6 @@
 #include <iostream>
 #include <string>
 
-#include <tclap/CmdLine.h> //Note: .h, not .hpp since this is a third-party file we're using that was named as such.
-
 #include <src/brain/Brain.hpp>
 #include <src/brain/Neuron.hpp>
 #include <src/evolution/Evolution.hpp>
@@ -20,7 +18,9 @@
 #include <src/testing/BrainTest.hpp>
 #include <src/testing/EvolutionTest.hpp>
 #include <src/testing/MazeTest.hpp>
-#include <src/gamemaster/GameMaster.hpp>
+#include <src/testing/GameMasterTest.hpp>
+
+#include <tclap/CmdLine.h> //Note: .h, not .hpp since this is a third-party file we're using that was named as such.
 
 using std::cout;
 using std::endl;
@@ -38,6 +38,9 @@ int main(int argc, char* argv[]) {
 
 //	MazeTest maze_test;
 //	maze_test.test();
+
+	GameMasterTest gmtest;
+	gmtest.Test1();
 
 	return 0;
 	try {

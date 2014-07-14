@@ -1,2 +1,2 @@
 Printing brain fitness scores: 
-0.001 0.001 0.001 
+0 0 0 

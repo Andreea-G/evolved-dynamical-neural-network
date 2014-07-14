@@ -124,52 +124,59 @@ int GameMaster::ObtainBrainFitnesses() {
 
 			//Get brain input (which are the possible directions from this position)
 			deque<bool> brain_input = maze_task.GetBrainInput();
-//			cout << "\nBrain input: ";   //TODO: delete this
-//			for (auto br_input_it = brain_input.begin(); br_input_it != brain_input.end(); br_input_it++) {
-//				cout << *br_input_it << " ";
-//			}
-//			cout << endl;
+			cout << "\nBrain input: ";   //TODO: delete this output, just debugging
+			for (auto br_input_it = brain_input.begin(); br_input_it != brain_input.end(); br_input_it++) {
+				cout << *br_input_it << " ";
+			}
+			cout << endl;
 
 			//Let the brain decide on an action
 			//The first element in the map is an output of the brain, while the second is counting how many times
 			//the brain has given this output
 			//TODO: this doesn't need to be an ordered map, but if I try to make it unordered_map I get errors later. Don't fully understand why.
-			map<deque<bool>, int> brain_output_frequency;
+			map<deque<bool>, int> brain_output_frequencies;
+			//Loop through brain cycles, looping enough times to collect all the input and all the output for one decision
 			for (int cycle = 0; cycle < (input_output_delay_ + output_duration_); cycle++) {
+				//if we're still in the input period, give input to brain at each cycle
 				if (cycle < input_duration_) {
-					brain_it->give_input(brain_input); //give input to brain at each cycle
+					brain_it->give_input(brain_input);
 				}
+
 				brain_it->Cycle();
+
+				//if we're in the output period, store the output for each cycle into brain_output
 				if (cycle >= input_output_delay_) {
-					deque<bool> brain_output = brain_it->get_output();	//output given at the current cycle
-					cout << "\nBrain output: ";
+					deque<bool> brain_output = brain_it->get_output();
+					cout << "\nBrain output: "; //TODO: get rid of this, it's for debugging.
 					for (auto br_output_it = brain_output.begin(); br_output_it != brain_output.end(); br_output_it++) {
 						cout << *br_output_it << " ";
 					}
 					cout << endl;
 
-					if (brain_output_frequency.count(brain_output)) { //this brain_output is already in the map
-						brain_output_frequency[brain_output]++; //increase the frequency
-					} else { //this output appears for the first time
-						brain_output_frequency[brain_output] = 1;
+					//check if this brain_output is already in the map and if so add 1 to its current frequency,
+					//otherwise add it to the map
+					if (brain_output_frequencies.count(brain_output)) {
+						brain_output_frequencies[brain_output]++;
+					} else {
+						brain_output_frequencies[brain_output] = 1;
 					}
 				}
 			}
 
-			//Test the brain_outputs in order of the frequency, and try to find the first (namely most common) valid output
+			//Test the brain_outputs in order of the frequency, and try to find the most common valid output
 			//(that doesn't send the brain into a wall)
 			//flip the map of <brain_output, frequency> to a multimap <frequency, brain_output>
-			//(which is now sorted by its frequency
+			//(which gets automatically sorted by its frequency)
 			multimap<int, deque<bool>> brain_output_sorted;
-			for (auto map_it = brain_output_frequency.begin(); map_it != brain_output_frequency.end(); map_it++) {
+			for (auto map_it = brain_output_frequencies.begin(); map_it != brain_output_frequencies.end(); map_it++) {
 				brain_output_sorted.insert( pair<int, deque<bool> >(map_it->second, map_it->first) );
 			}
 			bool found_valid_decision = false;
 			deque<bool> brain_decision; //final (most common and valid) brain output will correspond to the decision
 			for (auto output_it = brain_output_sorted.begin(); output_it != brain_output_sorted.end(); output_it++) {
+				//check if brain has found a valid decision, and turn the brain in that direction if it has.
 				if (maze_task.ActOnDecision(output_it->second)) {
-					//succes! the brain has found a valid decision, and the brain has turned in the new direction
-					cout << "Found valid decision!" << endl;
+					cout << "Found valid decision! It is: " << output_it->second[0] << output_it->second[1] << endl;
 					found_valid_decision = true;
 					brain_decision = output_it->second;
 					break;
@@ -206,7 +213,7 @@ int GameMaster::MasterControl() {
 		}
 
 		cout << "Exited ObtainBrainFitnesses" << endl;
-		PrintGenerationInfo(brains_);
+		output::PrintGenerationInfo(brains_);
 
 		//find the list of most fit brains
 		test = evolution_.ChooseMostFitBrains(brains_);

@@ -7,7 +7,7 @@ pinn
 
 Makefile
 
-
+gamemaster_output.txt
 
 #####stuff from Qt Creator
 pinn.pro.user

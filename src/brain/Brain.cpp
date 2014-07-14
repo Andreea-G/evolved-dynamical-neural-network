@@ -46,7 +46,6 @@ Brain::Brain(const size_t num_neurons, const size_t num_input_neurons, const siz
 	num_output_neurons_ = num_output_neurons;
 	fitness_score_ = 0;
 
-	//my_types::gen_type gen; //DEL
 	normal_distribution<float> num_syn_distro(av_num_syn, st_dev_num_syn);
 	normal_distribution<float> active_threshold_distro(av_active_threshold, st_dev_active_threshold);
 	normal_distribution<float> start_activation_distro(av_start_activation, st_dev_start_activation);
