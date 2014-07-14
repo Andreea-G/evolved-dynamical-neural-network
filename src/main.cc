@@ -11,7 +11,7 @@
 #include <string>
 
 #include <src/testing/EvolutionTest.h>
-#include <src/tclap/CmdLine.h>
+#include <tclap/CmdLine.h>
 
 using std::cout;
 using std::endl;
@@ -39,13 +39,7 @@ int main(int argc, char* argv[]) {
 		// uses this Arg to parse the command line.
 		cmd.add( nameArg );
 
-		// Define a switch and add it to the command line.
-		// A switch arg is a boolean argument and only defines a flag that
-		// indicates true or false.  In this example the SwitchArg adds itself
-		// to the CmdLine object as part of the constructor.  This eliminates
-		// the need to call the cmd.add() method.  All args have support in
-		// their constructors to add themselves directly to the CmdLine object.
-		// It doesn't matter which idiom you choose, they accomplish the same thing.
+		//flag
 		TCLAP::SwitchArg reverseSwitch("r","reverse","Print name backwards", cmd, false);
 
 		// Parse the argv array.
