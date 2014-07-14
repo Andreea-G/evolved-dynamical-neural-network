@@ -9,7 +9,8 @@
 #define BRAIN__BRAIN_H_
 
 #include <deque>
-#include "Neuron.h"
+
+#include <src/brain/Neuron.h>
 
 using std::deque;
 

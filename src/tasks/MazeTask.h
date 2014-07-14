@@ -21,7 +21,7 @@
 #include <string>
 #include <deque>
 
-#include "TaskInterface.h"
+#include <src/tasks/TaskInterface.h>
 
 using std::deque;
 
@@ -43,7 +43,7 @@ public:
 	//player is started at place in map where value is 2.
 	//To set the starting direction, it will loop through the 4 directions
 	//stopping when it finds a valid one.
-	MazeTask(const std::string map_file, const bool random_start = false);
+	explicit MazeTask(const std::string map_file, const bool random_start = false);
 
 	//Turns the brain in the new direction of motion
 	//The argument decision should be a deque of length 2.

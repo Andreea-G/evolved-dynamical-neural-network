@@ -8,8 +8,8 @@
 #include <random>
 #include <list>
 
-#include "Neuron.h"
-#include "../Globals.h"
+#include <src/brain/Neuron.h>
+#include <src/Globals.h>
 
 using std::unordered_map;
 using std::list;
