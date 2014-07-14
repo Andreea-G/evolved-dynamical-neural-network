@@ -19,7 +19,14 @@ using std::pair;
 using std::cout;
 using std::endl;
 
-//TODO
+//TODO: finish this.  It depends on what you want to print out...  hahaha ahaaha heeheehee.  Ha haaha ..
+//are you just typing what I'm saying?  Hahahahaha. ... OK you can stop now... HEeeeheheehee... hahaa..
+//I'm curious how long you'll keep going ... hahahaha... haaahaaaahaaheeeheeheeheheeeheeeheeheeheehaa
+//OK stop!  Seriou....hahahahahaahahah heheeheheeheeeeheeeheeheeheh   <silent laughing>  haahaahahaaahaaa
+//Alright...ha  hahahahaa  <leaves room> ... <comes back>  haaahaaahahaa hee heehee are you serious?  Garrett,
+//stop...heeeheehee haaahaaahaahaaahaahaahaahaha...ahhh....Alright, I'll ignore you now.hah aahaahhaahahaha hee
+//heeeheehee ... <silently chuckling>  ... heeheeheeeheehaahahahahahahahahahahahahahehehaahahahahahahahahahaahah
+//<leaves room> hmmhmmhmmmhmmmhmmm <silent chuckling> hmmhmmmh mmmmhmmm hmmm hmmhmmhmmhmm hmmhmm haahaahaa
 void PrintGenerationInfo(const deque<Brain> brains) {
 	std::ofstream out("gamemaster_output.txt");
 	if (out.good() == false) {
@@ -40,29 +47,19 @@ GameMaster::GameMaster(const size_t num_brains,
 					   const int input_duration, const int input_output_delay, const int output_duration,
 					   const string maze_map_file, const int maze_random_start,
 					   const int num_generations, const size_t num_mutated_neurons, const size_t num_mutated_synapses,
-					   const float prob_asexual) {
+						 const float prob_asexual) :
+						 num_brains_(num_brains), max_decisions_(max_decisions), input_duration_(input_duration),
+						 output_duration_(output_duration), maze_random_start_(maze_random_start),
+						 num_generations_(num_generations), num_mutated_neurons_(num_mutated_neurons),
+						 num_mutated_synapses_(num_mutated_synapses), maze_map_file_(maze_map_file) {
 
 	//construct brains
-	num_brains_ = num_brains;
 	for (size_t ii = 0; ii < num_brains_; ii++) {
 		Brain new_brain(num_neurons, num_input_neurons, num_output_neurons);
 		brains_.push_back(new_brain);
 	}
 
-	//member variables for brain cycles
-	max_decisions_ = max_decisions;
-	input_duration_ = input_duration;
-	input_output_delay_ = input_output_delay;
-	output_duration_ = output_duration;
-
-	//member variables for maze task
-	string maze_map_file_ = maze_map_file;
-	maze_random_start_ = maze_random_start;
-
 	//construct evolution
-	num_generations_ = num_generations;
-	num_mutated_neurons_ = num_mutated_neurons;
-	num_mutated_synapses_ = num_mutated_synapses;
 	Evolution evolution_(prob_asexual);
 }
 
@@ -77,9 +74,12 @@ GameMaster::GameMaster(const size_t num_brains,
 					   const int input_duration, const int input_output_delay, const int output_duration,
 					   const string maze_map_file, const int maze_random_start,
 					   const int num_generations, const size_t num_mutated_neurons, const size_t num_mutated_synapses,
-					   const float prob_asexual) {
+						 const float prob_asexual) :
+						 num_brains_(num_brains), max_decisions_(max_decisions), input_duration_(input_duration),
+						 output_duration_(output_duration), maze_random_start_(maze_random_start),
+						 num_generations_(num_generations), num_mutated_neurons_(num_mutated_neurons),
+						 num_mutated_synapses_(num_mutated_synapses), maze_map_file_(maze_map_file) {
 	//construct brains
-	num_brains_ = num_brains;
 	for (size_t ii = 0; ii < num_brains_; ii++) {
 		Brain new_brain(num_neurons, num_input_neurons, num_output_neurons,
 						av_active_threshold, st_dev_active_threshold,
@@ -90,20 +90,7 @@ GameMaster::GameMaster(const size_t num_brains,
 		brains_.push_back(new_brain);
 	}
 
-	//member variables for brain cycles
-	max_decisions_ = max_decisions;
-	input_duration_ = input_duration;
-	input_output_delay_ = input_output_delay;
-	output_duration_ = output_duration;
-
-	//member variables for maze task
-	maze_map_file_ = maze_map_file;
-	maze_random_start_ = maze_random_start;
-
 	//construct evolution
-	num_generations_ = num_generations;
-	num_mutated_neurons_ = num_mutated_neurons;
-	num_mutated_synapses_ = num_mutated_synapses;
 	Evolution evolution_(prob_asexual);
 }
 
