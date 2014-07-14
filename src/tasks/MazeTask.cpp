@@ -209,6 +209,9 @@ bool MazeTask::AdvancePosition() {
 	//the player should always be able to advance at least once, so we remember
 	//if we're on first move.
 	bool first_move = true;
+	//remember if we just turned a corner or reversed direction so that player doesn't get fooled into thinking
+	//it's at a decision (since, for example, it would see a left and straight option after turning left)
+	bool just_turned = false;
 
 	//Loop until we hit a wall in which case we break
 	while (true) {
@@ -222,7 +225,7 @@ bool MazeTask::AdvancePosition() {
 		MazeTile tile_left = GetTileLeft();
 		MazeTile tile_right = GetTileRight();
 		//find next position (in direction that player's pointing) and find what's to the sides
-		int next_row = row_, next_col = col_;
+		int next_row = row_, next_col = col_; //initializing these, they'll be modified
 		switch (player_direction_)
 			{
 			case Direction::UP: {
@@ -250,13 +253,12 @@ bool MazeTask::AdvancePosition() {
 				break;
 				}
 			}//end switch
-
 		MazeTile tile_next = map_[next_row][next_col];
 
 		//If it's the first move, just do it.
 		if (first_move) {
+			//if player is facing a wall on first move, we return false.
 			if (tile_next == MazeTile::WALL) {
-				//cerr << "ERROR: the player was facing a wall, so was not able to advance!" << endl; //TODO erase this, no longer needed
 				return false;
 			} else {
 				row_ = next_row;
@@ -266,17 +268,29 @@ bool MazeTask::AdvancePosition() {
 			}
 		}
 
+		//if the player just turned a corner or turned around, then take the next step
+		if (just_turned) {
+			assert(tile_next != MazeTile::WALL);
+			row_ = next_row;
+			col_ = next_col;
+			just_turned = false;
+			continue;
+		}
+
 		//check if we can even move forward
 		if (tile_next == MazeTile::WALL) {
 			//we can't move forward, so check what options we have (we deal with a T intersection decision below)
 			if (tile_left == MazeTile::WALL && tile_right != MazeTile::WALL) {
 				TurnRight();
+				just_turned = true;
 				continue;
 			} else if (tile_left != MazeTile::WALL && tile_right == MazeTile::WALL) {
 				TurnLeft();
+				just_turned = true;
 				continue;
 			} else if (tile_left == MazeTile::WALL && tile_right == MazeTile::WALL) {
 				TurnAround();
+				just_turned = true;
 				continue;
 			}
 		}
