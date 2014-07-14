@@ -7,10 +7,6 @@
 using std::cout;
 using std::endl;
 
-EvolutionTest::EvolutionTest()
-{
-}
-
 void EvolutionTest::test1() {
 	Evolution evolution1;
 
@@ -70,7 +66,7 @@ void EvolutionTest::test1() {
 	//and brain2 only 1 time
 	if (std::count(evolution1.most_fit_brains_.begin(), evolution1.most_fit_brains_.end(), 0) != 4 or
 			std::count(evolution1.most_fit_brains_.begin(), evolution1.most_fit_brains_.end(), 1) != 1)
-		std::cerr << "ERROR: most_fit_brains_ was not as expected!!";
+		std::cerr << "ERROR: most_fit_brains_ was not as expected!!\n";
 
 
 }

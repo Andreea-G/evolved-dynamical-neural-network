@@ -18,7 +18,9 @@ HEADERS += src/brain/Brain.h \
 	src/testing/BrainTest.h \
 	src/evolution/Evolution.h \
 	src/testing/EvolutionTest.h \
-	src/Globals.h
+	src/Globals.h \
+	src/gamemaster/GameMaster.h \
+    src/testing/GameMasterTest.h
 	
 SOURCES += src/main.cc \
 		   src/brain/Brain.cc \
@@ -28,4 +30,6 @@ SOURCES += src/main.cc \
 	src/testing/BrainTest.cpp \
 	src/evolution/Evolution.cc \
 	src/testing/EvolutionTest.cc \
-	src/Globals.cpp
+	src/Globals.cpp \
+	src/gamemaster/GameMaster.cc \
+    src/testing/GameMasterTest.cc

@@ -38,7 +38,7 @@ public:
 
 private:
 	//The probability of a brain being selected for mating will be proportional to the FitnessWeighting function.
-	int FitnessWeighting(const int fitness);
+	float FitnessWeighting(const float fitness);
 
 	//Probability for each brain to undergo asexual reproduction (vs. sexual reproduction) inside GetNextGeneration(.)
 	float prob_asexual_;

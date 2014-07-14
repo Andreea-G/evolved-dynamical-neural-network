@@ -14,7 +14,7 @@
 
 using std::deque;
 
-int Evolution::FitnessWeighting(const int fitness) {
+float Evolution::FitnessWeighting(const float fitness) {
 	//For now, using a quadratic function to make sure successful brains get mated often.
 	return fitness * fitness;
 }
@@ -54,7 +54,7 @@ int Evolution::ChooseMostFitBrains(const deque<Brain> &brains) {
 	}
 	//The size of brain_cum_mating_odds_ should be greater than zero
 	if (most_fit_brains_.size() == 0) {
-		std::cerr << "Error! most_fit_brains is empty! There are no parents that can form the next generation...";
+		std::cerr << "Error! most_fit_brains is empty! There are no parents that can form the next generation...\n";
 		return -1;
 	}
 
@@ -72,7 +72,7 @@ Brain Evolution::MutateBrain(const Brain &parent_brain, const int num_mutated_ne
 Brain Evolution::MateBrains(const Brain &parent1, const Brain &parent2) const {
 	size_t num_neurons = parent1.get_num_neurons();
 	//create an empty brain
-	Brain child(0, parent1.get_num_input_neurons(), parent1.get_num_output_neurons());
+	Brain child(num_neurons, parent1.get_num_input_neurons(), parent1.get_num_output_neurons());
 
 	std::uniform_int_distribution<size_t> cross_over_distro(0, num_neurons-1);
 	//neurons 0 to (cross_over) will come from brain 1 and the rest from brain 2

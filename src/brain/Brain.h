@@ -36,7 +36,7 @@ public:
 	//neurons comprising brain, each with incoming synapses from other neurons
 	deque<Neuron> neurons_;
 
-	void set_fitness_score(const int fitness_score) { fitness_score_ = fitness_score; }
+	void set_fitness_score(const float fitness_score) { fitness_score_ = fitness_score; }
 	float get_fitness_score() const { return fitness_score_; }
 	size_t get_num_neurons() const { return num_neurons_; }
 	size_t get_num_input_neurons() const { return num_input_neurons_; }
@@ -56,19 +56,22 @@ public:
 	void MutateNeurons(const int num_mutated_neurons, const int num_mutated_synapses);
 	//TODO: I think num_mutated_neurons should be size_t
 
-
 	//Causes one network firing inside the brain.  See the .lyx file in ./docs for explanation.
 	void Cycle();
+
+	//TODO: move back to private
+	//describes how well the brain has performed at the given task.  This is used by evolution class for choosing brains.
+	float fitness_score_;
 
 private:
 	size_t num_neurons_;	//total number of neurons
 	//number of input and output neurons.  The type was 'int', but if looking where it's used, this type makes more sense.
 	size_t num_input_neurons_, num_output_neurons_;
-	//describes how well the brain has performed at the given task.  This is used by evolution class for choosing brains.
-	float fitness_score_;
 
 	//grant access for unit testing
 	friend class BrainTest;
+
+	friend void PrintGenerationInfo(const deque<Brain> brains);
 };
 
 

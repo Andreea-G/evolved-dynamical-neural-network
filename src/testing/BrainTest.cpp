@@ -42,18 +42,18 @@ void BrainTest::Test1() {
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	///// Brain 2 using the more detailed constructor
-//	num_neurons = 800;  //These settings gave a non-repeating brain!
-//	const float av_active_threshold = 25; const float st_dev_active_threshold = 4;
-//	const float av_start_activation = 25 ; const float st_dev_start_activation = 5;
-//	const float av_decay_rate = 0.1; const float st_dev_decay_rate = 0.03;
-//	const int av_num_syn = 10; const int st_dev_num_syn = 2;
-//	const float av_syn_strength = 5; const float st_dev_syn_strength = 4;
-	num_neurons = 10;
-	const float av_active_threshold = 25; const float st_dev_active_threshold = 4;
-	const float av_start_activation = 25 ; const float st_dev_start_activation = 5;
-	const float av_decay_rate = 0.05; const float st_dev_decay_rate = 0.02;
-	const int av_num_syn = 4; const int st_dev_num_syn = 2;
-	const float av_syn_strength = 28; const float st_dev_syn_strength = 4;
+	num_neurons = 800;  //These settings gave a non-repeating brain!
+	const float av_active_threshold = 0.25; const float st_dev_active_threshold = 0.04;
+	const float av_start_activation = 0.25 ; const float st_dev_start_activation = 0.05;
+	const float av_decay_rate = 0.001; const float st_dev_decay_rate = 0.0003;
+	const int av_num_syn = 10; const int st_dev_num_syn = 2;
+	const float av_syn_strength = 0.05; const float st_dev_syn_strength = 0.04;
+//	num_neurons = 10;
+//	const float av_active_threshold = 0.25; const float st_dev_active_threshold = 0.04;
+//	const float av_start_activation = 0.25 ; const float st_dev_start_activation = 0.05;
+//	const float av_decay_rate = 0.05; const float st_dev_decay_rate = 0.02;
+//	const int av_num_syn = 6; const int st_dev_num_syn = 2;
+//	const float av_syn_strength = 0.40; const float st_dev_syn_strength = 0.04;
 	Brain test_brain2(num_neurons, 3, 2,
 										av_active_threshold, st_dev_active_threshold,
 										av_start_activation, st_dev_start_activation,
@@ -78,10 +78,10 @@ void BrainTest::Test1() {
 	//run through a few cycles
 	outputFile << endl << "Here's a few rounds of neuronal activity for your visual inspection.";
 	//set precision for reporting activation
-	outputFile << std::setprecision(0) << std::fixed;
+	outputFile << std::setprecision(2) << std::fixed;
 	for (int ii = 0; ii < 100; ii++) {
 		outputFile << "\nRound " << ii << ": ";
-		//loop through the neurons outputting their activations, but max out at reporting 10 activations
+		//loop through the neurons outputting their activations, but max cout at reporting 10 activations
 		for (int jj = 0; jj < min(num_neurons,10); jj++) {
 			outputFile << " " << neurons2[jj].activation_;
 		}
