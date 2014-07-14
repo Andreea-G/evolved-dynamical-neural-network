@@ -8,7 +8,7 @@
 #include <iostream>
 #include <string>
 
-#include <src/testing/MazeTest.h>
+#include <src/testing/MazeTest.hpp>
 
 using std::cout;
 using std::cerr;

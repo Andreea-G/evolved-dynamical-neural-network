@@ -10,9 +10,9 @@
 #include <iostream>
 
 //project-specific headers
-#include <src/brain/Neuron.h>
-#include <src/brain/Brain.h>
-#include <src/Globals.h>
+#include <src/brain/Neuron.hpp>
+#include <src/brain/Brain.hpp>
+#include <src/Globals.hpp>
 
 
 using std::deque;

@@ -11,26 +11,26 @@ QMAKE_CXXFLAGS += -pedantic
 
 
 # Input
-HEADERS += src/brain/Brain.h \
-		   src/brain/Neuron.h \
-		   src/tasks/MazeTask.h \
-		   src/tasks/TaskInterface.h \
-		   src/testing/MazeTest.h \
-	src/testing/BrainTest.h \
-	src/evolution/Evolution.h \
-	src/testing/EvolutionTest.h \
-	src/Globals.h \
-	src/gamemaster/GameMaster.h \
-    src/testing/GameMasterTest.h
+HEADERS += src/brain/Brain.hpp \
+			 src/brain/Neuron.hpp \
+			 src/tasks/MazeTask.hpp \
+			 src/tasks/TaskInterface.hpp \
+			 src/testing/MazeTest.hpp \
+	src/testing/BrainTest.hpp \
+	src/evolution/Evolution.hpp \
+	src/testing/EvolutionTest.hpp \
+	src/Globals.hpp \
+	src/gamemaster/GameMaster.hpp \
+		src/testing/GameMasterTest.hpp
 	
-SOURCES += src/main.cc \
-		   src/brain/Brain.cc \
-		   src/brain/Neuron.cc \
-		   src/tasks/MazeTask.cc \
-		   src/testing/MazeTest.cc \
+SOURCES += src/main.cpp \
+			 src/brain/Brain.cpp \
+			 src/brain/Neuron.cpp \
+			 src/tasks/MazeTask.cpp \
+			 src/testing/MazeTest.cpp \
 	src/testing/BrainTest.cpp \
-	src/evolution/Evolution.cc \
-	src/testing/EvolutionTest.cc \
+	src/evolution/Evolution.cpp \
+	src/testing/EvolutionTest.cpp \
 	src/Globals.cpp \
-	src/gamemaster/GameMaster.cc \
-    src/testing/GameMasterTest.cc
+	src/gamemaster/GameMaster.cpp \
+		src/testing/GameMasterTest.cpp

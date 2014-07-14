@@ -10,7 +10,7 @@
 
 #include <deque>
 
-#include <src/brain/Brain.h>
+#include <src/brain/Brain.hpp>
 
 using std::deque;
 

@@ -9,8 +9,8 @@
 #include <math.h>	//floor function
 #include <algorithm> //for_each
 
-#include <src/evolution/Evolution.h>
-#include <src/Globals.h>
+#include <src/evolution/Evolution.hpp>
+#include <src/Globals.hpp>
 
 using std::deque;
 

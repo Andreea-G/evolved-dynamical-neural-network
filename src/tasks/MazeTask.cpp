@@ -11,8 +11,8 @@
 #include <random>
 #include <assert.h>
 
-#include <src/tasks/MazeTask.h>
-#include <src/Globals.h>
+#include <src/tasks/MazeTask.hpp>
+#include <src/Globals.hpp>
 
 using std::deque;
 using std::cerr;

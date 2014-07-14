@@ -10,7 +10,7 @@
 
 #include <deque>
 
-#include <src/brain/Neuron.h>
+#include <src/brain/Neuron.hpp>
 
 using std::deque;
 

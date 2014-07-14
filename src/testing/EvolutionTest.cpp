@@ -1,9 +1,9 @@
 #include <iostream>
 #include <algorithm>
 
-#include <src/testing/EvolutionTest.h>
-#include <src/evolution/Evolution.h>
-#include <src/testing/BrainTest.h>
+#include <src/testing/EvolutionTest.hpp>
+#include <src/evolution/Evolution.hpp>
+#include <src/testing/BrainTest.hpp>
 //TODO: find better way for this include
 using std::cout;
 using std::endl;

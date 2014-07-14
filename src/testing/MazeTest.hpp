@@ -12,7 +12,7 @@
 #ifndef MAZETEST_H_
 #define MAZETEST_H_
 
-#include <src/tasks/MazeTask.h>
+#include <src/tasks/MazeTask.hpp>
 
 
 class MazeTest {

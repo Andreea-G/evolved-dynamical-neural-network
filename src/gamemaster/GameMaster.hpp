@@ -9,10 +9,10 @@
 #define GAMEMASTER__GAMEMASTER_H_
 
 #include <deque>
-#include "../brain/Brain.h"
-#include "../evolution/Evolution.h"
-#include "../tasks/MazeTask.h"
-#include <map>
+#include <src/brain/Brain.hpp>
+#include <src/evolution/Evolution.hpp>
+#include <src/tasks/MazeTask.hpp>
+#include <map>  //TODO: does this get used in this file?
 //#include <unordered_map>
 
 using std::deque;
@@ -21,6 +21,8 @@ using std::string;
 class GameMaster {
 
 public:
+	//TODO: should we delete this constructor if main() won't be using it?
+	/*
 	GameMaster(const size_t num_brains,
 			   const size_t num_neurons, const size_t num_input_neurons, const size_t num_output_neurons,
 			   const int max_decisions,
@@ -28,7 +30,9 @@ public:
 			   const string maze_map_file, const int maze_random_start,
 			   const int num_generations, const size_t num_mutated_neurons, const size_t num_mutated_synapses,
 			   const float prob_asexual);
+	*/
 
+	//For now, main() will only call this constructor.  In the future, we may allow the above constructor to be invoked.
 	GameMaster(const size_t num_brains,
 			   const size_t num_neurons, const size_t num_input_neurons, const size_t num_output_neurons,
 			   const float av_active_threshold, const float st_dev_active_threshold,
@@ -43,30 +47,31 @@ public:
 			   const float prob_asexual);
 
 	//Loop through all brains, and find the fitness_score_ for each brain.
+	//Returns -1 if it fails and 0 otherwise.
 	int ObtainBrainFitnesses();
 
 	//Loop through the number of generations. For each generation, get the fitness scores of brains,
-		//find the most fit brains, and get the next generation. Return 0 if no errors were found, or -1 otherwise
+	//find the most fit brains, and get the next generation. Return 0 if no errors were found, or -1 otherwise
 	int MasterControl();
 
 	deque<Brain> brains_;
 
-private: //TODO: many of these should be const
+private:
 	//for brains:
-	size_t num_brains_;
+	const size_t num_brains_;
 
 	//for brain cycles:
-	int max_decisions_;
-	int input_duration_, input_output_delay_, output_duration_;
+	const int max_decisions_;
+	const int input_duration_, input_output_delay_, output_duration_;
 
 	//for the task
-	string maze_map_file_;
-    bool maze_random_start_;
+	const string maze_map_file_;
+	const bool maze_random_start_;
 
 	//for evolution:
 	Evolution evolution_;
-	int num_generations_;
-	size_t num_mutated_neurons_, num_mutated_synapses_;
+	const int num_generations_;
+	const size_t num_mutated_neurons_, num_mutated_synapses_;
 
 	//friend void PrintGenerationInfo(const deque<Brain> brains);
 };

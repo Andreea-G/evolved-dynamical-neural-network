@@ -21,7 +21,7 @@
 #include <string>
 #include <deque>
 
-#include <src/tasks/TaskInterface.h>
+#include <src/tasks/TaskInterface.hpp>
 
 using std::deque;
 

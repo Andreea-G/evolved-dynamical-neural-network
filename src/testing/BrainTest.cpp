@@ -2,8 +2,8 @@
 #include <iomanip>
 #include <fstream>
 
-#include <src/testing/BrainTest.h>
-#include <src/Globals.h>
+#include <src/testing/BrainTest.hpp>
+#include <src/Globals.hpp>
 
 using std::cout;
 using std::cerr;

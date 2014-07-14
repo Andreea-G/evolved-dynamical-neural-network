@@ -7,8 +7,9 @@
 
 #include <iostream>
 #include <fstream>
-#include "GameMaster.h"
-#include "../Globals.h" //TODO: find better way for this include
+
+#include <src/gamemaster/GameMaster.hpp>
+#include <src/Globals.hpp>
 //#include <algorithm> //std::transform
 
 using std::deque;
@@ -41,6 +42,8 @@ void PrintGenerationInfo(const deque<Brain> brains) {
 	out << endl;
 }
 
+//For now, main() will not be using this constructor
+/*
 GameMaster::GameMaster(const size_t num_brains,
 					   const size_t num_neurons, const size_t num_input_neurons, const size_t num_output_neurons,
 					   const int max_decisions,
@@ -62,6 +65,7 @@ GameMaster::GameMaster(const size_t num_brains,
 	//construct evolution
 	Evolution evolution_(prob_asexual);
 }
+*/
 
 GameMaster::GameMaster(const size_t num_brains,
 					   const size_t num_neurons, const size_t num_input_neurons, const size_t num_output_neurons,
@@ -75,7 +79,8 @@ GameMaster::GameMaster(const size_t num_brains,
 					   const string maze_map_file, const int maze_random_start,
 					   const int num_generations, const size_t num_mutated_neurons, const size_t num_mutated_synapses,
 						 const float prob_asexual) :
-						 num_brains_(num_brains), max_decisions_(max_decisions), input_duration_(input_duration),
+						 num_brains_(num_brains), max_decisions_(max_decisions),
+						 input_duration_(input_duration), input_output_delay_(input_output_delay),
 						 output_duration_(output_duration), maze_random_start_(maze_random_start),
 						 num_generations_(num_generations), num_mutated_neurons_(num_mutated_neurons),
 						 num_mutated_synapses_(num_mutated_synapses), maze_map_file_(maze_map_file) {

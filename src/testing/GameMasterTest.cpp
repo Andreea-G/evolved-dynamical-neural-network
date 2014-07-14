@@ -1,9 +1,9 @@
-#include "GameMasterTest.h"
-#include "../gamemaster/GameMaster.h"
-#include "../brain/Brain.h"
-#include "../evolution/Evolution.h"
-#include "../tasks/MazeTask.h"
-#include "../Globals.h"
+#include <src/testing/GameMasterTest.hpp>
+#include <src/gamemaster/GameMaster.hpp>
+#include <src/brain/Brain.hpp>
+#include <src/evolution/Evolution.hpp>
+#include <src/tasks/MazeTask.hpp>
+#include <src/Globals.hpp>
 #include <iostream>
 #include <fstream>
 

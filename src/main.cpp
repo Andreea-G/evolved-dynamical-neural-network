@@ -9,18 +9,18 @@
 //TODO: clean up these headers and namespace declarations at some point.
 #include <iostream>
 #include <string>
-#include <tclap/CmdLine.h>
 
-#include <src/brain/Brain.h>
-#include <src/brain/Neuron.h>
-#include <src/evolution/Evolution.h>
-#include <src/gamemaster/GameMaster.h>
-#include <src/tasks/MazeTask.h>
+#include <tclap/CmdLine.h> //Note: .h, not .hpp since this is a third-party file we're using that was named as such.
 
-#include <src/testing/BrainTest.h>
-#include <src/testing/EvolutionTest.h>
-#include <src/testing/MazeTest.h>
-#include <src/gamemaster/GameMaster.h>
+#include <src/brain/Brain.hpp>
+#include <src/brain/Neuron.hpp>
+#include <src/evolution/Evolution.hpp>
+#include <src/gamemaster/GameMaster.hpp>
+#include <src/tasks/MazeTask.hpp>
+#include <src/testing/BrainTest.hpp>
+#include <src/testing/EvolutionTest.hpp>
+#include <src/testing/MazeTest.hpp>
+#include <src/gamemaster/GameMaster.hpp>
 
 using std::cout;
 using std::endl;

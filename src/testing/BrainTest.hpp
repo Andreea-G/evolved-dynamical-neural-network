@@ -1,7 +1,7 @@
 #ifndef BRAINTEST_H_
 #define BRAINTEST_H_
 
-#include <src/brain/Brain.h>
+#include <src/brain/Brain.hpp>
 
 
 class BrainTest {
