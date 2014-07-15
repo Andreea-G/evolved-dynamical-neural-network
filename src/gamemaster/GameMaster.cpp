@@ -29,17 +29,12 @@ using std::endl;
 //heeeheehee ... <silently chuckling>  ... heeheeheeeheehaahahahahahahahahahahahahahehehaahahahahahahahahahaahah
 //<leaves room> hmmhmmhmmmhmmmhmmm <silent chuckling> hmmhmmmh mmmmhmmm hmmm hmmhmmhmmhmm hmmhmm haahaahaa
 void output::PrintGenerationInfo(const deque<Brain> brains) {
-	std::ofstream output_file("gamemaster_output.txt");
-	if (output_file.good() == false) {
-		std::cerr << "ERROR: problem opening temporary file!";
-	}
 
-	//std::cout << "Print some info\n";
-	output_file << "Printing brain fitness scores: \n";
+	cout << "Printing brain fitness scores: \n";
 	for (auto brain_it = brains.begin(); brain_it != brains.end(); brain_it++) {
-		output_file << brain_it->fitness_score_ << " ";
+		cout << brain_it->fitness_score_ << " ";
 	}
-	output_file << endl;
+	cout << endl;
 }
 
 //For now, main() will not be using this constructor   //TODO: decide if we should just delete this.
