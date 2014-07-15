@@ -20,6 +20,7 @@ float Evolution::FitnessWeighting(const float fitness) {
 }
 
 int Evolution::ChooseMostFitBrains(const deque<Brain> &brains) {
+	//TODO: should we rethink how this is implemented?  It's somewhat confusing.
 	size_t num_brains = brains.size();
 	//unnormalized mating priorities.  After normalizing, these values will say each brain's chances of getting selected
 	//for the next generation.  For example, if brain 1 gets normalized to 5, then it'll appear 5 times and have a high
@@ -32,14 +33,14 @@ int Evolution::ChooseMostFitBrains(const deque<Brain> &brains) {
 
 	most_fit_brains_.clear();		//reset to empty deque
 
-	//get the sum of mating priorities of all brains to help normalize (implemented with a lambda for practice)
-	//	float sum_mating_priorities = unnorm_mating_priority.back();  DEL
+	//get the sum of mating priorities of all brains to help normalize
 	float sum_mating_priorities = 0;
 	std::for_each(unnorm_mating_priorities.begin(), unnorm_mating_priorities.end(),
 				  [&](float priority) {sum_mating_priorities += priority;});
 
 	for (size_t brain_index = 0; brain_index < num_brains; brain_index++) {
-		int mating_priority = floor(unnorm_mating_priorities[brain_index] * num_brains / sum_mating_priorities);		//normalized s.t. summing all the mating_priority values  ~= number of brains
+		//normalized s.t. summing all the mating_priority values  ~= number of brains
+		int mating_priority = floor(unnorm_mating_priorities[brain_index] * num_brains / sum_mating_priorities);
 		for (int i = 0; i < mating_priority; i++) {
 			most_fit_brains_.push_back(static_cast<int>(brain_index));
 		}
@@ -99,7 +100,7 @@ deque<Brain> Evolution::GetNextGeneration (const deque<Brain> &brains, const int
 
 	deque<Brain> next_gen;
 	//Create a new generation of num_brains children
-	for (size_t br = 0; br < num_brains; br++) {
+	for (size_t ii = 0; ii < num_brains; ii++) {
 		//Randomly pick parent 1
 		int parent1_index = most_fit_brains_[mating_distro(globals::gen)];
 		if (asexual_distro(globals::gen) < prob_asexual_) {	//asexual reproduction

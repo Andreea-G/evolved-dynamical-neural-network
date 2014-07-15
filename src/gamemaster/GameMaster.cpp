@@ -20,14 +20,7 @@ using std::pair;
 using std::cout;
 using std::endl;
 
-//TODO: finish this.  It depends on what you want to print out...  hahaha ahaaha heeheehee.  Ha haaha ..
-//are you just typing what I'm saying?  Hahahahaha. ... OK you can stop now... HEeeeheheehee... hahaa..
-//I'm curious how long you'll keep going ... hahahaha... haaahaaaahaaheeeheeheeheheeeheeeheeheeheehaa
-//OK stop!  Seriou....hahahahahaahahah heheeheheeheeeeheeeheeheeheh   <silent laughing>  haahaahahaaahaaa
-//Alright...ha  hahahahaa  <leaves room> ... <comes back>  haaahaaahahaa hee heehee are you serious?  Garrett,
-//stop...heeeheehee haaahaaahaahaaahaahaahaahaha...ahhh....Alright, I'll ignore you now.hah aahaahhaahahaha hee
-//heeeheehee ... <silently chuckling>  ... heeheeheeeheehaahahahahahahahahahahahahahehehaahahahahahahahahahaahah
-//<leaves room> hmmhmmhmmmhmmmhmmm <silent chuckling> hmmhmmmh mmmmhmmm hmmm hmmhmmhmmhmm hmmhmm haahaahaa
+//TODO: finish this.  It depends on what you want to print out...
 void output::PrintGenerationInfo(const deque<Brain> brains) {
 
 	cout << "Printing brain fitness scores: \n";
@@ -204,17 +197,16 @@ int GameMaster::ObtainBrainFitnesses() {
 int GameMaster::MasterControl() {
 	for (int generation = 0; generation < num_generations_; generation++) {
 		std::cout << "Generation " << generation << std::endl;
-		int test = ObtainBrainFitnesses();
-		if (test < 0) {
+		int exit_status = ObtainBrainFitnesses();
+		if (exit_status < 0) {
 			return -1;
 		}
 
-		cout << "Exitted ObtainBrainFitnesses" << endl;
 		output::PrintGenerationInfo(brains_);
 
 		//find the list of most fit brains
-		test = evolution_.ChooseMostFitBrains(brains_);
-		if (test < 0) {
+		exit_status = evolution_.ChooseMostFitBrains(brains_);
+		if (exit_status < 0) {
 			return -1;
 		}
 
