@@ -67,7 +67,9 @@ GameMaster::GameMaster(const size_t num_brains,
 					const string maze_map_file, const int maze_random_start,
 					const int num_generations, const size_t num_mutated_neurons, const size_t num_mutated_synapses,
 					const float prob_asexual) :
-					num_brains_(num_brains), max_decisions_(max_decisions),
+					num_brains_(num_brains),
+					av_start_activation_(av_start_activation), st_dev_start_activation_(st_dev_start_activation),
+					max_decisions_(max_decisions),
 					input_duration_(input_duration), input_output_delay_(input_output_delay),
 					output_duration_(output_duration), maze_map_file_(maze_map_file),
 					maze_random_start_(maze_random_start), num_generations_(num_generations),
@@ -194,6 +196,13 @@ int GameMaster::ObtainBrainFitnesses() {
 }
 
 
+void GameMaster::ResetAllBrainStartActivations() {
+	for (auto brain_it = brains_.begin(); brain_it != brains_.end(); brain_it++) {
+		brain_it->ResetStartActivations(av_start_activation_, st_dev_start_activation_);
+	}
+}
+
+
 int GameMaster::MasterControl() {
 	for (int generation = 0; generation < num_generations_; generation++) {
 		cout << "Generation " << generation << std::endl;
@@ -212,6 +221,8 @@ int GameMaster::MasterControl() {
 
 //		//Obtain the next generation of brains
 //		brains_ = evolution_.GetNextGeneration(brains_, num_mutated_neurons_, num_mutated_synapses_);
+
+		ResetAllBrainStartActivations();
 	}
 
 	return 0;

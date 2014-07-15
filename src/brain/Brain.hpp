@@ -60,6 +60,10 @@ public:
 	//Causes one network firing inside the brain.  See the .lyx file in ./docs for explanation.
 	void Cycle();
 
+	//Reset the brain so it starts fresh.  Note: if st_dev_start_activation_ is nonzero, then there's randomness involved
+	//and so on each reset, the brain will be different!  That's probably undesirable, so if you're not sure, set it to 0.  //TODO: should we disable this in GameMaster?
+	void ResetStartActivations(const float av_start_activation, const float st_dev_start_activation);
+
 	//TODO: move back to private
 	//describes how well the brain has performed at the given task.  This is used by evolution class for choosing brains.
 	float fitness_score_;

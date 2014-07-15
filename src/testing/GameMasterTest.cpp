@@ -58,10 +58,12 @@ void GameMasterTest::Test1() {
 void GameMasterTest::Test2() {
 	//This one is done by Garry
 
-	size_t num_brains = 5;
-	size_t num_neurons = 800;  //These settings gave a non-repeating brain!
+//	size_t num_brains = 5;
+//	size_t num_neurons = 800;  //These settings gave a non-repeating brain!
+	size_t num_brains = 1;
+	size_t num_neurons = 10;  //These settings gave a non-repeating brain!
 	const float av_active_threshold = 0.25; const float st_dev_active_threshold = 0.04;
-	const float av_start_activation = 0.25 ; const float st_dev_start_activation = 0.05;
+	const float av_start_activation = 0.25 ; const float st_dev_start_activation = 0;
 	const float av_decay_rate = 0.001; const float st_dev_decay_rate = 0.0003;
 	const int av_num_syn = 10; const int st_dev_num_syn = 2;
 	const float av_syn_strength = 0.05; const float st_dev_syn_strength = 0.04;

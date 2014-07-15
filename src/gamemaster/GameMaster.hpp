@@ -59,6 +59,14 @@ private:
 	//for brains:
 	const size_t num_brains_;
 
+	//These parameters get used when we reset a brain's current activation
+	const float av_start_activation_;
+	const float st_dev_start_activation_;
+	//Reset the activation of all brains.  This is important to do because if you don't, then a brain that did well
+	//in the last round may do poorly in the following round (supposing they somehow got to the next generation w/o
+	//mutations) just due to the fact that it's starting the maze in a different "state of mind"
+	void ResetAllBrainStartActivations();
+
 	//for brain cycles:
 	const int max_decisions_;
 	//number of cycles that input is given to brain for, for each input from the task

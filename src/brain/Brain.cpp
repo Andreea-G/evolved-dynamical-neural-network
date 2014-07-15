@@ -143,3 +143,16 @@ void Brain::Cycle() {
 }
 
 
+void Brain::ResetStartActivations(const float av_start_activation, const float st_dev_start_activation) {
+
+	normal_distribution<float> start_activation_distro(av_start_activation, st_dev_start_activation);
+
+	//loop to reset each neuron
+	for (auto neuron_it = neurons_.begin(); neuron_it != neurons_.end(); neuron_it++) {
+		//generate start activation
+		float start_activation = min(max(start_activation_distro(globals::gen), globals::MIN_ACTIVATION), globals::MAX_ACTIVATION);
+
+		neuron_it->set_activation(start_activation);
+		//neuron_it->set_new_activation(0); //TODO:  I'm pretty sure this is unnecessary..
+	}
+}
