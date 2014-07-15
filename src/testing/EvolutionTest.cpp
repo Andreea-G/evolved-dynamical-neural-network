@@ -9,7 +9,7 @@ using std::cout;
 using std::endl;
 
 void EvolutionTest::test1() {
-	Evolution evolution1;
+	Evolution evolution1(0);
 
 	const int num_neurons = 10;
 	const float av_active_threshold = 25; const float st_dev_active_threshold = 0;

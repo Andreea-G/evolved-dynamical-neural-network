@@ -49,10 +49,8 @@ void GameMasterTest::Test1() {
 								num_generations, num_mutated_neurons, num_mutated_synapses,
 								prob_asexual);
 
-	output::PrintGenerationInfo(test_GameMaster1.brains_);
-
-	int test = test_GameMaster1.MasterControl();
-	if (test == -1) {
+	int exit_status = test_GameMaster1.MasterControl();
+	if (exit_status == -1) {
 		std::cerr << "-1 returned by MasterControl!\n";
 	}
 }
@@ -78,11 +76,11 @@ void GameMasterTest::Test2() {
 	const string maze_map_file = "maze_files/example_maze1"; //Garrett's testing maze
 	const bool maze_random_start = false;
 
-	const int num_generations = 3;
+	const int num_generations = 10;
 	const size_t num_mutated_neurons = 1;
 	const size_t num_mutated_synapses = 2;
 
-	const float prob_asexual = 0.1;
+	const float prob_asexual = 0.5;
 
 	GameMaster test_GameMaster1(num_brains, num_neurons, 3, 2,
 								av_active_threshold, st_dev_active_threshold,
@@ -96,10 +94,8 @@ void GameMasterTest::Test2() {
 								num_generations, num_mutated_neurons, num_mutated_synapses,
 								prob_asexual);
 
-	output::PrintGenerationInfo(test_GameMaster1.brains_);
-
-	int test = test_GameMaster1.MasterControl();
-	if (test == -1) {
+	int exit_status = test_GameMaster1.MasterControl();
+	if (exit_status == -1) {
 		std::cerr << "-1 returned by MasterControl!\n";
 	}
 }

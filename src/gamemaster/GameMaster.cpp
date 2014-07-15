@@ -204,14 +204,14 @@ int GameMaster::MasterControl() {
 
 		output::PrintGenerationInfo(brains_);
 
-		//find the list of most fit brains
-		exit_status = evolution_.ChooseMostFitBrains(brains_);
-		if (exit_status < 0) {
-			return -1;
-		}
+//		//find the list of most fit brains
+//		exit_status = evolution_.ChooseMostFitBrains(brains_);
+//		if (exit_status < 0) {
+//			return -1;
+//		}
 
-		//Obtain the next generation of brains
-		brains_ = evolution_.GetNextGeneration(brains_, num_mutated_neurons_, num_mutated_synapses_);
+//		//Obtain the next generation of brains
+//		brains_ = evolution_.GetNextGeneration(brains_, num_mutated_neurons_, num_mutated_synapses_);
 	}
 
 	return 0;
