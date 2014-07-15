@@ -58,10 +58,8 @@ void GameMasterTest::Test1() {
 void GameMasterTest::Test2() {
 	//This one is done by Garry
 
-//	size_t num_brains = 5;
-//	size_t num_neurons = 800;  //These settings gave a non-repeating brain!
-	size_t num_brains = 1;
-	size_t num_neurons = 10;  //These settings gave a non-repeating brain!
+	size_t num_brains = 10;
+	size_t num_neurons = 800;  //These settings gave a non-repeating brain!
 	const float av_active_threshold = 0.25; const float st_dev_active_threshold = 0.04;
 	const float av_start_activation = 0.25 ; const float st_dev_start_activation = 0;
 	const float av_decay_rate = 0.001; const float st_dev_decay_rate = 0.0003;
@@ -78,9 +76,9 @@ void GameMasterTest::Test2() {
 	const string maze_map_file = "maze_files/example_maze1"; //Garrett's testing maze
 	const bool maze_random_start = false;
 
-	const int num_generations = 10;
-	const size_t num_mutated_neurons = 1;
-	const size_t num_mutated_synapses = 2;
+	const int num_generations = 20;
+	const size_t num_mutated_neurons = 20;
+	const size_t num_mutated_synapses = 4;
 
 	const float prob_asexual = 0.5;
 

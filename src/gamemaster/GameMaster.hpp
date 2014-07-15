@@ -61,7 +61,9 @@ private:
 
 	//These parameters get used when we reset a brain's current activation
 	const float av_start_activation_;
-	const float st_dev_start_activation_;
+	//WARNING: this parameter should probably be zero.  If it's non-zero, then each time the brain resets,
+	//it resets to something different, so unless you know what you're doing, then keep it at zero.
+	const float st_dev_start_activation_;  //TODO: for our argument parsing, let's not allow the user to specify this...
 	//Reset the activation of all brains.  This is important to do because if you don't, then a brain that did well
 	//in the last round may do poorly in the following round (supposing they somehow got to the next generation w/o
 	//mutations) just due to the fact that it's starting the maze in a different "state of mind"
@@ -85,12 +87,8 @@ private:
 	const int num_generations_;
 	const size_t num_mutated_neurons_, num_mutated_synapses_;
 
-	//friend void PrintGenerationInfo(const deque<Brain> brains);
+	void PrintGenerationInfo();
 };
-
-namespace output {
-	void PrintGenerationInfo(const deque<Brain> brains);
-}
 
 
 #endif /* GAMEMASTER__MAGEMASTER_H_ */

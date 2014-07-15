@@ -20,13 +20,22 @@ using std::pair;
 using std::cout;
 using std::endl;
 
-//TODO: finish this.  It depends on what you want to print out...
-void output::PrintGenerationInfo(const deque<Brain> brains) {
 
-	cout << "Printing brain fitness scores: \n";
-	for (auto brain_it = brains.begin(); brain_it != brains.end(); brain_it++) {
-		cout << brain_it->fitness_score_ << " ";
+void GameMaster::PrintGenerationInfo() {
+
+	cout << "Brain fitness scores: ";
+	float best_score=0;
+	//save total score to calculate average
+	float total_score=0;
+	for (auto brain_it = brains_.begin(); brain_it != brains_.end(); brain_it++) {
+		float fitness_score = brain_it->get_fitness_score();
+		cout << fitness_score << " ";
+		total_score += fitness_score;
+		if(fitness_score > best_score) {
+			best_score = fitness_score;
+		}
 	}
+	cout << "\nBest Score: " << best_score << "     Average Score: " << (total_score / num_brains_);
 	cout << endl;
 }
 
@@ -205,22 +214,22 @@ void GameMaster::ResetAllBrainStartActivations() {
 
 int GameMaster::MasterControl() {
 	for (int generation = 0; generation < num_generations_; generation++) {
-		cout << "Generation " << generation << std::endl;
+		cout << "\nGeneration " << generation << std::endl;
 		int exit_status = ObtainBrainFitnesses();
 		if (exit_status < 0) {
 			return -1;
 		}
 
-		output::PrintGenerationInfo(brains_);
+		PrintGenerationInfo();
 
-//		//find the list of most fit brains
-//		exit_status = evolution_.ChooseMostFitBrains(brains_);
-//		if (exit_status < 0) {
-//			return -1;
-//		}
+		//find the list of most fit brains
+		exit_status = evolution_.ChooseMostFitBrains(brains_);
+		if (exit_status < 0) {
+			return -1;
+		}
 
-//		//Obtain the next generation of brains
-//		brains_ = evolution_.GetNextGeneration(brains_, num_mutated_neurons_, num_mutated_synapses_);
+		//Obtain the next generation of brains
+		brains_ = evolution_.GetNextGeneration(brains_, num_mutated_neurons_, num_mutated_synapses_);
 
 		ResetAllBrainStartActivations();
 	}
