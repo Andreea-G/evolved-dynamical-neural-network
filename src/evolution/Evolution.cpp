@@ -37,22 +37,16 @@ int Evolution::ChooseMostFitBrains(const deque<Brain> &brains) {
 	float sum_mating_priorities = 0;
 	std::for_each(unnorm_mating_priorities.begin(), unnorm_mating_priorities.end(),
 				  [&](float priority) {sum_mating_priorities += priority;});
+	//get the average mating priority
+	float av_mating_priority = sum_mating_priorities / num_brains;
 
 	for (size_t brain_index = 0; brain_index < num_brains; brain_index++) {
-		//normalized s.t. summing all the mating_priority values  ~= number of brains
-		int mating_priority = floor(unnorm_mating_priorities[brain_index] * num_brains / sum_mating_priorities);
+		int mating_priority = round(unnorm_mating_priorities[brain_index] / av_mating_priority);
 		for (int i = 0; i < mating_priority; i++) {
 			most_fit_brains_.push_back(static_cast<int>(brain_index));
 		}
-	}
-	//TODO:  floor function is basically going to cut out all brains below the mean fitness
-	//Instead, we could use round(.) and then after that for loop adjust the number of brains by cutting or adding (add by sampling the existing brains)
+	}	
 
-	//The size of brain_cum_mating_odds_ is at most num_brains; it can be smaller due to the floor function above, but should not be larger...
-	if (most_fit_brains_.size() > num_brains) {
-		std::cerr << "Error! most_fit_brains_ deque is larger than total number of brains.. What went wrong??\n";
-		return -1;
-	}
 	//The size of brain_cum_mating_odds_ should be greater than zero
 	if (most_fit_brains_.size() == 0) {
 		std::cerr << "Error! most_fit_brains is empty! There are no parents that can form the next generation...\n";
