@@ -71,7 +71,8 @@ GameMaster::GameMaster(const size_t num_brains,
 					input_duration_(input_duration), input_output_delay_(input_output_delay),
 					output_duration_(output_duration), maze_map_file_(maze_map_file),
 					maze_random_start_(maze_random_start), num_generations_(num_generations),
-					num_mutated_neurons_(num_mutated_neurons), num_mutated_synapses_(num_mutated_synapses)  {
+					num_mutated_neurons_(num_mutated_neurons), num_mutated_synapses_(num_mutated_synapses),
+					evolution_(prob_asexual) {
 	//construct brains
 	for (size_t ii = 0; ii < num_brains_; ii++) {
 		Brain new_brain(num_neurons, num_input_neurons, num_output_neurons,
@@ -83,9 +84,8 @@ GameMaster::GameMaster(const size_t num_brains,
 		brains_.push_back(new_brain);
 	}
 
-	//construct evolution
-	Evolution evolution_(prob_asexual);
 }
+
 
 int GameMaster::ObtainBrainFitnesses() {
 	//Loop through each brain
@@ -196,7 +196,7 @@ int GameMaster::ObtainBrainFitnesses() {
 
 int GameMaster::MasterControl() {
 	for (int generation = 0; generation < num_generations_; generation++) {
-		std::cout << "Generation " << generation << std::endl;
+		cout << "Generation " << generation << std::endl;
 		int exit_status = ObtainBrainFitnesses();
 		if (exit_status < 0) {
 			return -1;
