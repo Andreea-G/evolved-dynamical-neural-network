@@ -15,7 +15,6 @@
 
 using std::deque;
 using std::map;
-//using std::unordered_map;
 using std::multimap;
 using std::pair;
 using std::cout;
@@ -30,20 +29,20 @@ using std::endl;
 //heeeheehee ... <silently chuckling>  ... heeheeheeeheehaahahahahahahahahahahahahahehehaahahahahahahahahahaahah
 //<leaves room> hmmhmmhmmmhmmmhmmm <silent chuckling> hmmhmmmh mmmmhmmm hmmm hmmhmmhmmhmm hmmhmm haahaahaa
 void output::PrintGenerationInfo(const deque<Brain> brains) {
-	std::ofstream out("gamemaster_output.txt");
-	if (out.good() == false) {
+	std::ofstream output_file("gamemaster_output.txt");
+	if (output_file.good() == false) {
 		std::cerr << "ERROR: problem opening temporary file!";
 	}
 
 	//std::cout << "Print some info\n";
-	out << "Printing brain fitness scores: \n";
+	output_file << "Printing brain fitness scores: \n";
 	for (auto brain_it = brains.begin(); brain_it != brains.end(); brain_it++) {
-		out << brain_it->fitness_score_ << " ";
+		output_file << brain_it->fitness_score_ << " ";
 	}
-	out << endl;
+	output_file << endl;
 }
 
-//For now, main() will not be using this constructor
+//For now, main() will not be using this constructor   //TODO: decide if we should just delete this.
 /*
 GameMaster::GameMaster(const size_t num_brains,
 					   const size_t num_neurons, const size_t num_input_neurons, const size_t num_output_neurons,
@@ -135,7 +134,6 @@ int GameMaster::ObtainBrainFitnesses() {
 			//Let the brain decide on an action
 			//The first element in the map is an output of the brain, while the second is counting how many times
 			//the brain has given this output
-			//TODO: this doesn't need to be an ordered map, but if I try to make it unordered_map I get errors later. Don't fully understand why.
 			map<deque<bool>, int> brain_output_frequencies;
 			//Loop through brain cycles, looping enough times to collect all the input and all the output for one decision
 			for (int cycle = 0; cycle < (input_output_delay_ + output_duration_); cycle++) {
@@ -209,8 +207,8 @@ int GameMaster::ObtainBrainFitnesses() {
 
 
 int GameMaster::MasterControl() {
-	for (int gener = 0; gener < num_generations_; gener++) {
-		std::cout << "Generation " << gener << std::endl;
+	for (int generation = 0; generation < num_generations_; generation++) {
+		std::cout << "Generation " << generation << std::endl;
 		int test = ObtainBrainFitnesses();
 		if (test < 0) {
 			return -1;
