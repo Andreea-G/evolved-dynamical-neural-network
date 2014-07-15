@@ -203,7 +203,7 @@ int GameMaster::ObtainBrainFitnesses() {
 		brain_it->set_fitness_score(1.0/num_decisions);
 												//del     cout << brain_it->get_fitness_score() << " ";
 	} //end for loop through every brain
-	cout << endl;
+
 	return 0;
 }
 
