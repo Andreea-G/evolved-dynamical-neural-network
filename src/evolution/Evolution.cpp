@@ -105,7 +105,8 @@ deque<Brain> Evolution::GetNextGeneration (const deque<Brain> &brains, const int
 		//Randomly pick parent 1
 		int parent1_index = most_fit_brains_[mating_distro(globals::gen)];
 		if (asexual_distro(globals::gen) < prob_asexual_) {	//asexual reproduction
-			Brain new_brain = MutateBrain(brains[parent1_index], num_mutated_neurons, num_mutated_synapses);
+			Brain new_brain = MutateBrain(brains[parent1_index], num_mutated_neurons, num_mutated_synapses,
+																		mutate_decay_rate, mutate_active_threshold);
 			next_gen.push_back(new_brain);
 			if (ii < verbose_num_brains) {
 				cout << parent1_index << ", ";
@@ -115,7 +116,8 @@ deque<Brain> Evolution::GetNextGeneration (const deque<Brain> &brains, const int
 			int parent2_index = most_fit_brains_[mating_distro(globals::gen)];
 			//if both parents the same, do asexual reproduction
 			if (parent2_index == parent1_index) {
-				Brain new_brain = MutateBrain(brains[parent1_index], num_mutated_neurons, num_mutated_synapses);
+				Brain new_brain = MutateBrain(brains[parent1_index], num_mutated_neurons, num_mutated_synapses,
+																			mutate_decay_rate, mutate_active_threshold);
 				next_gen.push_back(new_brain);
 				if (ii < verbose_num_brains) {
 					cout << parent1_index << ", ";
@@ -124,7 +126,8 @@ deque<Brain> Evolution::GetNextGeneration (const deque<Brain> &brains, const int
 				//first mate two brains to get one child
 				Brain new_brain = MateBrains(brains[parent1_index], brains[parent2_index]);
 				//then mutations occur
-				new_brain = MutateBrain(new_brain, num_mutated_neurons, num_mutated_synapses);
+				new_brain = MutateBrain(new_brain, num_mutated_neurons, num_mutated_synapses,
+																mutate_decay_rate, mutate_active_threshold);
 				next_gen.push_back(new_brain);
 				if (ii < verbose_num_brains) {
 					cout << parent1_index << "+" << parent2_index << ", ";

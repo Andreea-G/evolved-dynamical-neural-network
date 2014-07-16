@@ -78,6 +78,8 @@ private:
 	//number of cycles that output is read for
 	const int output_duration_;
 
+	//TODO: add deadtime_duration_
+
 	//for the task
 	const string maze_map_file_;
 	const bool maze_random_start_;

@@ -231,7 +231,8 @@ int GameMaster::MasterControl() {
 		}
 
 		//Obtain the next generation of brains, and print info on the parents
-		brains_ = evolution_.GetNextGeneration(brains_, num_mutated_neurons_, num_mutated_synapses_, num_brains_);
+		brains_ = evolution_.GetNextGeneration(brains_, num_mutated_neurons_, num_mutated_synapses_, num_brains_,
+																					 mutate_decay_rate_, mutate_active_threshold_);
 
 		ResetAllBrainStartActivations();
 	}

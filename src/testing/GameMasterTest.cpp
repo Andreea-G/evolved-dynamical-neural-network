@@ -61,8 +61,8 @@ void GameMasterTest::Test1() {
 void GameMasterTest::Test2() {
 	//This one is Garry's
 
-	size_t num_brains = 5;
-	size_t num_neurons = 2000;
+	size_t num_brains = 50;
+	size_t num_neurons = 20001;
 	const float av_active_threshold = 0.25; const float st_dev_active_threshold = 0.04;
 	const float av_start_activation = 0.25 ; const float st_dev_start_activation = 0;
 	const float av_decay_rate = 0.001; const float st_dev_decay_rate = 0.0003;
@@ -79,9 +79,9 @@ void GameMasterTest::Test2() {
 	const string maze_map_file = "maze_files/test_maze4"; //Garrett's testing maze
 	const bool maze_random_start = false;
 
-	const int num_generations = 100;
-	const size_t num_mutated_neurons = 1;
-	const size_t num_mutated_synapses = 0;
+	const int num_generations = 50;
+	const size_t num_mutated_neurons = 1;  //TODO: Setting this to 1 causes a difference in a mutated brain, why????
+	const size_t num_mutated_synapses = 1;
 
 	const float prob_asexual = 1;
 
