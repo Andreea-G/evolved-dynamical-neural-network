@@ -24,11 +24,12 @@ public:
 	//and some for sexual reproduction (which calls MateBrains on two brains and MutateBrain on the result)
 	//setting verbose_num_brains to N will print the info on the parents of the first N brains.
 	deque<Brain> GetNextGeneration(const deque<Brain> &brains, const int num_mutated_neurons,
-																	const int num_mutated_synapses, const int verbose_num_brains = 0) const;
+																 const int num_mutated_synapses, const int verbose_num_brains = 0,
+																 const bool mutate_decay_rate = true, const bool mutate_active_threshold = true) const;
 
 	//Mutate a brain and returns the mutated brain
-	Brain MutateBrain(const Brain &parent_brain, const int num_mutated_neurons,
-									 const int num_mutated_synapses) const;
+	Brain MutateBrain(const Brain &parent_brain, const int num_mutated_neurons, const int num_mutated_synapses,
+										const bool mutate_decay_rate=true, const bool mutate_active_threshold=true) const;
 	//Mate two different brains to get one child. No mutations (since the MutateBrain function can afterwards be
 	//called on the resulting child)
 	//Random cross-over point x is selected and the first 1 to x neurons are taken from parent 1,

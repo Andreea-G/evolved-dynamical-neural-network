@@ -76,7 +76,7 @@ GameMaster::GameMaster(const size_t num_brains,
 					const int input_duration, const int input_output_delay, const int output_duration,
 					const string maze_map_file, const int maze_random_start,
 					const int num_generations, const size_t num_mutated_neurons, const size_t num_mutated_synapses,
-					const float prob_asexual) :
+					const float prob_asexual, const bool mutate_decay_rate, const bool mutate_active_threshold) :
 					num_brains_(num_brains),
 					av_start_activation_(av_start_activation), st_dev_start_activation_(st_dev_start_activation),
 					max_decisions_(max_decisions),
@@ -84,7 +84,8 @@ GameMaster::GameMaster(const size_t num_brains,
 					output_duration_(output_duration), maze_map_file_(maze_map_file),
 					maze_random_start_(maze_random_start), num_generations_(num_generations),
 					num_mutated_neurons_(num_mutated_neurons), num_mutated_synapses_(num_mutated_synapses),
-					evolution_(prob_asexual) {
+					evolution_(prob_asexual),
+					mutate_decay_rate_(mutate_decay_rate), mutate_active_threshold_(mutate_active_threshold) {
 	//construct brains
 	for (size_t ii = 0; ii < num_brains_; ii++) {
 		Brain new_brain(num_neurons, num_input_neurons, num_output_neurons,

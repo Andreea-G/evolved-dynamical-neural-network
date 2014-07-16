@@ -43,7 +43,7 @@ public:
 						const int input_duration, const int input_output_delay, const int output_duration,
 						const string maze_map_file, const int maze_random_start,
 						const int num_generations, const size_t num_mutated_neurons, const size_t num_mutated_synapses,
-						const float prob_asexual);
+						const float prob_asexual, const bool mutate_decay_rate = true, const bool mutate_active_threshold = true);
 
 	//Loop through all brains, and find the fitness_score_ for each brain.
 	//Returns -1 if it fails and 0 otherwise.
@@ -86,6 +86,8 @@ private:
 	Evolution evolution_;
 	const int num_generations_;
 	const size_t num_mutated_neurons_, num_mutated_synapses_;
+	//during evolution, these say if the decay rate and active_threshold of a mutated neuron also get mutated
+	const bool mutate_decay_rate_, mutate_active_threshold_;
 
 	void PrintGenerationInfo();
 };

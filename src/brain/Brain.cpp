@@ -89,7 +89,8 @@ deque<bool> Brain::get_output() const {
 }
 
 
-void Brain::MutateNeurons(const int num_mutated_neurons, const int num_mutated_synapses) {
+void Brain::MutateNeurons(const int num_mutated_neurons, const int num_mutated_synapses,
+													const bool mutate_decay_rate, const bool mutate_active_threshold) {
 	std::uniform_int_distribution<int> neuron_distro(0, num_neurons_-1);
 	std::uniform_real_distribution<> unit_distro(0, 1);
 
@@ -97,10 +98,16 @@ void Brain::MutateNeurons(const int num_mutated_neurons, const int num_mutated_s
 		//Randomly pick a neuron
 		//(it's possible a neuron could get mutated twice in a small brain, so losing 2x the synapses for example)
 		Neuron & rand_neuron = neurons_[neuron_distro(globals::gen)];
-		rand_neuron.set_decay_rate((globals::MAX_DECAY_RATE-globals::MIN_DECAY_RATE) * unit_distro(globals::gen) + globals::MIN_DECAY_RATE);
+		if (mutate_decay_rate) {
+			//generate random decay rate using uniform distribution over [MIN_ACTIVATION, MAX_ACTIVATION]
+			rand_neuron.set_decay_rate((globals::MAX_DECAY_RATE - globals::MIN_DECAY_RATE) * unit_distro(globals::gen) + globals::MIN_DECAY_RATE);
+		}
 
-		//generate random activation using uniform distribution over [MIN_ACTIVATION, MAX_ACTIVATION].
-		rand_neuron.set_active_threshold((globals::MAX_ACTIVATION - globals::MIN_ACTIVATION) * unit_distro(globals::gen) + globals::MIN_ACTIVATION);
+		if (mutate_decay_rate) {
+			//generate random activation using uniform distribution over [MIN_ACTIVATION, MAX_ACTIVATION]
+			rand_neuron.set_active_threshold((globals::MAX_ACTIVATION - globals::MIN_ACTIVATION) * unit_distro(globals::gen) + globals::MIN_ACTIVATION);
+		}
+
 		rand_neuron.MutateSynapses(num_mutated_synapses, num_neurons_);
 	}
 }
