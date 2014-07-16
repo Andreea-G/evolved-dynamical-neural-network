@@ -35,6 +35,7 @@ void GameMaster::PrintGenerationInfo() {
 			best_score = fitness_score;
 		}
 	}
+
 	cout << "\nBest Score: " << best_score << "     Average Score: " << (total_score / num_brains_);
 	cout << endl;
 }
@@ -214,7 +215,7 @@ void GameMaster::ResetAllBrainStartActivations() {
 
 int GameMaster::MasterControl() {
 	for (int generation = 0; generation < num_generations_; generation++) {
-		cout << "\nGeneration " << generation << std::endl;
+		cout << "Generation " << generation << std::endl;
 		int exit_status = ObtainBrainFitnesses();
 		if (exit_status < 0) {
 			return -1;
@@ -228,8 +229,8 @@ int GameMaster::MasterControl() {
 			return -1;
 		}
 
-		//Obtain the next generation of brains
-		brains_ = evolution_.GetNextGeneration(brains_, num_mutated_neurons_, num_mutated_synapses_);
+		//Obtain the next generation of brains, and print info on the parents
+		brains_ = evolution_.GetNextGeneration(brains_, num_mutated_neurons_, num_mutated_synapses_, num_brains_);
 
 		ResetAllBrainStartActivations();
 	}

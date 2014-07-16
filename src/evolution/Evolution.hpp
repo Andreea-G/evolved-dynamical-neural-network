@@ -22,8 +22,9 @@ public:
 
 	//Takes current brains and randomly selects some for asexual reproduction (which calls MutateBrain on that brain)
 	//and some for sexual reproduction (which calls MateBrains on two brains and MutateBrain on the result)
+	//setting verbose_num_brains to N will print the info on the parents of the first N brains.
 	deque<Brain> GetNextGeneration(const deque<Brain> &brains, const int num_mutated_neurons,
-																	const int num_mutated_synapses) const;
+																	const int num_mutated_synapses, const int verbose_num_brains = 0) const;
 
 	//Mutate a brain and returns the mutated brain
 	Brain MutateBrain(const Brain &parent_brain, const int num_mutated_neurons,

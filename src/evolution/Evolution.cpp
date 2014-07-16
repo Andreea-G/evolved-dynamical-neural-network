@@ -13,6 +13,8 @@
 #include <src/Globals.hpp>
 
 using std::deque;
+using std::cout;
+using std::endl;
 
 float Evolution::FitnessWeighting(const float fitness) {
 	//For now, using a quadratic function to make sure successful brains get mated often.
@@ -85,12 +87,16 @@ Brain Evolution::MateBrains(const Brain &parent1, const Brain &parent2) const {
 
 
 deque<Brain> Evolution::GetNextGeneration (const deque<Brain> &brains, const int num_mutated_neurons,
-																					 const int num_mutated_synapses) const {
+																					 const int num_mutated_synapses, const int verbose_num_brains) const {
 
 	size_t num_brains = brains.size();
 
 	std::uniform_int_distribution<int> mating_distro(0, most_fit_brains_.size()-1);
 	std::uniform_real_distribution<float> asexual_distro(0.0, 1.0);
+
+	if (verbose_num_brains > 0) {
+		cout << "\nParents for next gen: ";
+	}
 
 	deque<Brain> next_gen;
 	//Create a new generation of num_brains children
@@ -100,6 +106,9 @@ deque<Brain> Evolution::GetNextGeneration (const deque<Brain> &brains, const int
 		if (asexual_distro(globals::gen) < prob_asexual_) {	//asexual reproduction
 			Brain new_brain = MutateBrain(brains[parent1_index], num_mutated_neurons, num_mutated_synapses);
 			next_gen.push_back(new_brain);
+			if (ii < verbose_num_brains) {
+				cout << parent1_index << ", ";
+			}
 		} else {		//sexual reproduction
 			//Randomly pick parent 2
 			int parent2_index = most_fit_brains_[mating_distro(globals::gen)];
@@ -107,15 +116,26 @@ deque<Brain> Evolution::GetNextGeneration (const deque<Brain> &brains, const int
 			if (parent2_index == parent1_index) {
 				Brain new_brain = MutateBrain(brains[parent1_index], num_mutated_neurons, num_mutated_synapses);
 				next_gen.push_back(new_brain);
+				if (ii < verbose_num_brains) {
+					cout << parent1_index << ", ";
+				}
 			} else {
 				//first mate two brains to get one child
 				Brain new_brain = MateBrains(brains[parent1_index], brains[parent2_index]);
 				//then mutations occur
 				new_brain = MutateBrain(new_brain, num_mutated_neurons, num_mutated_synapses);
 				next_gen.push_back(new_brain);
+				if (ii < verbose_num_brains) {
+					cout << parent1_index << "+" << parent2_index << ", ";
+				}
 			}
-		}
+		} //end of sexual reproduction
+	} //end of loop through child brains
+
+	if (verbose_num_brains > 0) {
+		cout << endl;
 	}
+
 	return next_gen;
 }
 
