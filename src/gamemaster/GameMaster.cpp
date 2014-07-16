@@ -23,20 +23,20 @@ using std::endl;
 
 void GameMaster::PrintGenerationInfo() {
 
-	cout << "Brain fitness scores: ";
+	cout << "Moves required for brains: ";
 	float best_score=0;
 	//save total score to calculate average
 	float total_score=0;
 	for (auto brain_it = brains_.begin(); brain_it != brains_.end(); brain_it++) {
 		float fitness_score = brain_it->get_fitness_score();
-		cout << fitness_score << " ";
+		cout << 1/fitness_score << " ";
 		total_score += fitness_score;
 		if(fitness_score > best_score) {
 			best_score = fitness_score;
 		}
 	}
 
-	cout << "\nBest Score: " << best_score << "     Average Score: " << (total_score / num_brains_);
+	cout << "\nLeast Moves: " << 1/best_score << "     Average Moves: " << 1/(total_score / num_brains_);
 	cout << endl;
 }
 
