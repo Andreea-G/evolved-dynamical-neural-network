@@ -11,7 +11,6 @@
 
 #include <src/gamemaster/GameMaster.hpp>
 #include <src/Globals.hpp>
-//#include <algorithm> //std::transform
 
 using std::deque;
 using std::map;
@@ -100,6 +99,8 @@ GameMaster::GameMaster(const size_t num_brains,
 }
 
 
+//TODO: make ObtainBrainFitness function, change the for loop here to not have iterator, but iterate over size_t, and pass to new thread
+//also, figure out how to limit number of concurrent threads.
 int GameMaster::ObtainBrainFitnesses() {
 	//Loop through each brain
 	for (auto brain_it = brains_.begin(); brain_it != brains_.end(); brain_it++) {
@@ -126,11 +127,6 @@ int GameMaster::ObtainBrainFitnesses() {
 
 			//Get brain input (which are the possible directions from this position)
 			deque<bool> brain_input = maze_task.GetBrainInput();
-								//			cout << "\nBrain input: ";   //TODO: delete this output, just debugging
-								//			for (auto br_input_it = brain_input.begin(); br_input_it != brain_input.end(); br_input_it++) {
-								//				cout << *br_input_it << " ";
-								//			}
-								//			cout << endl;
 
 			//Let the brain decide on an action
 			//The first element in the map is an output of the brain, while the second is counting how many times
@@ -148,11 +144,6 @@ int GameMaster::ObtainBrainFitnesses() {
 				//if we're in the output period, store the output for each cycle into brain_output
 				if (cycle >= input_output_delay_) {
 					deque<bool> brain_output = brain_it->get_output();
-										//					cout << "\nBrain output: "; //TODO: get rid of this, it's for debugging.
-										//					for (auto br_output_it = brain_output.begin(); br_output_it != brain_output.end(); br_output_it++) {
-										//						cout << *br_output_it << " ";
-										//					}
-										//					cout << endl;
 
 					//check if this brain_output is already in the map and if so add 1 to its current frequency,
 					//otherwise add it to the map
@@ -200,7 +191,7 @@ int GameMaster::ObtainBrainFitnesses() {
 			return -1;
 		}
 		brain_it->set_fitness_score(1.0/num_decisions);
-												//del     cout << brain_it->get_fitness_score() << " ";
+
 	} //end for loop through every brain
 
 	return 0;
