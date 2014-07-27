@@ -170,6 +170,11 @@ int MazeMaster::MasterControl() {
 			return -1;
 		}
 
+		//Exit if we're on the last loop
+		if (generation+1 == num_generations_) {
+			break;
+		}
+
 		//Obtain the next generation of brains, and print info on the parents
 		brains_ = evolution_.GetNextGeneration(brains_, num_mutated_neurons_, num_mutated_synapses_, num_brains_,
 																					 mutate_decay_rate_, mutate_active_threshold_);
