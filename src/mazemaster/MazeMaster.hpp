@@ -83,7 +83,9 @@ private:
 	//for evolution:
 	Evolution evolution_;
 	const int num_generations_;
-	const size_t num_mutated_neurons_, num_mutated_synapses_;
+	const size_t num_mutated_neurons_;
+	const size_t num_mutated_synapses_;
+
 	//during evolution, these say if the decay rate and active_threshold of a mutated neuron also get mutated
 	const bool mutate_decay_rate_, mutate_active_threshold_;
 

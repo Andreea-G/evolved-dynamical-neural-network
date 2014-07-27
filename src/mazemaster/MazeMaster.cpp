@@ -9,6 +9,7 @@
 #include <fstream>
 #include <map>
 #include <vector>
+#include <string>
 
 #include <tclap/CmdLine.h>
 #include <src/mazemaster/MazeMaster.hpp>
@@ -21,22 +22,98 @@ using std::pair;
 using std::cout;
 using std::endl;
 
+//Don't change these - the maze task passes 3 bits to the brain and expects 2 bits back (see MazeTask.hpp for more),
+const size_t num_input_neurons = 3;
+const size_t num_output_neurons = 2;
+
 
 int MazeMaster::ParseMazeArgsAndExecute(int argc, char** argv) {
 	try {
 		//CmdLine parser object
 		TCLAP::CmdLine cmd("Evolved Dynamical Neural Net for solving mazes", ' ', "0.1");
 
+		//Collect all arguments
+		TCLAP::ValueArg<int> num_brains_arg("N", "num_brains", "Number of brains in each generation", true, 0, "int", cmd);
+		TCLAP::ValueArg<int> num_neurons_arg("n", "num_neurons", "Number of neuron in each brain", true, 0, "int", cmd);
+//		TCLAP::ValueArg<int> num_input_neurons_arg("i", "num_input_neurons", "Number of input neuron in each brain", true, 0, "int", cmd); TODO delete this
+//		TCLAP::ValueArg<int> num_output_neurons_arg("o", "num_output_neurons", "Number of output neuron in each brain", true, 0, "int", cmd);
+
+		TCLAP::ValueArg<float> av_active_threshold_arg("a", "av_active_threshold", "Average activation threshold for each neruon", true, 0, "float", cmd);
+		TCLAP::ValueArg<float> st_dev_active_threshold_arg("A", "st_dev_active_threshold", "Standard deviation for activation threshold for each neruon", true, 0, "float", cmd);
+		//Don't ask user for st_dev_start_activation since that's dangerous, see declaration of st_dev_start_activation_ in MazeMaster.hpp for details.
+		TCLAP::ValueArg<float> av_start_activation_arg("s", "start_activation", "Start activation for each neruon (at beginning of maze)", true, 0, "float", cmd);
+		TCLAP::ValueArg<float> av_decay_rate_arg("d", "av_decay_rate", "Average decay rate for each neruon", true, 0, "float", cmd);
+		TCLAP::ValueArg<float> st_dev_decay_rate_arg("D", "st_dev_decay_rate", "Standard deviation for decay rate for each neruon", true, 0, "float", cmd);
+		TCLAP::ValueArg<float> av_num_syn_arg("y", "av_num_syn", "Average number of synapses for each neruon", true, 0, "float", cmd);
+		TCLAP::ValueArg<float> st_dev_num_syn_arg("Y", "st_dev_num_syn", "Standard deviation of number of synapses for each neruon", true, 0, "float", cmd);
+		TCLAP::ValueArg<float> av_syn_strength_arg("r", "av_syn_strength", "Average synapse strength for each neruon", true, 0, "float", cmd);
+		TCLAP::ValueArg<float> st_dev_syn_strength_arg("R", "st_dev_syn_strength", "Standard deviation of synapse strength for each neruon", true, 0, "float", cmd);
+
+		TCLAP::ValueArg<int> max_decisions_arg("m", "max_decisions", "Maximum allowed decision before a brain receives worst fitness score", true, 0, "int", cmd);
+		TCLAP::ValueArg<int> input_duration_arg("I", "input_duration", "Duration of input signal in cycles", true, 0, "int", cmd);
+		TCLAP::ValueArg<int> input_output_delay_arg("e", "input_output_delay", "Number of cycles between start of input and start of output", true, 0, "int", cmd);
+		TCLAP::ValueArg<int> output_duration_arg("O", "output_duration", "Duration of output signal in cycles", true, 0, "int", cmd);
+
+		TCLAP::ValueArg<std::string> maze_map_file_arg("M", "maze_map_file", "The maze filepath, see docs for expected file format", true, "", "string", cmd);
+		TCLAP::SwitchArg maze_random_start_arg("x", "maze_random_start", "Have players start at random points in maze (you should probably not use this)", cmd, false);
+
+		TCLAP::ValueArg<int> num_generations_arg("g", "num_generations", "Number of generations", true, 0, "int", cmd);
+		TCLAP::ValueArg<size_t> num_mutated_neurons_arg("u", "num_mutated_neurons", "Number of mutated neurons each time a brain is mutated", true, 0, "int", cmd);
+		TCLAP::ValueArg<size_t> num_mutated_synapses_arg("U", "num_mutated_synapses", "Number of mutated synapses in each mutated neuron", true, 0, "int", cmd);
+		TCLAP::ValueArg<float> prob_asexual_arg("X", "prob_asexual", "Probability of each brain coming from asexual reproduction", true, 0, "float", cmd);
+		TCLAP::SwitchArg mutate_decay_rate_arg("v", "mutate_decay_rate", "Mutate the decay rate everytime a neuron gets mutated", cmd, false);
+		TCLAP::SwitchArg mutate_active_threshold_arg("V", "active_threshold", "Mutate the active threshold everytime a neuron gets mutated", cmd, false);
+
+		TCLAP::ValueArg<int> max_num_threads_arg("t", "max_num_threads", "Max number of threads to use", false, 1, "int", cmd);
 
 
 		cmd.parse(argc, argv);
 
+		//rename arguments
+		const size_t num_brains = num_brains_arg.getValue();
+		const size_t num_neurons = num_neurons_arg.getValue();
+		const float av_active_threshold = av_active_threshold_arg.getValue();
+		const float st_dev_active_threshold = st_dev_active_threshold_arg.getValue();
+		const float av_start_activation = av_start_activation_arg.getValue();
+		//See note in the declaration of st_dev_start_activation_ in MazeMaster.hpp for reason why this is 0.0
+		const float st_dev_start_activation = 0.0;
+		const float av_decay_rate = av_decay_rate_arg.getValue();
+		const float st_dev_decay_rate = st_dev_decay_rate_arg.getValue();
+		const int av_num_syn = av_num_syn_arg.getValue();
+		const int st_dev_num_syn = st_dev_num_syn_arg.getValue();
+		const float av_syn_strength = av_syn_strength_arg.getValue();
+		const float st_dev_syn_strength = st_dev_syn_strength_arg.getValue();
+		const int max_decisions = max_decisions_arg.getValue();
+		const int input_duration = input_duration_arg.getValue();
+		const int input_output_delay = input_output_delay_arg.getValue();
+		const int output_duration = output_duration_arg.getValue();
+		const string maze_map_file = maze_map_file_arg.getValue();
+		const bool maze_random_start = maze_random_start_arg.getValue();
+		const int num_generations = num_generations_arg.getValue();
+		const size_t num_mutated_neurons = num_mutated_neurons_arg.getValue();
+		const size_t num_mutated_synapses = num_mutated_synapses_arg.getValue();
+		const float prob_asexual = prob_asexual_arg.getValue();
+		const bool mutate_decay_rate = mutate_decay_rate_arg.getValue();
+		const bool mutate_active_threshold = mutate_active_threshold_arg.getValue();
+		const int max_num_threads = max_num_threads_arg.getValue();
+
+		//TODO error check for limits
+
+		MazeMaster main_maze_master(num_brains,	num_neurons, num_input_neurons, num_output_neurons,	av_active_threshold,
+																st_dev_active_threshold, av_start_activation, st_dev_start_activation, av_decay_rate,
+																st_dev_decay_rate, av_num_syn, st_dev_num_syn, av_syn_strength, st_dev_syn_strength,
+																max_decisions, input_duration, input_output_delay, output_duration,
+																maze_map_file, maze_random_start, num_generations, num_mutated_neurons,
+																num_mutated_synapses,	prob_asexual, mutate_decay_rate, mutate_active_threshold,
+																max_num_threads);
+
+		return main_maze_master.MasterControl();
 
 	} catch (TCLAP::ArgException &e) {
 		std::cerr << "error: " << e.error() << " for arg " << e.argId() << std::endl;
 	}
 
-	return 0;
+	return -1; //program shouldn't get here.
 }
 
 

@@ -18,14 +18,15 @@ class Evolution {
 
 public:
 	explicit Evolution(const float prob_asexual = 0) : prob_asexual_(prob_asexual) {};
-//	Evolution(float prob_asexual) : prob_asexual_(prob_asexual) {};  //TODO: tmp for testing
+	//Note: we could pass more values to the constructor so that function like GetNextGeneration have more simple
+	//signatures, but that would be at the expense of being able to change the evolution process halfway through task.
 
 	//Takes current brains and randomly selects some for asexual reproduction (which calls MutateBrain on that brain)
 	//and some for sexual reproduction (which calls MateBrains on two brains and MutateBrain on the result)
 	//setting verbose_num_brains to N will print the info on the parents of the first N brains.
 	deque<Brain> GetNextGeneration(const deque<Brain> &brains, const int num_mutated_neurons,
 																 const int num_mutated_synapses, const size_t verbose_num_brains = 0,
-																 const bool mutate_decay_rate = true, const bool mutate_active_threshold = true) const; //TODO: all these parameters should be member variables set in constructor!
+																 const bool mutate_decay_rate = true, const bool mutate_active_threshold = true) const;
 
 	//Mutate a brain and returns the mutated brain
 	Brain MutateBrain(const Brain &parent_brain, const int num_mutated_neurons, const int num_mutated_synapses,
