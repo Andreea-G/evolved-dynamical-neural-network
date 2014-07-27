@@ -39,13 +39,15 @@ void MazeMasterTest::Test1() {
 
 	const bool mutate_decay_rate = true, mutate_active_threshold = true;
 
+	const int max_num_threads=1;
+
 	MazeMaster test_MazeMaster1(num_brains, num_neurons, 3, 2,
 															av_active_threshold, st_dev_active_threshold,
 															av_start_activation, st_dev_start_activation,
 															av_decay_rate, st_dev_decay_rate,
 															av_num_syn, st_dev_num_syn,
 															av_syn_strength, st_dev_syn_strength,
-															max_decisions,
+															max_num_threads, max_decisions,
 															input_duration, input_output_delay, output_duration,
 															maze_map_file, maze_random_start,
 															num_generations, num_mutated_neurons, num_mutated_synapses,
@@ -61,8 +63,8 @@ void MazeMasterTest::Test1() {
 void MazeMasterTest::Test2() {
 	//This one is Garry's
 
-	size_t num_brains = 5;
-	size_t num_neurons = 2000;
+	size_t num_brains = 50;
+	size_t num_neurons = 500;
 	const float av_active_threshold = 0.25; const float st_dev_active_threshold = 0.04;
 	const float av_start_activation = 0.25 ; const float st_dev_start_activation = 0;
 	const float av_decay_rate = 0.001; const float st_dev_decay_rate = 0.0003;
@@ -80,12 +82,14 @@ void MazeMasterTest::Test2() {
 	const bool maze_random_start = false;
 
 	const int num_generations = 50;
-	const size_t num_mutated_neurons = 1;  //TODO: Setting this to 1 causes a difference in a mutated brain, why????
+	const size_t num_mutated_neurons = 1;
 	const size_t num_mutated_synapses = 1;
 
 	const float prob_asexual = 1;
 
 	const bool mutate_decay_rate = false, mutate_active_threshold = false;
+
+	const int max_num_threads=1;
 
 	MazeMaster test_MazeMaster1(num_brains, num_neurons, 3, 2,
 															av_active_threshold, st_dev_active_threshold,
@@ -93,7 +97,7 @@ void MazeMasterTest::Test2() {
 															av_decay_rate, st_dev_decay_rate,
 															av_num_syn, st_dev_num_syn,
 															av_syn_strength, st_dev_syn_strength,
-															max_decisions,
+															max_num_threads, max_decisions,
 															input_duration, input_output_delay, output_duration,
 															maze_map_file, maze_random_start,
 															num_generations, num_mutated_neurons, num_mutated_synapses,

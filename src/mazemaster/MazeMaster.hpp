@@ -12,6 +12,9 @@
 #include <src/brain/Brain.hpp>
 #include <src/evolution/Evolution.hpp>
 #include <src/tasks/MazeTask.hpp>
+#include <mutex>
+#include <condition_variable>
+#include <thread>
 //#include <unordered_map>
 
 using std::deque;
@@ -39,15 +42,16 @@ public:
 						const float av_decay_rate, const float st_dev_decay_rate,
 						const int av_num_syn, const int st_dev_num_syn,
 						const float av_syn_strength, const float st_dev_syn_strength,
-						const int max_decisions,
+						const int max_num_threads, const int max_decisions,
 						const int input_duration, const int input_output_delay, const int output_duration,
 						const string maze_map_file, const int maze_random_start,
 						const int num_generations, const size_t num_mutated_neurons, const size_t num_mutated_synapses,
 						const float prob_asexual, const bool mutate_decay_rate = true, const bool mutate_active_threshold = true);
 
-	//Loop through all brains, and find the fitness_score_ for each brain.
+	//Loop through all brains calling ObtainBrainFitness(.) to get calculate the fitness_score_ for each brain.
 	//Returns -1 if it fails and 0 otherwise.
-	int ObtainBrainFitnesses();
+	int ObtainAllBrainFitnesses();
+	void ObtainBrainFitness(Brain& brain);
 
 	//Loop through the number of generations. For each generation, get the fitness scores of brains,
 	//find the most fit brains, and get the next generation. Return 0 if no errors were found, or -1 otherwise
@@ -91,8 +95,20 @@ private:
 	//during evolution, these say if the decay rate and active_threshold of a mutated neuron also get mutated
 	const bool mutate_decay_rate_, mutate_active_threshold_;
 
+	//The max number of threads to be used (ObtainAllBrainFitnesses spawns new threads)
+	//const int max_num_threads_;
+	int max_num_threads_;
+
+	//mutex to lock .... TODO
+	std::mutex mtx_;
+	int num_live_threads_;
+	//In order to limit the number of concurrent threads, we use condition variable
+	std::condition_variable num_threads_cv_;
+
 	void PrintGenerationInfo();
 };
+
+
 
 
 #endif /* MAZEMASTER__MAZEMASTER_H_ */

@@ -4,10 +4,14 @@
 
 TEMPLATE = app
 #TARGET = pinn
-#INCLUDEPATH += . src/tasks src/testing src/brain src/evolution  ###DEL
 INCLUDEPATH += .
 CONFIG += c++11
-QMAKE_CXXFLAGS += -pedantic
+QMAKE_CXXFLAGS += -pedantic -pthread
+QMAKE_LFLAGS += -pthread
+
+#this line is a workaround for a current bug in g++ (see: http://stackoverflow.com/questions/19463602/compiling-multithread-code-with-g)
+QMAKE_LFLAGS += -Wl,--no-as-needed
+
 
 
 # Input
