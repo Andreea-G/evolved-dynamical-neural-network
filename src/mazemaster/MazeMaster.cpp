@@ -1,5 +1,5 @@
 /*
- * GameMaster.cc
+ * MazeMaster.cc
  *
  *  Created on: June 7, 2014
  *      Author: Andreea
@@ -9,7 +9,7 @@
 #include <fstream>
 #include <map>
 
-#include <src/gamemaster/GameMaster.hpp>
+#include <src/mazemaster/MazeMaster.hpp>
 #include <src/Globals.hpp>
 
 using std::deque;
@@ -20,7 +20,7 @@ using std::cout;
 using std::endl;
 
 
-void GameMaster::PrintGenerationInfo() {
+void MazeMaster::PrintGenerationInfo() {
 
 	cout << "Moves required for brains: ";
 	float best_score=0;
@@ -41,7 +41,7 @@ void GameMaster::PrintGenerationInfo() {
 
 //For now, main() will not be using this constructor   //TODO: decide if we should just delete this.
 /*
-GameMaster::GameMaster(const size_t num_brains,
+MazeMaster::MazeMaster(const size_t num_brains,
 					   const size_t num_neurons, const size_t num_input_neurons, const size_t num_output_neurons,
 					   const int max_decisions,
 					   const int input_duration, const int input_output_delay, const int output_duration,
@@ -64,7 +64,7 @@ GameMaster::GameMaster(const size_t num_brains,
 }
 */
 
-GameMaster::GameMaster(const size_t num_brains,
+MazeMaster::MazeMaster(const size_t num_brains,
 					const size_t num_neurons, const size_t num_input_neurons, const size_t num_output_neurons,
 					const float av_active_threshold, const float st_dev_active_threshold,
 					const float av_start_activation, const float st_dev_start_activation,
@@ -101,7 +101,7 @@ GameMaster::GameMaster(const size_t num_brains,
 
 //TODO: make ObtainBrainFitness function, change the for loop here to not have iterator, but iterate over size_t, and pass to new thread
 //also, figure out how to limit number of concurrent threads.
-int GameMaster::ObtainBrainFitnesses() {
+int MazeMaster::ObtainBrainFitnesses() {
 	//Loop through each brain
 	for (auto brain_it = brains_.begin(); brain_it != brains_.end(); brain_it++) {
 		//Default to worst outcome. If the brain doesn't finish the maze in max_decisions_ time then it receives the worst score.
@@ -198,14 +198,14 @@ int GameMaster::ObtainBrainFitnesses() {
 }
 
 
-void GameMaster::ResetAllBrainStartActivations() {
+void MazeMaster::ResetAllBrainStartActivations() {
 	for (auto brain_it = brains_.begin(); brain_it != brains_.end(); brain_it++) {
 		brain_it->ResetStartActivations(av_start_activation_, st_dev_start_activation_);
 	}
 }
 
 
-int GameMaster::MasterControl() {
+int MazeMaster::MasterControl() {
 	for (int generation = 0; generation < num_generations_; generation++) {
 		cout << "Generation " << generation << std::endl;
 		int exit_status = ObtainBrainFitnesses();

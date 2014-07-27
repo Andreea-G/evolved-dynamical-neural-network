@@ -62,7 +62,7 @@ public:
 	void Cycle();
 
 	//Reset the brain so it starts fresh.  Note: if st_dev_start_activation_ is nonzero, then there's randomness involved
-	//and so on each reset, the brain will be different!  That's probably undesirable, so if you're not sure, set it to 0.  //TODO: should we disable this in GameMaster?
+	//and so on each reset, the brain will be different!  That's probably undesirable, so if you're not sure, set it to 0.  //TODO: should we disable this in MazeMaster?
 	void ResetStartActivations(const float av_start_activation, const float st_dev_start_activation);
 
 	//TODO: move back to private

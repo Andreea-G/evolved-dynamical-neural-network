@@ -20,8 +20,8 @@ HEADERS += src/brain/Brain.hpp \
 	src/evolution/Evolution.hpp \
 	src/testing/EvolutionTest.hpp \
 	src/Globals.hpp \
-	src/gamemaster/GameMaster.hpp \
-		src/testing/GameMasterTest.hpp
+		src/testing/MazeMasterTest.hpp \
+    src/mazemaster/MazeMaster.hpp
 	
 SOURCES += src/main.cpp \
 			 src/brain/Brain.cpp \
@@ -32,5 +32,5 @@ SOURCES += src/main.cpp \
 	src/evolution/Evolution.cpp \
 	src/testing/EvolutionTest.cpp \
 	src/Globals.cpp \
-	src/gamemaster/GameMaster.cpp \
-		src/testing/GameMasterTest.cpp
+		src/testing/MazeMasterTest.cpp \
+    src/mazemaster/MazeMaster.cpp

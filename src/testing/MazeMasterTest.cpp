@@ -1,5 +1,5 @@
-#include <src/testing/GameMasterTest.hpp>
-#include <src/gamemaster/GameMaster.hpp>
+#include <src/testing/MazeMasterTest.hpp>
+#include <src/mazemaster/MazeMaster.hpp>
 #include <src/brain/Brain.hpp>
 #include <src/evolution/Evolution.hpp>
 #include <src/tasks/MazeTask.hpp>
@@ -13,7 +13,7 @@ using std::cerr;
 using std::endl;
 using std::string;
 
-void GameMasterTest::Test1() {
+void MazeMasterTest::Test1() {
 
 	size_t num_brains = 3;
 	size_t num_neurons = 800;  //These settings gave a non-repeating brain!
@@ -39,7 +39,7 @@ void GameMasterTest::Test1() {
 
 	const bool mutate_decay_rate = true, mutate_active_threshold = true;
 
-	GameMaster test_GameMaster1(num_brains, num_neurons, 3, 2,
+	MazeMaster test_MazeMaster1(num_brains, num_neurons, 3, 2,
 															av_active_threshold, st_dev_active_threshold,
 															av_start_activation, st_dev_start_activation,
 															av_decay_rate, st_dev_decay_rate,
@@ -52,17 +52,17 @@ void GameMasterTest::Test1() {
 															prob_asexual,
 															mutate_decay_rate, mutate_active_threshold);
 
-	int exit_status = test_GameMaster1.MasterControl();
+	int exit_status = test_MazeMaster1.MasterControl();
 	if (exit_status == -1) {
 		std::cerr << "-1 returned by MasterControl!\n";
 	}
 }
 
-void GameMasterTest::Test2() {
+void MazeMasterTest::Test2() {
 	//This one is Garry's
 
-	size_t num_brains = 50;
-	size_t num_neurons = 20001;
+	size_t num_brains = 5;
+	size_t num_neurons = 2000;
 	const float av_active_threshold = 0.25; const float st_dev_active_threshold = 0.04;
 	const float av_start_activation = 0.25 ; const float st_dev_start_activation = 0;
 	const float av_decay_rate = 0.001; const float st_dev_decay_rate = 0.0003;
@@ -87,7 +87,7 @@ void GameMasterTest::Test2() {
 
 	const bool mutate_decay_rate = false, mutate_active_threshold = false;
 
-	GameMaster test_GameMaster1(num_brains, num_neurons, 3, 2,
+	MazeMaster test_MazeMaster1(num_brains, num_neurons, 3, 2,
 															av_active_threshold, st_dev_active_threshold,
 															av_start_activation, st_dev_start_activation,
 															av_decay_rate, st_dev_decay_rate,
@@ -100,13 +100,13 @@ void GameMasterTest::Test2() {
 															prob_asexual,
 															mutate_decay_rate, mutate_active_threshold);
 
-	int exit_status = test_GameMaster1.MasterControl();
+	int exit_status = test_MazeMaster1.MasterControl();
 	if (exit_status == -1) {
 		std::cerr << "-1 returned by MasterControl!\n";
 	}
 }
 
-//void GameMasterTest::Test3() {
+//void MazeMasterTest::Test3() {
 //	//This one is done by Garry
 
 //	size_t num_brains = 4;
@@ -135,7 +135,7 @@ void GameMasterTest::Test2() {
 
 //	const bool mutate_decay_rate = true, mutate_active_threshold = true;
 
-//	GameMaster test_GameMaster1(num_brains, num_neurons, 3, 2,
+//	MazeMaster test_MazeMaster1(num_brains, num_neurons, 3, 2,
 //															av_active_threshold, st_dev_active_threshold,
 //															av_start_activation, st_dev_start_activation,
 //															av_decay_rate, st_dev_decay_rate,
@@ -148,7 +148,7 @@ void GameMasterTest::Test2() {
 //															prob_asexual,
 //															mutate_decay_rate, mutate_active_threshold);
 
-//	int exit_status = test_GameMaster1.MasterControl();
+//	int exit_status = test_MazeMaster1.MasterControl();
 //	if (exit_status == -1) {
 //		std::cerr << "-1 returned by MasterControl!\n";
 //	}

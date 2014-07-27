@@ -1,12 +1,12 @@
 /*
- * GameMaster.h
+ * MazeMaster.h
  *
  *  Created on: July 7, 2014
  *      Author: Andreea
  */
 
-#ifndef GAMEMASTER__GAMEMASTER_H_
-#define GAMEMASTER__GAMEMASTER_H_
+#ifndef MAZEMASTER__MAZEMASTER_H_
+#define MAZEMASTER__MAZEMASTER_H_
 
 #include <deque>
 #include <src/brain/Brain.hpp>
@@ -17,12 +17,12 @@
 using std::deque;
 using std::string;
 
-class GameMaster {
+class MazeMaster {
 
 public:
 	//TODO: should we delete this constructor if main() won't be using it?
 	/*
-	GameMaster(const size_t num_brains,
+	MazeMaster(const size_t num_brains,
 			   const size_t num_neurons, const size_t num_input_neurons, const size_t num_output_neurons,
 			   const int max_decisions,
 			   const int input_duration, const int input_output_delay, const int output_duration,
@@ -32,7 +32,7 @@ public:
 	*/
 
 	//For now, main() will only call this constructor.  In the future, we may allow the above constructor to be invoked.
-	GameMaster(const size_t num_brains,
+	MazeMaster(const size_t num_brains,
 						const size_t num_neurons, const size_t num_input_neurons, const size_t num_output_neurons,
 						const float av_active_threshold, const float st_dev_active_threshold,
 						const float av_start_activation, const float st_dev_start_activation,
@@ -95,4 +95,4 @@ private:
 };
 
 
-#endif /* GAMEMASTER__MAGEMASTER_H_ */
+#endif /* MAZEMASTER__MAZEMASTER_H_ */
