@@ -103,7 +103,7 @@ void Brain::MutateNeurons(const int num_mutated_neurons, const int num_mutated_s
 			rand_neuron.set_decay_rate((globals::MAX_DECAY_RATE - globals::MIN_DECAY_RATE) * unit_distro(globals::gen) + globals::MIN_DECAY_RATE);
 		}
 
-		if (mutate_decay_rate) {
+		if (mutate_active_threshold) {
 			//generate random activation using uniform distribution over [MIN_ACTIVATION, MAX_ACTIVATION]
 			rand_neuron.set_active_threshold((globals::MAX_ACTIVATION - globals::MIN_ACTIVATION) * unit_distro(globals::gen) + globals::MIN_ACTIVATION);
 		}
