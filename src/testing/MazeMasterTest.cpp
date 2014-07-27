@@ -63,7 +63,7 @@ void MazeMasterTest::Test1() {
 void MazeMasterTest::Test2() {
 	//This one is Garry's
 
-	size_t num_brains = 50;
+	size_t num_brains = 16;
 	size_t num_neurons = 500;
 	const float av_active_threshold = 0.25; const float st_dev_active_threshold = 0.04;
 	const float av_start_activation = 0.25 ; const float st_dev_start_activation = 0;
@@ -81,7 +81,7 @@ void MazeMasterTest::Test2() {
 	const string maze_map_file = "maze_files/test_maze4"; //Garrett's testing maze
 	const bool maze_random_start = false;
 
-	const int num_generations = 50;
+	const int num_generations = 10;
 	const size_t num_mutated_neurons = 1;
 	const size_t num_mutated_synapses = 1;
 
@@ -89,7 +89,7 @@ void MazeMasterTest::Test2() {
 
 	const bool mutate_decay_rate = false, mutate_active_threshold = false;
 
-	const int max_num_threads=1;
+	const int max_num_threads=8;
 
 	MazeMaster test_MazeMaster1(num_brains, num_neurons, 3, 2,
 															av_active_threshold, st_dev_active_threshold,

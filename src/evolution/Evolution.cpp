@@ -87,7 +87,7 @@ Brain Evolution::MateBrains(const Brain &parent1, const Brain &parent2) const {
 
 
 deque<Brain> Evolution::GetNextGeneration (const deque<Brain> &brains, const int num_mutated_neurons,
-																					 const int num_mutated_synapses, const int verbose_num_brains,
+																					 const int num_mutated_synapses, const size_t verbose_num_brains,
 																					 const bool mutate_decay_rate, const bool mutate_active_threshold) const {
 
 	size_t num_brains = brains.size();

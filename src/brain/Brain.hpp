@@ -49,8 +49,8 @@ public:
 	//The output neurons give the result, also in the form of a binary signal. The next few neurons will be output neurons.
 	deque<bool> get_output() const;
 
-	//Randomly mutates num_mutated_synapses synapses inside of randomly selected neurons
-	//(which may or may not already exist),
+	//Randomly mutates (num_mutated_synapses) synapses inside of randomly selected neurons
+	//(the synapses may or may not already exist),
 	//as well as the activation threshold and decay rate.
 	//The number of neurons selected for mutation is num_mutated_neurons.
 	//It will create new synapses if num_mutated is positive, or destroy synapes if it's negative

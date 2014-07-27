@@ -100,12 +100,14 @@ void Brain::MutateNeurons(const int num_mutated_neurons, const int num_mutated_s
 		Neuron & rand_neuron = neurons_[neuron_distro(globals::gen)];
 		if (mutate_decay_rate) {
 			//generate random decay rate using uniform distribution over [MIN_ACTIVATION, MAX_ACTIVATION]
-			rand_neuron.set_decay_rate((globals::MAX_DECAY_RATE - globals::MIN_DECAY_RATE) * unit_distro(globals::gen) + globals::MIN_DECAY_RATE);
+			rand_neuron.set_decay_rate((globals::MAX_DECAY_RATE - globals::MIN_DECAY_RATE) * unit_distro(globals::gen)
+																 + globals::MIN_DECAY_RATE);
 		}
 
 		if (mutate_active_threshold) {
 			//generate random activation using uniform distribution over [MIN_ACTIVATION, MAX_ACTIVATION]
-			rand_neuron.set_active_threshold((globals::MAX_ACTIVATION - globals::MIN_ACTIVATION) * unit_distro(globals::gen) + globals::MIN_ACTIVATION);
+			rand_neuron.set_active_threshold((globals::MAX_ACTIVATION - globals::MIN_ACTIVATION) * unit_distro(globals::gen)
+																			 + globals::MIN_ACTIVATION);
 		}
 
 		rand_neuron.MutateSynapses(num_mutated_synapses, num_neurons_);

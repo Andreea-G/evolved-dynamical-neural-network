@@ -31,8 +31,8 @@ int main(int argc, char* argv[]) {
 	//MazeMaster should probably parse the , then execute the MazeMaster which is where the meat and potatoes are
 
 
-	MazeMasterTest mmtest;
-	mmtest.Test2();
+//	MazeMasterTest mmtest;
+//	mmtest.Test2();
 
 	return 0;
 //	try {

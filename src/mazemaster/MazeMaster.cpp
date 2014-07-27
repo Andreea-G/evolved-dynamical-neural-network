@@ -10,6 +10,7 @@
 #include <map>
 #include <vector>
 
+#include <tclap/CmdLine.h>
 #include <src/mazemaster/MazeMaster.hpp>
 #include <src/Globals.hpp>
 
@@ -21,49 +22,23 @@ using std::cout;
 using std::endl;
 
 
-void MazeMaster::PrintGenerationInfo() {
+int MazeMaster::ParseMazeArgsAndExecute(int argc, char** argv) {
+	try {
+		//CmdLine parser object
+		TCLAP::CmdLine cmd("Evolved Dynamical Neural Net for solving mazes", ' ', "0.1");
 
-	cout << "Moves required for brains: ";
-	float best_score=0;
-	//save total score to calculate average
-	float total_score=0;
-	for (auto brain_it = brains_.begin(); brain_it != brains_.end(); brain_it++) {
-		float fitness_score = brain_it->get_fitness_score();
-		cout << 1/fitness_score << " ";
-		total_score += fitness_score;
-		if(fitness_score > best_score) {
-			best_score = fitness_score;
-		}
+
+
+		cmd.parse(argc, argv);
+
+
+	} catch (TCLAP::ArgException &e) {
+		std::cerr << "error: " << e.error() << " for arg " << e.argId() << std::endl;
 	}
 
-	cout << "\nLeast Moves: " << 1/best_score << "     Average Moves: " << 1/(total_score / num_brains_);
-	cout << endl;
+	return 0;
 }
 
-//For now, main() will not be using this constructor   //TODO: decide if we should just delete this.
-/*
-MazeMaster::MazeMaster(const size_t num_brains,
-					   const size_t num_neurons, const size_t num_input_neurons, const size_t num_output_neurons,
-					   const int max_decisions,
-					   const int input_duration, const int input_output_delay, const int output_duration,
-					   const string maze_map_file, const int maze_random_start,
-					   const int num_generations, const size_t num_mutated_neurons, const size_t num_mutated_synapses,
-						 const float prob_asexual) :
-						 num_brains_(num_brains), max_decisions_(max_decisions), input_duration_(input_duration),
-						 output_duration_(output_duration), maze_random_start_(maze_random_start),
-						 num_generations_(num_generations), num_mutated_neurons_(num_mutated_neurons),
-						 num_mutated_synapses_(num_mutated_synapses), maze_map_file_(maze_map_file) {
-
-	//construct brains
-	for (size_t ii = 0; ii < num_brains_; ii++) {
-		Brain new_brain(num_neurons, num_input_neurons, num_output_neurons);
-		brains_.push_back(new_brain);
-	}
-
-	//construct evolution
-	Evolution evolution_(prob_asexual);
-}
-*/
 
 MazeMaster::MazeMaster(const size_t num_brains,
 					const size_t num_neurons, const size_t num_input_neurons, const size_t num_output_neurons,
@@ -72,21 +47,22 @@ MazeMaster::MazeMaster(const size_t num_brains,
 					const float av_decay_rate, const float st_dev_decay_rate,
 					const int av_num_syn, const int st_dev_num_syn,
 					const float av_syn_strength, const float st_dev_syn_strength,
-					const int max_num_threads, const int max_decisions,
-					const int input_duration, const int input_output_delay, const int output_duration,
-					const string maze_map_file, const int maze_random_start,
+					const int max_decisions, const int input_duration,
+					const int input_output_delay, const int output_duration,
+					const string maze_map_file, const bool maze_random_start,
 					const int num_generations, const size_t num_mutated_neurons, const size_t num_mutated_synapses,
-					const float prob_asexual, const bool mutate_decay_rate, const bool mutate_active_threshold) :
+					const float prob_asexual, const bool mutate_decay_rate, const bool mutate_active_threshold,
+					const int max_num_threads) :
 					num_brains_(num_brains),
 					av_start_activation_(av_start_activation), st_dev_start_activation_(st_dev_start_activation),
-					max_num_threads_(max_num_threads), max_decisions_(max_decisions),
+					max_decisions_(max_decisions),
 					input_duration_(input_duration), input_output_delay_(input_output_delay),
 					output_duration_(output_duration), maze_map_file_(maze_map_file),
 					maze_random_start_(maze_random_start), num_generations_(num_generations),
 					num_mutated_neurons_(num_mutated_neurons), num_mutated_synapses_(num_mutated_synapses),
 					evolution_(prob_asexual),
 					mutate_decay_rate_(mutate_decay_rate), mutate_active_threshold_(mutate_active_threshold),
-					num_live_threads_(0) {
+					max_num_threads_(max_num_threads), num_live_threads_(0) {
 	//construct brains
 	for (size_t ii = 0; ii < num_brains_; ii++) {
 		Brain new_brain(num_neurons, num_input_neurons, num_output_neurons,
@@ -101,8 +77,33 @@ MazeMaster::MazeMaster(const size_t num_brains,
 }
 
 
-//TODO: make ObtainBrainFitness function, change the for loop here to not have iterator, but iterate over size_t, and pass to new thread
-//also, figure out how to limit number of concurrent threads.
+int MazeMaster::MasterControl() {
+	for (int generation = 0; generation < num_generations_; generation++) {
+		cout << "Generation " << generation << std::endl;
+		int exit_status = ObtainAllBrainFitnesses();
+		if (exit_status < 0) {
+			return -1;
+		}
+
+		PrintGenerationInfo();
+
+		//find the list of most fit brains
+		exit_status = evolution_.ChooseMostFitBrains(brains_);
+		if (exit_status < 0) {
+			return -1;
+		}
+
+		//Obtain the next generation of brains, and print info on the parents
+		brains_ = evolution_.GetNextGeneration(brains_, num_mutated_neurons_, num_mutated_synapses_, num_brains_,
+																					 mutate_decay_rate_, mutate_active_threshold_);
+
+		ResetAllBrainStartActivations();
+	}
+
+	return 0;
+}
+
+
 int MazeMaster::ObtainAllBrainFitnesses() {
 	//threads, each one will calculate the fitness for 1 brain
 	std::vector<std::thread> threads;
@@ -229,31 +230,22 @@ void MazeMaster::ResetAllBrainStartActivations() {
 }
 
 
-int MazeMaster::MasterControl() {
-	for (int generation = 0; generation < num_generations_; generation++) {
-		cout << "Generation " << generation << std::endl;
-		int exit_status = ObtainAllBrainFitnesses();
-		if (exit_status < 0) {
-			return -1;
+void MazeMaster::PrintGenerationInfo() {
+
+	cout << "Moves required for brains: ";
+	float best_score=0;
+	//save total score to calculate average
+	float total_score=0;
+	for (auto brain_it = brains_.begin(); brain_it != brains_.end(); brain_it++) {
+		float fitness_score = brain_it->get_fitness_score();
+		cout << 1/fitness_score << " ";
+		total_score += fitness_score;
+		if(fitness_score > best_score) {
+			best_score = fitness_score;
 		}
-
-		PrintGenerationInfo();
-
-		//find the list of most fit brains
-		exit_status = evolution_.ChooseMostFitBrains(brains_);
-		if (exit_status < 0) {
-			return -1;
-		}
-
-		//Obtain the next generation of brains, and print info on the parents
-		brains_ = evolution_.GetNextGeneration(brains_, num_mutated_neurons_, num_mutated_synapses_, num_brains_,
-																					 mutate_decay_rate_, mutate_active_threshold_);
-
-		ResetAllBrainStartActivations();
 	}
 
-	return 0;
+	cout << "\nLeast Moves: " << 1/best_score << "     Average Moves: " << 1/(total_score / num_brains_);
+	cout << endl;
 }
-
-
 
