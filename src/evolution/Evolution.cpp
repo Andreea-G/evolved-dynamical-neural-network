@@ -37,8 +37,9 @@ int Evolution::ChooseMostFitBrains(const deque<Brain> &brains) {
 
 	//get the sum of mating priorities of all brains to help normalize
 	float sum_mating_priorities = 0;
-	std::for_each(unnorm_mating_priorities.begin(), unnorm_mating_priorities.end(),
-				  [&](float priority) {sum_mating_priorities += priority;});
+	for (auto& unnorm_mating_priority : unnorm_mating_priorities) {
+		sum_mating_priorities += unnorm_mating_priority;
+	}
 	//get the average mating priority
 	float av_mating_priority = sum_mating_priorities / num_brains;
 

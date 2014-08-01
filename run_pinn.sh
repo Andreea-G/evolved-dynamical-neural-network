@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-num_brains=16
+num_brains=15
 num_neurons=500
 av_active_threshold=0.25
 st_dev_active_threshold=0.04
