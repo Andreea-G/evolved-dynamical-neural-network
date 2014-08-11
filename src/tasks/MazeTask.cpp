@@ -18,7 +18,7 @@ using std::deque;
 using std::cerr;
 using std::endl;
 
-//TODO: pass by references
+//TODO: pass by references (Garrett)
 
 MazeTask::MazeTask(const std::string map_file, const bool random_start) {
 
@@ -123,7 +123,7 @@ bool MazeTask::LoadMap(const std::string map_file) {
 
 		//save current row into temporary deque
 		deque<MazeTile> temp_row_vec;
-		while (line_stream >> num)	//TODO How come if it's just one number on the line this returns false and we never get into loop?
+		while (line_stream >> num)
 			{
 			MazeTile temp_tile = static_cast<MazeTile>(num);
 			//Make sure temp_tile is a valid tile
@@ -175,7 +175,6 @@ bool MazeTask::ActOnDecision(const deque<bool> decision) {
 	}
 
 	assert(false);
-	return false;
 }
 
 

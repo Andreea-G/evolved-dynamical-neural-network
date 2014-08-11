@@ -46,12 +46,13 @@ public:
 	explicit MazeTask(const std::string map_file, const bool random_start = false);
 
 	//Turns the brain in the new direction of motion
-	//The argument decision should be a deque of length 2.
+	//The argument decision should be a deque with 2 Booleans.
 	//The first element shows if we're going straight, the second is right/left.
+	// So, the possible inputs and their corresponding meanings are:
 	// [true,true] and [true,false] -> Stay pointed straight
 	// [false,false] -> turn left,  [false,true] -> turn right.
 	//return false if decision is invalid (i.e. it would have the player facing the wall)
-	bool ActOnDecision(const deque<bool> decision); //TODO: rename to TestDecision
+	bool ActOnDecision(const deque<bool> decision);
 
 	//player moves forward until they reach a decision point (not including dead-ends upon which the player reverses
 		//direction and continues automatically, and corners which the player turns and continues)
@@ -85,7 +86,7 @@ private:
 	//Stored the direction which the player is pointing in our (2D) maze.
 	Direction player_direction_;
 
-	void TurnLeft();
+	void TurnLeft(); //Changes player_direction_
 	void TurnRight();
 	void TurnAround(); //go in opposite direction
 
