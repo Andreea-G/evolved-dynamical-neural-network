@@ -22,7 +22,6 @@ float Evolution::FitnessWeighting(const float fitness) {
 }
 
 int Evolution::ChooseMostFitBrains(const deque<Brain> &brains) {
-	//TODO: should we rethink how this is implemented?  It's somewhat confusing.
 	size_t num_brains = brains.size();
 	//unnormalized mating priorities.  After normalizing, these values will say each brain's chances of getting selected
 	//for the next generation.  For example, if brain 1 gets normalized to 5, then it'll appear 5 times and have a high

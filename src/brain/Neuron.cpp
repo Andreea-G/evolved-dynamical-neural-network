@@ -140,7 +140,7 @@ void Neuron::MutateSynapses(int num_mutated_synapses, const int num_neurons) {
 		for (auto rand_loc_it = rand_synapse_locations.begin();
 							rand_loc_it != rand_synapse_locations.end(); rand_loc_it++) {
 			//Need to set syn_location to our next rand_synapse_location, but must use while loop to go through unordered_map
-			while (syn_location != *rand_loc_it && syn_location < static_cast<int>(synapses_.size()) ) {  //TODO: Should we make syn_location size_t to avoid typecast here?
+			while (syn_location != *rand_loc_it && syn_location < static_cast<int>(synapses_.size()) ) {  //TODO: Should we make syn_location size_t to avoid typecast here? (Garrett)
 				//Note: rand_synapse_locations is ordered, so we only have to increase syn_location
 				syn_location++;
 				syn_it++;

@@ -4,7 +4,7 @@
 #include <src/testing/EvolutionTest.hpp>
 #include <src/evolution/Evolution.hpp>
 #include <src/testing/BrainTest.hpp>
-//TODO: find better way for this include
+
 using std::cout;
 using std::endl;
 

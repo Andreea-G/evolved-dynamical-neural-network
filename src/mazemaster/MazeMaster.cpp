@@ -35,8 +35,6 @@ int MazeMaster::ParseMazeArgsAndExecute(int argc, char** argv) {
 		//Collect all arguments
 		TCLAP::ValueArg<int> num_brains_arg("N", "num_brains", "Number of brains in each generation", true, 0, "int", cmd);
 		TCLAP::ValueArg<int> num_neurons_arg("n", "num_neurons", "Number of neuron in each brain", true, 0, "int", cmd);
-//		TCLAP::ValueArg<int> num_input_neurons_arg("i", "num_input_neurons", "Number of input neuron in each brain", true, 0, "int", cmd); TODO delete this
-//		TCLAP::ValueArg<int> num_output_neurons_arg("o", "num_output_neurons", "Number of output neuron in each brain", true, 0, "int", cmd);
 
 		TCLAP::ValueArg<float> av_active_threshold_arg("a", "av_active_threshold", "Average activation threshold for each neruon", true, 0, "float", cmd);
 		TCLAP::ValueArg<float> st_dev_active_threshold_arg("A", "st_dev_active_threshold", "Standard deviation for activation threshold for each neruon", true, 0, "float", cmd);
@@ -97,7 +95,7 @@ int MazeMaster::ParseMazeArgsAndExecute(int argc, char** argv) {
 		const bool mutate_active_threshold = mutate_active_threshold_arg.getValue();
 		const int max_num_threads = max_num_threads_arg.getValue();
 
-		//TODO error check for limits
+		//TODO error check for limits (Garrett)
 
 		MazeMaster main_maze_master(num_brains,	num_neurons, num_input_neurons, num_output_neurons,	av_active_threshold,
 																st_dev_active_threshold, av_start_activation, st_dev_start_activation, av_decay_rate,
@@ -162,7 +160,7 @@ int MazeMaster::MasterControl() {
 		PrintGenerationInfo();
 
 		//find the list of most fit brains
-		exit_status = evolution_.ChooseMostFitBrains(brains_);
+		int exit_status = evolution_.ChooseMostFitBrains(brains_);
 		if (exit_status < 0) {
 			return -1;
 		}
@@ -183,7 +181,7 @@ int MazeMaster::MasterControl() {
 }
 
 
-int MazeMaster::ObtainAllBrainFitnesses() {
+void MazeMaster::ObtainAllBrainFitnesses() {
 	//threads, each one will calculate the fitness for 1 brain
 	std::vector<std::thread> threads;
 	//Loop through each brain
@@ -207,10 +205,6 @@ void MazeMaster::ObtainBrainFitness(Brain& brain) {
 	//Default to worst outcome. If the brain doesn't finish the maze in max_decisions_ time then it receives the worst score.
 	int num_decisions = max_decisions_;
 
-	//TODO: after profiling code, determine if creating this object and loading the maze each time costing us too much?
-	//if so, we could make a single maze_task and implement a "reset" function that puts the player back to start.
-	//Although the disadvantage to having a single loading map file would be that we'd have to add a bunch of mutexes to
-	//avoid access conflicts.
 	MazeTask maze_task(maze_map_file_, maze_random_start_);
 
 	//Loop through every decision the brain must make

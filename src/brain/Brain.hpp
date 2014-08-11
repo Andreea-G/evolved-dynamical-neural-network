@@ -56,20 +56,23 @@ public:
 	//It will create new synapses if num_mutated is positive, or destroy synapes if it's negative
 	void MutateNeurons(const int num_mutated_neurons, const int num_mutated_synapses,
 										 const bool mutate_decay_rate=true, const bool mutate_active_threshold=true);
-	//TODO: I think num_mutated_neurons should be size_t
+	//TODO: I think num_mutated_neurons, num_mutated_synapses should be size_t  (Garrett)
 
 	//Causes one network firing inside the brain.  See the .lyx file in ./docs for explanation.
 	void Cycle();
 
-	//Reset the brain so it starts fresh.  Note: if st_dev_start_activation_ is nonzero, then there's randomness involved
-	//and so on each reset, the brain will be different!  That's probably undesirable, so if you're not sure, set it to 0.  //TODO: should we disable this in MazeMaster?
+	//Reset the brain so it starts fresh.  WARNING: if st_dev_start_activation_ is nonzero, then there's randomness
+	// involved and so on each reset, the brain will be different!  For example, you give a brain's neurons their
+	// starting activations, and it does well.  On the next round, it gets totally different starting activations
+	// and then does poorly because it outputs different decisions.
+	// That's probably undesirable, so if you're not sure, set it to 0.
 	void ResetStartActivations(const float av_start_activation, const float st_dev_start_activation);
 
-	//TODO: move back to private
+
+private:
 	//describes how well the brain has performed at the given task.  This is used by evolution class for choosing brains.
 	float fitness_score_;
 
-private:
 	size_t num_neurons_;	//total number of neurons
 	//number of input and output neurons.  The type was 'int', but if looking where it's used, this type makes more sense.
 	size_t num_input_neurons_, num_output_neurons_;

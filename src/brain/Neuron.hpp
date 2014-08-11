@@ -19,12 +19,6 @@ using std::unordered_map;
 class Neuron {
 
 public:
-
-	//TODO: Brain::MutateNeurons(.) accesses Neuron::MutateSynapses, so either we keep this friendship or
-	//make MutateSynapses public.  Another idea is to make the whole Neuron class private.
-	//After all, only Brain accesses it right?
-	friend class Brain;
-
 	//generate neuron with random active_threshold and decay_rate and with synapses (with random strengths) coming from
 	//random origin neurons.  It needs to know how many neurons are in the brain.  The number of synapses is given by
 	//uniform distribution: [0,num_neurons].
@@ -52,7 +46,13 @@ public:
 	//set just_fired to true if neuron can fire.
 	void AttemptToActivate();
 
-public://TODO: this is supposed to be private
+	//Randomly mutates synapses. num_mutated_synapses is the number of synapses
+	//that will undergo a mutation. If it is positive, new connections will be formed
+	//or the strengths of existing ones will be changed. If it is negative,
+	//random connections will be removed. num_neurons is the total number of neurons in the brain.
+	void MutateSynapses(int num_mutated_synapses, const int num_neurons);
+
+public://TODO: this is supposed to be private  (Andreea)
 	//map of synapses where the first element is the origin neuron and the second element is the connection strength
 	unordered_map<int, float> synapses_;
 
@@ -63,12 +63,6 @@ public://TODO: this is supposed to be private
 	float decay_rate_;				//strength of each neuron decays exponentially with a certain decay rate
 
 	bool just_fired; //during a brain cycle, remember if a neuron fired, and if so we set it to zero after cycle's over.
-
-	//Randomly mutates synapses. num_mutated_synapses is the number of synapses
-	//that will undergo a mutation. If it is positive, new connections will be formed
-	//or the strengths of existing ones will be changed. If it is negative,
-	//random connections will be removed. num_neurons is the total number of neurons in the brain.
-	void MutateSynapses(int num_mutated_synapses, const int num_neurons);
 };
 
 

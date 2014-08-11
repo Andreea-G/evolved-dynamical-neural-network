@@ -35,7 +35,7 @@ public:
 	//called on the resulting child)
 	//Random cross-over point x is selected and the first 1 to x neurons are taken from parent 1,
 	//and the rest from Parent 2
-	//(TODO: in the future we could be more random about which neurons from which parents survive)
+	//(in the future we could be more random about which neurons from which parents survive)
 	Brain MateBrains(const Brain &parent1, const Brain &parent2) const;
 
 	//We run the fitness scores through the function FitnessWeigthing, then create a "temporary generation" of brain

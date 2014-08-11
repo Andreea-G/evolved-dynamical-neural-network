@@ -22,6 +22,8 @@ using std::string;
 
 class MazeMaster {
 
+//TODO: fix compiler warning  Wreoder  (Garrett)
+
 public:
 	//For now, main() will only call this constructor.  In the future, we may allow the above constructor to be invoked.
 	MazeMaster(const size_t num_brains,
@@ -40,7 +42,7 @@ public:
 
 	//Loop through all brains calling ObtainBrainFitness(.) to get calculate the fitness_score_ for each brain.
 	//Returns -1 if it fails and 0 otherwise.
-	int ObtainAllBrainFitnesses();
+	void ObtainAllBrainFitnesses();
 	void ObtainBrainFitness(Brain& brain);
 
 	//This is the function that main() will call.  We don't parse args in main(), because the args here are specific to
@@ -60,10 +62,8 @@ private:
 	const float av_start_activation_;
 	//WARNING: st_dev_start_activation_ parameter should probably be zero.  If it's non-zero, then each time the brain
 	//resets, it resets to something different, so unless you know what you're doing, then keep it at zero.
-	const float st_dev_start_activation_;  //TODO: for our argument parsing, let's not allow the user to specify this...
-	//Reset the activation of all brains.  This is important to do because if you don't, then a brain that did well
-	//in the last round may do poorly in the following round (supposing they somehow got to the next generation w/o
-	//mutations) just due to the fact that it's starting the maze in a different "state of mind"
+	// see the declaration of Brain::ResetStartActivations(.) for details.
+	const float st_dev_start_activation_;  //for our argument parsing, let's not allow the user to specify this...
 
 	//for brain cycles:
 	const int max_decisions_;
@@ -74,7 +74,7 @@ private:
 	//number of cycles that output is read for
 	const int output_duration_;
 
-	//TODO: add deadtime_duration_
+	//TODO: add deadtime_duration_ (Andreea)
 
 	//for the task
 	const string maze_map_file_;
@@ -100,6 +100,9 @@ private:
 	//In order to limit the number of concurrent threads, we use condition variable
 	std::condition_variable num_threads_cv_;	
 
+	//Reset the activation of all brains.  This is important to do because if you don't, then a brain that did well
+	//in the last round may do poorly in the following round (supposing they somehow got to the next generation w/o
+	//mutations) just due to the fact that it's starting the maze in a different "state of mind"
 	void ResetAllBrainStartActivations();
 
 	void PrintGenerationInfo();

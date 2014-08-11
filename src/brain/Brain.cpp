@@ -69,7 +69,7 @@ Brain::Brain(const size_t num_neurons, const size_t num_input_neurons, const siz
 
 }
 
-//TODO add exception handling for neurons going out of range.
+
 void Brain::give_input(const deque<bool> &input_vals) {
 	if (input_vals.size() != num_input_neurons_)
 		std::cerr << "\nError! Number of input neurons is not the same as number of input signal bits!\n" << std::endl;
@@ -162,6 +162,5 @@ void Brain::ResetStartActivations(const float av_start_activation, const float s
 		float start_activation = min(max(start_activation_distro(globals::gen), globals::MIN_ACTIVATION), globals::MAX_ACTIVATION);
 
 		neuron_it->set_activation(start_activation);
-		//neuron_it->set_new_activation(0); //TODO:  I'm pretty sure this is unnecessary..
 	}
 }
