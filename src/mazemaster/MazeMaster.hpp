@@ -2,7 +2,7 @@
  * MazeMaster.h
  *
  *  Created on: July 7, 2014
- *      Author: Andreea
+ *      Author: Andreea, Garrett
  */
 
 #ifndef MAZEMASTER__MAZEMASTER_H_
@@ -19,8 +19,6 @@ using std::deque;
 using std::string;
 
 class MazeMaster {
-
-//TODO: fix compiler warning  Wreoder  (Garrett)
 
 public:
 	//For now, main() will only call this constructor.  In the future, we may allow the above constructor to be invoked.
@@ -106,8 +104,5 @@ private:
 
 	void PrintGenerationInfo();
 };
-
-
-
 
 #endif /* MAZEMASTER__MAZEMASTER_H_ */

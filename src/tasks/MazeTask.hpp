@@ -43,7 +43,7 @@ public:
 	//player is started at place in map where value is 2.
 	//To set the starting direction, it will loop through the 4 directions
 	//stopping when it finds a valid one.
-	explicit MazeTask(const std::string map_file, const bool random_start = false);
+	explicit MazeTask(const std::string& map_file, const bool random_start = false);
 
 	//Turns the brain in the new direction of motion
 	//The argument decision should be a deque with 2 Booleans.
@@ -52,7 +52,7 @@ public:
 	// [true,true] and [true,false] -> Stay pointed straight
 	// [false,false] -> turn left,  [false,true] -> turn right.
 	//return false if decision is invalid (i.e. it would have the player facing the wall)
-	bool ActOnDecision(const deque<bool> decision);
+	bool ActOnDecision(const deque<bool>& decision);
 
 	//player moves forward until they reach a decision point (not including dead-ends upon which the player reverses
 		//direction and continues automatically, and corners which the player turns and continues)
@@ -69,7 +69,7 @@ public:
 
 private:
 
-	bool LoadMap(const std::string map_file);
+	bool LoadMap(const std::string& map_file);
 
 	//A matrix representing the map, where 0s are walls, 1s are valid paths,
 	//2 is the suggested starting point, and 3 is the finish.
