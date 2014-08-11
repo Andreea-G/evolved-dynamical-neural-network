@@ -2,7 +2,7 @@
  * MazeMaster.cc
  *
  *  Created on: June 7, 2014
- *      Author: Andreea
+ *      Author: Andreea, Garrett
  */
 
 #include <iostream>
@@ -157,10 +157,7 @@ MazeMaster::MazeMaster(const size_t num_brains,
 int MazeMaster::MasterControl() {
 	for (int generation = 0; generation < num_generations_; generation++) {
 		cout << "Generation " << generation << std::endl;
-		int exit_status = ObtainAllBrainFitnesses();
-		if (exit_status < 0) {
-			return -1;
-		}
+		ObtainAllBrainFitnesses();
 
 		PrintGenerationInfo();
 
@@ -171,7 +168,7 @@ int MazeMaster::MasterControl() {
 		}
 
 		//Exit if we're on the last loop
-		if (generation+1 == num_generations_) {
+		if (generation + 1 == num_generations_) {
 			break;
 		}
 
@@ -203,8 +200,6 @@ int MazeMaster::ObtainAllBrainFitnesses() {
 	for (auto& thread : threads) {
 		thread.join();
 	}
-
-	return 0;  //TODO: should we just set this to void return?  We're not actually returning any useful exit code.
 }
 
 
@@ -274,7 +269,7 @@ void MazeMaster::ObtainBrainFitness(Brain& brain) {
 		deque<bool> brain_decision; //final (most common and valid) brain output will correspond to the decision
 		//loop through all outputs, checking if brain has found a valid decision,
 		//and turn the brain in that direction if it has.
-		//Note: the output is order from lowest frequency output to highest, so we loop in reverse order
+		//Note: the output is ordered from lowest frequency output to highest, so we loop in reverse order
 		for (auto output_it = brain_output_sorted.rbegin(); output_it != brain_output_sorted.rend(); output_it++) {
 			if (maze_task.ActOnDecision(output_it->second)) {
 				found_valid_decision = true;
@@ -293,8 +288,8 @@ void MazeMaster::ObtainBrainFitness(Brain& brain) {
 	//Set fitness score to 1/num_decisions
 	//Test if the brain solved the maze in zero decisions
 	if (num_decisions == 0) {
-		//print error, no need to lock with mutex since cerr/cout in C++11 is thread-safe
-		std::cerr << "The maze used allows brains to solve it with zero decisions!" << endl;
+		//no need to lock with mutex since cerr/cout in C++11 is thread-safe
+		std::cerr << "The maze used allows brains to solve it with zero decisions!\n";
 		return;
 	}
 	brain.set_fitness_score(1.0/num_decisions);
