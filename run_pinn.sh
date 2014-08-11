@@ -15,6 +15,7 @@ max_decisions=100
 input_duration=10
 input_output_delay=5
 output_duration=10
+deadtime_duration=0
 maze_map_file=maze_files/test_maze4
 maze_random_start=false
 num_generations=10
@@ -39,9 +40,9 @@ if [ "$maze_active_threshol" == "true" ]; then
     flags="${flags}-V "
 fi
 
-echo -e "Command to execute is:\n\n   ./pinn  $flags  --num_brains ${num_brains} --num_neurons $num_neurons --av_active_threshold $av_active_threshold --st_dev_active_threshold $st_dev_active_threshold --start_activation $start_activation --av_decay_rate $av_decay_rate --st_dev_decay_rate $st_dev_decay_rate --av_num_syn $av_num_syn --st_dev_num_syn $st_dev_num_syn --av_syn_strength $av_syn_strength --st_dev_syn_strength $st_dev_syn_strength --max_decisions $max_decisions --input_duration $input_duration --input_output_delay $input_output_delay --output_duration $output_duration --maze_map_file $maze_map_file --num_generations $num_generations --num_mutated_neurons $num_mutated_neurons --num_mutated_synapses $num_mutated_synapses --prob_asexual $prob_asexual --max_num_threads $max_num_threads"
+echo -e "Command to execute is:\n\n   ./pinn  $flags  --num_brains ${num_brains} --num_neurons $num_neurons --av_active_threshold $av_active_threshold --st_dev_active_threshold $st_dev_active_threshold --start_activation $start_activation --av_decay_rate $av_decay_rate --st_dev_decay_rate $st_dev_decay_rate --av_num_syn $av_num_syn --st_dev_num_syn $st_dev_num_syn --av_syn_strength $av_syn_strength --st_dev_syn_strength $st_dev_syn_strength --max_decisions $max_decisions --input_duration $input_duration --input_output_delay $input_output_delay --output_duration $output_duration --deadtime_duration $deadtime_duration --maze_map_file $maze_map_file --num_generations $num_generations --num_mutated_neurons $num_mutated_neurons --num_mutated_synapses $num_mutated_synapses --prob_asexual $prob_asexual --max_num_threads $max_num_threads"
 
 echo -e "\n\n____________________________________________"
 
-./pinn  $flags  --num_brains ${num_brains} --num_neurons $num_neurons --av_active_threshold $av_active_threshold --st_dev_active_threshold $st_dev_active_threshold --start_activation $start_activation --av_decay_rate $av_decay_rate --st_dev_decay_rate $st_dev_decay_rate --av_num_syn $av_num_syn --st_dev_num_syn $st_dev_num_syn --av_syn_strength $av_syn_strength --st_dev_syn_strength $st_dev_syn_strength --max_decisions $max_decisions --input_duration $input_duration --input_output_delay $input_output_delay --output_duration $output_duration --maze_map_file $maze_map_file --num_generations $num_generations --num_mutated_neurons $num_mutated_neurons --num_mutated_synapses $num_mutated_synapses --prob_asexual $prob_asexual --max_num_threads $max_num_threads
+./pinn  $flags  --num_brains ${num_brains} --num_neurons $num_neurons --av_active_threshold $av_active_threshold --st_dev_active_threshold $st_dev_active_threshold --start_activation $start_activation --av_decay_rate $av_decay_rate --st_dev_decay_rate $st_dev_decay_rate --av_num_syn $av_num_syn --st_dev_num_syn $st_dev_num_syn --av_syn_strength $av_syn_strength --st_dev_syn_strength $st_dev_syn_strength --max_decisions $max_decisions --input_duration $input_duration --input_output_delay $input_output_delay --output_duration $output_duration --deadtime_duration $deadtime_duration --maze_map_file $maze_map_file --num_generations $num_generations --num_mutated_neurons $num_mutated_neurons --num_mutated_synapses $num_mutated_synapses --prob_asexual $prob_asexual --max_num_threads $max_num_threads
 
