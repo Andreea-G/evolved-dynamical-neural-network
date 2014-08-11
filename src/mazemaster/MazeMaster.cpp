@@ -10,6 +10,7 @@
 #include <map>
 #include <vector>
 #include <string>
+#include <thread>
 
 #include <tclap/CmdLine.h>
 #include <src/mazemaster/MazeMaster.hpp>
@@ -33,8 +34,8 @@ int MazeMaster::ParseMazeArgsAndExecute(int argc, char** argv) {
 		TCLAP::CmdLine cmd("Evolved Dynamical Neural Net for solving mazes", ' ', "0.1");
 
 		//Collect all arguments
-		TCLAP::ValueArg<int> num_brains_arg("N", "num_brains", "Number of brains in each generation", true, 0, "int", cmd);
-		TCLAP::ValueArg<int> num_neurons_arg("n", "num_neurons", "Number of neuron in each brain", true, 0, "int", cmd);
+		TCLAP::ValueArg<size_t> num_brains_arg("N", "num_brains", "Number of brains in each generation", true, 0, "int", cmd);
+		TCLAP::ValueArg<size_t> num_neurons_arg("n", "num_neurons", "Number of neuron in each brain", true, 0, "int", cmd);
 
 		TCLAP::ValueArg<float> av_active_threshold_arg("a", "av_active_threshold", "Average activation threshold for each neruon", true, 0, "float", cmd);
 		TCLAP::ValueArg<float> st_dev_active_threshold_arg("A", "st_dev_active_threshold", "Standard deviation for activation threshold for each neruon", true, 0, "float", cmd);
@@ -136,10 +137,9 @@ MazeMaster::MazeMaster(const size_t num_brains,
 					max_decisions_(max_decisions),
 					input_duration_(input_duration), input_output_delay_(input_output_delay),
 					output_duration_(output_duration), deadtime_duration_(deadtime_duration),
-					maze_map_file_(maze_map_file),
-					maze_random_start_(maze_random_start), num_generations_(num_generations),
+					maze_map_file_(maze_map_file), maze_random_start_(maze_random_start),
+					evolution_(prob_asexual), num_generations_(num_generations),
 					num_mutated_neurons_(num_mutated_neurons), num_mutated_synapses_(num_mutated_synapses),
-					evolution_(prob_asexual),
 					mutate_decay_rate_(mutate_decay_rate), mutate_active_threshold_(mutate_active_threshold),
 					max_num_threads_(max_num_threads), num_live_threads_(0) {
 	//construct brains

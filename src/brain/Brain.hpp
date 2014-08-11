@@ -54,7 +54,7 @@ public:
 	//as well as the activation threshold and decay rate.
 	//The number of neurons selected for mutation is num_mutated_neurons.
 	//It will create new synapses if num_mutated is positive, or destroy synapes if it's negative
-	void MutateNeurons(const int num_mutated_neurons, const int num_mutated_synapses,
+	void MutateNeurons(const size_t num_mutated_neurons, const size_t num_mutated_synapses,
 										 const bool mutate_decay_rate=true, const bool mutate_active_threshold=true);
 	//TODO: I think num_mutated_neurons, num_mutated_synapses should be size_t  (Garrett)
 
