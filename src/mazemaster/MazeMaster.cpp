@@ -23,6 +23,7 @@ using std::pair;
 using std::cout;
 using std::cerr;
 using std::endl;
+using std::max;
 
 //Don't change these - the maze task passes 3 bits to the brain and expects 2 bits back (see MazeTask.hpp for more),
 const size_t num_input_neurons = 3;
@@ -53,6 +54,7 @@ int MazeMaster::ParseMazeArgsAndExecute(int argc, char** argv) {
 		TCLAP::ValueArg<int> input_duration_arg("I", "input_duration", "Duration of input signal in cycles", true, 0, "int", cmd);
 		TCLAP::ValueArg<int> input_output_delay_arg("e", "input_output_delay", "Number of cycles between start of input and start of output", true, 0, "int", cmd);
 		TCLAP::ValueArg<int> output_duration_arg("O", "output_duration", "Duration of output signal in cycles", true, 0, "int", cmd);
+		TCLAP::ValueArg<int> deadtime_duration_arg("E", "deadtime_duration", "Duration between end of output and start of next input in cycles", true, 0, "int", cmd);
 
 		TCLAP::ValueArg<std::string> maze_map_file_arg("M", "maze_map_file", "The maze filepath, see docs for expected file format", true, "", "string", cmd);
 		TCLAP::SwitchArg maze_random_start_arg("x", "maze_random_start", "Have players start at random points in maze (you should probably not use this)", cmd, false);
@@ -87,6 +89,7 @@ int MazeMaster::ParseMazeArgsAndExecute(int argc, char** argv) {
 		const int input_duration = input_duration_arg.getValue();
 		const int input_output_delay = input_output_delay_arg.getValue();
 		const int output_duration = output_duration_arg.getValue();
+		const int deadtime_duration = deadtime_duration_arg.getValue();
 		const string maze_map_file = maze_map_file_arg.getValue();
 		const bool maze_random_start = maze_random_start_arg.getValue();
 		const int num_generations = num_generations_arg.getValue();
@@ -139,7 +142,7 @@ int MazeMaster::ParseMazeArgsAndExecute(int argc, char** argv) {
 		MazeMaster main_maze_master(num_brains,	num_neurons, num_input_neurons, num_output_neurons,	av_active_threshold,
 																st_dev_active_threshold, av_start_activation, st_dev_start_activation, av_decay_rate,
 																st_dev_decay_rate, av_num_syn, st_dev_num_syn, av_syn_strength, st_dev_syn_strength,
-																max_decisions, input_duration, input_output_delay, output_duration,
+																max_decisions, input_duration, input_output_delay, output_duration, deadtime_duration,
 																maze_map_file, maze_random_start, num_generations, num_mutated_neurons,
 																num_mutated_synapses,	prob_asexual, mutate_decay_rate, mutate_active_threshold,
 																max_num_threads);
@@ -155,23 +158,24 @@ int MazeMaster::ParseMazeArgsAndExecute(int argc, char** argv) {
 
 
 MazeMaster::MazeMaster(const size_t num_brains,
-					const size_t num_neurons, const size_t num_input_neurons, const size_t num_output_neurons,
-					const float av_active_threshold, const float st_dev_active_threshold,
-					const float av_start_activation, const float st_dev_start_activation,
-					const float av_decay_rate, const float st_dev_decay_rate,
-					const int av_num_syn, const int st_dev_num_syn,
-					const float av_syn_strength, const float st_dev_syn_strength,
-					const int max_decisions, const int input_duration,
-					const int input_output_delay, const int output_duration,
-					const string maze_map_file, const bool maze_random_start,
-					const int num_generations, const size_t num_mutated_neurons, const size_t num_mutated_synapses,
-					const float prob_asexual, const bool mutate_decay_rate, const bool mutate_active_threshold,
-					const int max_num_threads) :
+											 const size_t num_neurons, const size_t num_input_neurons, const size_t num_output_neurons,
+											 const float av_active_threshold, const float st_dev_active_threshold,
+											 const float av_start_activation, const float st_dev_start_activation,
+											 const float av_decay_rate, const float st_dev_decay_rate,
+											 const int av_num_syn, const int st_dev_num_syn,
+											 const float av_syn_strength, const float st_dev_syn_strength,
+											 const int max_decisions, const int input_duration,
+											 const int input_output_delay, const int output_duration,
+											 const int deadtime_duration,
+											 const string maze_map_file, const bool maze_random_start,
+											 const int num_generations, const size_t num_mutated_neurons, const size_t num_mutated_synapses,
+											 const float prob_asexual, const bool mutate_decay_rate, const bool mutate_active_threshold,
+											 const int max_num_threads) :
 					num_brains_(num_brains),
 					av_start_activation_(av_start_activation), st_dev_start_activation_(st_dev_start_activation),
 					max_decisions_(max_decisions),
 					input_duration_(input_duration), input_output_delay_(input_output_delay),
-					output_duration_(output_duration),
+					output_duration_(output_duration), deadtime_duration_(deadtime_duration),
 					maze_map_file_(maze_map_file), maze_random_start_(maze_random_start),
 					evolution_(prob_asexual), num_generations_(num_generations),
 					num_mutated_neurons_(num_mutated_neurons), num_mutated_synapses_(num_mutated_synapses),
@@ -268,7 +272,8 @@ void MazeMaster::ObtainBrainFitness(Brain& brain) {
 		map<deque<bool>, int> brain_output_frequencies;
 
 		//Loop through brain cycles, looping enough times to collect all the input and all the output for one decision
-		for (int cycle = 0; cycle < (input_output_delay_ + output_duration_); cycle++) {
+		for (int cycle = 0; cycle < (max(input_output_delay_ + output_duration_, input_duration_) + deadtime_duration_);
+				 cycle++) {
 			//if we're still in the input period, give input to brain at each cycle
 			if (cycle < input_duration_) {
 				brain.give_input(brain_input);
@@ -277,7 +282,7 @@ void MazeMaster::ObtainBrainFitness(Brain& brain) {
 			brain.Cycle();
 
 			//if we're in the output period, store the output for each cycle into brain_output
-			if (cycle >= input_output_delay_) {
+			if (cycle >= input_output_delay_ && cycle < (input_output_delay_ + output_duration_)) {
 				deque<bool> brain_output = brain.get_output();
 
 				//check if this brain_output is already in the map and if so add 1 to its current frequency,
