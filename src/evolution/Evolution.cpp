@@ -6,8 +6,6 @@
  */
 
 #include <iostream>
-#include <math.h>	//floor function
-#include <algorithm> //for_each
 
 #include <src/evolution/Evolution.hpp>
 #include <src/Globals.hpp>
@@ -59,7 +57,7 @@ int Evolution::ChooseMostFitBrains(const deque<Brain> &brains) {
 }
 
 
-Brain Evolution::MutateBrain(const Brain &parent_brain, const int num_mutated_neurons, const int num_mutated_synapses,
+Brain Evolution::MutateBrain(const Brain &parent_brain, const size_t num_mutated_neurons, const size_t num_mutated_synapses,
 														 const bool mutate_decay_rate, const bool mutate_active_threshold) const {
 	Brain child(parent_brain);
 	child.MutateNeurons(num_mutated_neurons, num_mutated_synapses, mutate_decay_rate, mutate_active_threshold);
@@ -86,9 +84,9 @@ Brain Evolution::MateBrains(const Brain &parent1, const Brain &parent2) const {
 }
 
 
-deque<Brain> Evolution::GetNextGeneration (const deque<Brain> &brains, const int num_mutated_neurons,
-																					 const int num_mutated_synapses, const size_t verbose_num_brains,
-																					 const bool mutate_decay_rate, const bool mutate_active_threshold) const {
+deque<Brain> Evolution::GetNextGeneration(const deque<Brain> &brains, const size_t num_mutated_neurons,
+																					const size_t num_mutated_synapses, const size_t verbose_num_brains,
+																					const bool mutate_decay_rate, const bool mutate_active_threshold) const {
 
 	size_t num_brains = brains.size();
 

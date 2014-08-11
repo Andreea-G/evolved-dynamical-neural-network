@@ -89,12 +89,12 @@ deque<bool> Brain::get_output() const {
 }
 
 
-void Brain::MutateNeurons(const int num_mutated_neurons, const int num_mutated_synapses,
+void Brain::MutateNeurons(const size_t num_mutated_neurons, const size_t num_mutated_synapses,
 													const bool mutate_decay_rate, const bool mutate_active_threshold) {
 	std::uniform_int_distribution<int> neuron_distro(0, num_neurons_-1);
 	std::uniform_real_distribution<> unit_distro(0, 1);
 
-	for (int i = 0; i < num_mutated_neurons; i++) {
+	for (size_t i = 0; i < num_mutated_neurons; i++) {
 		//Randomly pick a neuron
 		//(it's possible a neuron could get mutated twice in a small brain, so losing 2x the synapses for example)
 		Neuron & rand_neuron = neurons_[neuron_distro(globals::gen)];
