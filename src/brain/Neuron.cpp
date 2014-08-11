@@ -136,11 +136,11 @@ void Neuron::MutateSynapses(int num_mutated_synapses, const int num_neurons) {
 
 		//Loop through synapses and delete synapses matching the random locations above
 		auto syn_it = synapses_.begin();
-		size_t syn_location = 0;	//location of corresponding synapse in the synapses map
+		int syn_location = 0;	//location of corresponding synapse in the synapses map
 		for (auto rand_loc_it = rand_synapse_locations.begin();
 							rand_loc_it != rand_synapse_locations.end(); rand_loc_it++) {
 			//Need to set syn_location to our next rand_synapse_location, but must use while loop to go through unordered_map
-			while (syn_location != *rand_loc_it && syn_location < synapses_.size() ) {
+			while (syn_location != *rand_loc_it && syn_location < static_cast<int>(synapses_.size()) ) {
 				//Note: rand_synapse_locations is ordered, so we only have to increase syn_location
 				syn_location++;
 				syn_it++;
