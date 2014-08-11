@@ -21,6 +21,7 @@ using std::map;
 using std::multimap;
 using std::pair;
 using std::cout;
+using std::cerr;
 using std::endl;
 
 //Don't change these - the maze task passes 3 bits to the brain and expects 2 bits back (see MazeTask.hpp for more),
@@ -96,7 +97,44 @@ int MazeMaster::ParseMazeArgsAndExecute(int argc, char** argv) {
 		const bool mutate_active_threshold = mutate_active_threshold_arg.getValue();
 		const int max_num_threads = max_num_threads_arg.getValue();
 
-		//TODO error check for limits (Garrett)
+		//Check for any obvious mistakes in the input
+		if (! (globals::MIN_ACTIVATION < av_active_threshold && av_active_threshold < globals::MAX_ACTIVATION)) {
+			cerr << "Average active threshold (which you set to " << av_active_threshold << ")"
+					 << " must be in the interval (" << globals::MIN_ACTIVATION << ", " << globals::MAX_ACTIVATION << ").";
+			return -1;
+		}
+		if (! (globals::MIN_ACTIVATION < av_start_activation && av_start_activation < globals::MAX_ACTIVATION)) {
+			cerr << "Average start activation (which you set to: " << av_start_activation << ")"
+					 << " must be in the interval (" << globals::MIN_ACTIVATION << ", " << globals::MAX_ACTIVATION << ").";
+			return -1;
+		}
+		if (! (globals::MIN_STRENGTH < av_syn_strength && av_syn_strength < globals::MAX_STRENGTH)) {
+			cerr << "Average synapse strength (which you set to: " << av_syn_strength << ")"
+					 << " must be in the interval (" << globals::MIN_STRENGTH << ", " << globals::MAX_STRENGTH << ").";
+			return -1;
+		}
+		if (! (globals::MIN_DECAY_RATE < av_decay_rate && av_decay_rate < globals::MAX_DECAY_RATE)) {
+			cerr << "Average decay rate (which you set to: " << av_decay_rate << ")"
+					 << " must be in the interval (" << globals::MIN_DECAY_RATE << ", " << globals::MAX_DECAY_RATE << ").";
+			return -1;
+		}
+		if (num_mutated_neurons > num_neurons) {
+			cerr << "You're asking to mutate more neurons (" << num_mutated_neurons << ") than the number of neurons in"
+							<< " each brain (" << num_neurons << ")";
+			return -1;
+		}
+		if (!(0.0 <= prob_asexual && prob_asexual <= 1.0)) {
+			cerr << "prob_asexul, which is the probablity of asexual reproduction is set to: " << prob_asexual
+							<< ", but it is a probability so it should be a real number in the interval [0,1].";
+			return -1;
+		}
+		//Warnings for unusual user input
+		if (input_duration > input_output_delay + output_duration) {
+			cerr << "WARNING: Are you drunk? The brains are going to keep getting input after the output is no longer "
+							<< "being read.  Remember that for each decision process, the output finishes after (input_output_delay+"
+							<< "output_duration) which was longer than your input_duration.";
+		}
+
 
 		MazeMaster main_maze_master(num_brains,	num_neurons, num_input_neurons, num_output_neurons,	av_active_threshold,
 																st_dev_active_threshold, av_start_activation, st_dev_start_activation, av_decay_rate,
