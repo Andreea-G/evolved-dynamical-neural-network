@@ -10,6 +10,7 @@
 #include <map>
 #include <vector>
 #include <string>
+#include <thread>
 
 #include <tclap/CmdLine.h>
 #include <src/mazemaster/MazeMaster.hpp>
@@ -132,10 +133,10 @@ MazeMaster::MazeMaster(const size_t num_brains,
 					av_start_activation_(av_start_activation), st_dev_start_activation_(st_dev_start_activation),
 					max_decisions_(max_decisions),
 					input_duration_(input_duration), input_output_delay_(input_output_delay),
-					output_duration_(output_duration), maze_map_file_(maze_map_file),
-					maze_random_start_(maze_random_start), num_generations_(num_generations),
+					output_duration_(output_duration),
+					maze_map_file_(maze_map_file), maze_random_start_(maze_random_start),
+					evolution_(prob_asexual), num_generations_(num_generations),
 					num_mutated_neurons_(num_mutated_neurons), num_mutated_synapses_(num_mutated_synapses),
-					evolution_(prob_asexual),
 					mutate_decay_rate_(mutate_decay_rate), mutate_active_threshold_(mutate_active_threshold),
 					max_num_threads_(max_num_threads), num_live_threads_(0) {
 	//construct brains
