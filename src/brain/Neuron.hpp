@@ -17,7 +17,7 @@ using std::unordered_map;
 
 
 class Neuron {
-
+friend class BrainTest;
 public:
 	//generate neuron with random active_threshold and decay_rate and with synapses (with random strengths) coming from
 	//random origin neurons.  It needs to know how many neurons are in the brain.  The number of synapses is given by
@@ -52,17 +52,19 @@ public:
 	//random connections will be removed. num_neurons is the total number of neurons in the brain.
 	void MutateSynapses(int num_mutated_synapses, const int num_neurons);
 
-public://TODO: this is supposed to be private  (Andreea)
 	//map of synapses where the first element is the origin neuron and the second element is the connection strength
 	unordered_map<int, float> synapses_;
 
+	bool just_fired; //during a brain cycle, remember if a neuron fired, and if so we set it to zero after cycle's over.
+
+private:
 	float activation_;				//current activation of the neuron
 	//temporary variable to activation for next round (since we don't want it to affect other neurons in this round)
 	float new_activation_;
+
 	float active_threshold_;
 	float decay_rate_;				//strength of each neuron decays exponentially with a certain decay rate
 
-	bool just_fired; //during a brain cycle, remember if a neuron fired, and if so we set it to zero after cycle's over.
 };
 
 
