@@ -116,11 +116,6 @@ void Brain::MutateNeurons(const size_t num_mutated_neurons, const size_t num_mut
 
 
 void Brain::Cycle() {
-	//iterator type for our deque
-//	typedef std::deque<Neuron>::iterator neur_it_type;  DEL
-	//iterator type for synapses
-//	typedef std::unordered_map<int, float>::iterator syn_it_type;  DEL
-
 	//loop through neurons to see which are firing this round
 	for (auto neur_activate_it = neurons_.begin(); neur_activate_it != neurons_.end(); ++neur_activate_it) {
 		neur_activate_it->AttemptToActivate();

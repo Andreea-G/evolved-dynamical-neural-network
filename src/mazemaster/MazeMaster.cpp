@@ -22,6 +22,7 @@ using std::multimap;
 using std::pair;
 using std::cout;
 using std::endl;
+using std::max;
 
 //Don't change these - the maze task passes 3 bits to the brain and expects 2 bits back (see MazeTask.hpp for more),
 const size_t num_input_neurons = 3;
@@ -233,7 +234,8 @@ void MazeMaster::ObtainBrainFitness(Brain& brain) {
 		map<deque<bool>, int> brain_output_frequencies;
 
 		//Loop through brain cycles, looping enough times to collect all the input and all the output for one decision
-		for (int cycle = 0; cycle < (input_output_delay_ + output_duration_ + deadtime_duration_); cycle++) {
+		for (int cycle = 0; cycle < (max(input_output_delay_ + output_duration_, input_duration_) + deadtime_duration_);
+				 cycle++) {
 			//if we're still in the input period, give input to brain at each cycle
 			if (cycle < input_duration_) {
 				brain.give_input(brain_input);
