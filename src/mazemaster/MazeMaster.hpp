@@ -35,6 +35,7 @@ public:
 						const float av_syn_strength, const float st_dev_syn_strength,
 						const int max_decisions, const int input_duration,
 						const int input_output_delay, const int output_duration,
+						const int deadtime_duration,
 						const string maze_map_file, const bool maze_random_start,
 						const int num_generations, const size_t num_mutated_neurons, const size_t num_mutated_synapses,
 						const float prob_asexual, const bool mutate_decay_rate, const bool mutate_active_threshold,
@@ -73,8 +74,8 @@ private:
 	const int input_output_delay_;
 	//number of cycles that output is read for
 	const int output_duration_;
-
-	//TODO: add deadtime_duration_ (Andreea)
+	//number of cycles after the brain finished giving output, and before the next input
+	const int deadtime_duration_;
 
 	//for the task
 	const string maze_map_file_;
