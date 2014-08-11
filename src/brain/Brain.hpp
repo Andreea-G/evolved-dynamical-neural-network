@@ -56,7 +56,6 @@ public:
 	//It will create new synapses if num_mutated is positive, or destroy synapes if it's negative
 	void MutateNeurons(const size_t num_mutated_neurons, const size_t num_mutated_synapses,
 										 const bool mutate_decay_rate=true, const bool mutate_active_threshold=true);
-	//TODO: I think num_mutated_neurons, num_mutated_synapses should be size_t  (Garrett)
 
 	//Causes one network firing inside the brain.  See the .lyx file in ./docs for explanation.
 	void Cycle();

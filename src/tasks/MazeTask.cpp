@@ -18,9 +18,7 @@ using std::deque;
 using std::cerr;
 using std::endl;
 
-//TODO: pass by references (Garrett)
-
-MazeTask::MazeTask(const std::string map_file, const bool random_start) {
+MazeTask::MazeTask(const std::string& map_file, const bool random_start) {
 
 	//Load map file into map_ member variable
 	if (LoadMap(map_file) == false) {
@@ -95,7 +93,7 @@ MazeTask::MazeTask(const std::string map_file, const bool random_start) {
 
 
 
-bool MazeTask::LoadMap(const std::string map_file) {
+bool MazeTask::LoadMap(const std::string& map_file) {
 
 	std::ifstream in_file(map_file.c_str());
 
@@ -142,7 +140,7 @@ bool MazeTask::LoadMap(const std::string map_file) {
 }
 
 
-bool MazeTask::ActOnDecision(const deque<bool> decision) {
+bool MazeTask::ActOnDecision(const deque<bool>& decision) {
 
 
   if (decision[0] == true) { //corresponds to decision to stay straigh, i.e. not turn
