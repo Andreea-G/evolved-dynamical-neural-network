@@ -1,6 +1,4 @@
 /*
- *	MazeTask.h
- *
  *	An example maze textfile could look like:
  *
  *	0 0 0 0 0 0 0 0
@@ -12,7 +10,7 @@
  *	Note that it should be padded with zeros.
  *
  *	Created on: May 4, 2014
- *	Author: Garrett
+ *	Author: Garrett R, Andreea G
  */
 
 #ifndef TASKS_MAZETASK_H_

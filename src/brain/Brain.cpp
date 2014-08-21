@@ -1,8 +1,6 @@
 /*
- *	Brain.cc
- *
  *	Created on: May 15, 2014
- *	Author: Andreea
+ *	Author: Andreea G, Garrett R
  */
 
 #include <deque>

@@ -1,8 +1,6 @@
 /*
- *	Evolution.h
- *
  *	Created on: May 16, 2014
- *	Author: Andreea, Garrett
+ *	Author: Andreea G, Garrett R
  */
 
 #ifndef EVOLUTION__EVOLUTION_H_

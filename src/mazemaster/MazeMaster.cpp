@@ -2,7 +2,7 @@
  * MazeMaster.cc
  *
  *  Created on: June 7, 2014
- *      Author: Andreea, Garrett
+ *  Authors: Andreea G, Garrett R
  */
 
 #include <iostream>

@@ -2,7 +2,7 @@
  *	MazeTask.cc
  *
  *	Created on: May 4, 2014
- *	Author: Garrett
+ *	Authors: Garrett R, Andreea G
  */
 
 #include <iostream>

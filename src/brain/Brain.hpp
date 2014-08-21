@@ -1,9 +1,7 @@
 /*
- *	Brain.h
- *
  *	Created on: May 15, 2014
- *	Author: Andreea
- */
+ *	Authors: Andreea G, Garrett R
+*/
 
 #ifndef BRAIN__BRAIN_H_
 #define BRAIN__BRAIN_H_

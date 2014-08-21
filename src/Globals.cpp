@@ -1,3 +1,8 @@
+/*
+ *	Created on: May, 2014
+ *	Authors: Garrett R, Andreea G
+*/
+
 #include <random>
 
 namespace globals {

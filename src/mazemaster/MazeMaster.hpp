@@ -1,8 +1,6 @@
 /*
- * MazeMaster.h
- *
  *  Created on: July 7, 2014
- *      Author: Andreea, Garrett
+ *  Authors: Andreea G, Garrett R
  */
 
 #ifndef MAZEMASTER__MAZEMASTER_H_

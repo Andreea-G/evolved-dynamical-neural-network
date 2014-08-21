@@ -1,3 +1,8 @@
+/*
+ *	Created on: May, 2014
+ *	Authors: Garrett R, Andreea G
+*/
+
 //include file for all global variables (all of which are constants)
 //The only non-constant thing defined here is the random generator.
 #include <random>

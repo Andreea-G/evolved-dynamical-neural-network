@@ -1,12 +1,10 @@
 /*
- *	TaskInterface.h
- *
  *	This is the interface (abstract base class) for all tasks that the brain will be expected to learn.
  *	Examples of tasks could be a maze, an addition problem, the 2048 game, etc.,
  *	but they should all have these function implemented.
  *
  *	Created on: May 4, 2014
- *	Author: Garrett
+ *	Authors: Garrett R, Andreea G
  */
 
 #ifndef TASKS__TASKINTERFACE_H_

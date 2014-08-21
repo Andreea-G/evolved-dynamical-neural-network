@@ -1,10 +1,6 @@
 /*
- *	Neuron.h
- *
- *	Note: the synapses of a neuron can connect back to the same neuron.
- *
  *	Created on: May 15, 2014
- *	Author: Andreea
+ *	Authors: Andreea G, Garrett R
  */
 
 #ifndef BRAIN__NEURON_H_
@@ -53,6 +49,7 @@ public:
 	void MutateSynapses(int num_mutated_synapses, const int num_neurons);
 
 	//map of synapses where the first element is the origin neuron and the second element is the connection strength
+	//Note: the synapses of a neuron can connect back to the same neuron.
 	unordered_map<int, float> synapses_;
 
 	bool just_fired; //during a brain cycle, remember if a neuron fired, and if so we set it to zero after cycle's over.

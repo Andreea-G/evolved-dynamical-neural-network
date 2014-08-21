@@ -1,8 +1,6 @@
 /*
- *	Evolution.cc
- *
  *	Created on: May 16, 2014
- *	Author: Andreea, Garrett
+ *	Authors: Andreea G, Garrett R
  */
 
 #include <iostream>
