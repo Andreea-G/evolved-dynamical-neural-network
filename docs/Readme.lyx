@@ -1,0 +1,564 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\align center
+
+\size larger
+Evolved Dynamical Neural Network
+\end_layout
+
+\begin_layout Standard
+by: Garrett R and Andreea G
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{12pt}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Abstract
+\end_layout
+
+\begin_layout Standard
+This work is an extension of the work done by Randall Beer and Brain Yamauchi
+ in the paper Sequential Behavior and Learning in Evolved Dynamical Neural
+ Networks.
+ We implemented our networks in a very similar way with some small modifications
+, and attempted to scale the result up in order to solve a useful task.
+ The first task we have designed is to solve a non-trivial maze in the least
+ amount of steps.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{12pt}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Dynamical Neural Network
+\end_layout
+
+\begin_layout Standard
+Each brain is made up of 
+\begin_inset Formula $N$
+\end_inset
+
+ neurons.
+ Each neuron can connect to any other neuron (these connections are called
+ 
+\shape italic
+synapses
+\shape default
+) including itself.
+ Each neuron is not necessarily connected to every other neuron.
+\end_layout
+
+\begin_layout Standard
+At any given time, neuron 
+\begin_inset Formula $i$
+\end_inset
+
+ has an activation 
+\begin_inset Formula $y_{i}(t)$
+\end_inset
+
+.
+ The differential equation describing how the activation changes is
+\begin_inset Formula 
+\[
+\frac{dy_{i}}{dt}=-K_{i}y_{i}+\sum_{j=1}^{N}w_{ji}\sigma(y_{j}-\theta_{j})
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $K_{i}$
+\end_inset
+
+ is the rate of decay, 
+\begin_inset Formula $w_{ji}$
+\end_inset
+
+ is the strength of the synapse leading from 
+\begin_inset Formula $j$
+\end_inset
+
+ to 
+\begin_inset Formula $i$
+\end_inset
+
+, 
+\begin_inset Formula $\sigma(.)$
+\end_inset
+
+ is the activation function for neuron 
+\begin_inset Formula $j$
+\end_inset
+
+ which we have set to be the unit step function, i.e.
+\begin_inset Formula 
+\begin{eqnarray*}
+\sigma(x) & = & \begin{cases}
+1 & \text{\text{, }}x>0\\
+0 & \text{, }x\leq0
+\end{cases}\,.
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+After one time step 
+\begin_inset Formula $dt$
+\end_inset
+
+ (or 
+\begin_inset Quotes eld
+\end_inset
+
+cycle
+\begin_inset Quotes erd
+\end_inset
+
+), the new activation 
+\begin_inset Formula $\tilde{y_{i}}$
+\end_inset
+
+ is
+\begin_inset Formula 
+\[
+\widetilde{y_{i}}=y_{i}-K_{i}y_{i}dt+\sum_{j=1}^{N}w_{ji}\sigma(y_{j}-\theta_{j})dt
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Also, we're now setting 
+\begin_inset Formula $dt$
+\end_inset
+
+ to be 1 in order to get a faster brain.
+ Lastly, if a neuron fired during the current round, it is depleted and
+ gets set to zero at the end of the round.
+ This helped to create a more dynamic brains (i.e.
+ a brain which doesn't get stuck in a steady state solution)
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{12pt}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Input and Output to the brain
+\end_layout
+
+\begin_layout Standard
+Each brain goes through a bunch of 
+\shape italic
+decision processes
+\shape default
+.
+ In each decision process, the brain is given input (which is dependent
+ on the task) and then output is read from the brain.
+ There may also be deadtime between the decision processes where the brain
+ cycles in the absence of input given or output read.
+\end_layout
+
+\begin_layout Standard
+The input and output of a brain must be in binary form.
+ If it takes 5 bits to encode the input, and suppose the first input the
+ brain receives is 
+\begin_inset Formula $\{0,1,0,0,1\}$
+\end_inset
+
+, then the second and fifth neurons' activations are held at 1 (the maximum
+ activation), while the first, third and fourth neurons' activations are
+ held at 0 (the minimum activation).
+ This input is given over a number of cycles specified by the user.
+ 
+\end_layout
+
+\begin_layout Standard
+The output is taken from the neurons immediately after the input neurons
+ in the neuron sequence.
+ So a brain that has 5 input neuron and, say 3 output neurons, will have
+ output neurons at position 6, 7, and 8.
+ The output is read by 
+\begin_inset Quotes eld
+\end_inset
+
+listening
+\begin_inset Quotes erd
+\end_inset
+
+ to the neurons for a specified number of cycles, i.e.
+ if neurons 6 and 8 fire, then the output is considered to be 
+\begin_inset Formula $\{1,0,1\}$
+\end_inset
+
+.
+ Unsurprisingly, the brain gives many different outputs during the output
+ period.
+ We therefore look at the most common output and if it is valid, that is
+ taken to be the final output of the brain (for that decision process).
+ If that output was invalid we look at the second most common output, and
+ so on.
+ If the brain fails to give any valid decision, then it is automatically
+ assigned the worst fitness score possible (as if it had taken the maximum
+ number of moves allowed).
+\end_layout
+
+\begin_layout Standard
+For the case of the maze task the brain is given 3 bits of input (to the
+ first 3 neurons).
+ The first indicates if a left-turn is possible, the second is for the straight
+ option, and the third is for the right-turn.
+ For example, if the input was [1,1,0].
+ This means that only a left turn or straight forward are the options.
+\end_layout
+
+\begin_layout Standard
+The output of the brain is 2 bits.
+ The first bit says if the brain wants to go straight, the second decides
+ between right and left turns.
+ So, the possible inputs and their corresponding meanings are: [1,1] and
+ [1,0] -> Stay pointed straight; [0,0] -> turn left, [0,1] -> turn right.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{12pt}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Genetic Algorithm
+\end_layout
+
+\begin_layout Standard
+During each generation, every brain is assesed for its 
+\shape italic
+fitness score
+\shape default
+, which we define to be the inverse of the number of steps that brain took
+ to solve the maze task.
+ The next generation is then constructed.
+ Each member of the next generation has a certain probability (specified
+ by the user) of coming from sexual or asexual reproduction.
+ 
+\end_layout
+
+\begin_layout Standard
+In the case of asexual reproduction, a specified number of neurons each
+ have a specified number of synapses mutated (i.e.
+ the parameter 
+\begin_inset Formula $w_{ji}$
+\end_inset
+
+ is reset to a random number).
+\end_layout
+
+\begin_layout Standard
+In the case of sexual reproduction, a random number 
+\begin_inset Formula $x$
+\end_inset
+
+ between 0 and the number of neurons in the brains is chosen.
+ The child brain then inherits the first 
+\begin_inset Formula $x$
+\end_inset
+
+ neurons from the first parent and the remainder from the second parent.
+ Note: a synapse is considered to belong to the neuron from which it originates.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{12pt}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Creating Mazes
+\end_layout
+
+\begin_layout Standard
+We wrote a helper script to create mazes (maze_files/png_to_maze.py), which
+ takes a PNG image and converts each pixel into a square on the maze.
+ Type 
+\begin_inset Quotes eld
+\end_inset
+
+./png_to_maze.py --help
+\begin_inset Quotes erd
+\end_inset
+
+ to see documentation on using this script.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{12pt}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Executing the code
+\end_layout
+
+\begin_layout Standard
+You should execute the helper Bash script which feeds all the necessary
+ parameters to the program.
+ Open this script and edit all the parameters, then execute it.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{12pt}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Reading the code
+\end_layout
+
+\begin_layout Standard
+For those interesting in reading through our code, here are some helpful
+ tidbits.
+\end_layout
+
+\begin_layout Standard
+In the code: 
+\begin_inset Formula $y_{i}$
+\end_inset
+
+ is Neuron::activation_, 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $w_{ji}$
+\end_inset
+
+ is Brain::neurons_[j].synapses[i]), 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $K_{i}$
+\end_inset
+
+ is Neuron::decay_rate_, 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\theta_{i}$
+\end_inset
+
+ is Neuron::acitve_threshold_, 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $dt$
+\end_inset
+
+ is globals::TIME_STEP, 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\sigma(.)$
+\end_inset
+
+ is Neuron::ActivationFunction(.).
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{12pt}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Results
+\end_layout
+
+\begin_layout Standard
+We encountered an interesting problem while trying to mutate generations.
+ We found that mutating a single synapse of a single neuron causes a brain
+ which performed very well to suddenly become a poor performer.
+ Obviously, such behavior means that our genetic algorithm would have no
+ hope of working.
+ This suggests that we're missing some very basic feature that real brains
+ have since if an animal has a change of a single synapse, their behavior
+ doesn't completely change.
+\end_layout
+
+\begin_layout Standard
+If anyone has any ideas, please let us know!
+\end_layout
+
+\end_body
+\end_document
