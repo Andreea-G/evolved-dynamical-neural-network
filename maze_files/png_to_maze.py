@@ -27,7 +27,7 @@ def main():
 						"\n(x,0,0) -> 1 (where x is non-zero, for example, it could be 255)"
 						"\n(0,x,0) -> 2"
 						"\n(0,0,x) -> 3"
-						"\n\nExample usage: ./png_to_maze -i ~/my_maze.png -o ./maze1)")
+						"\n\nExample usage: ./png_to_maze -i ~/example_maze.png -o ./example_maze)")
 	parser.add_argument('-i', '--input', type=str, required=True, help="input image filename")		
 	parser.add_argument('-o', '--output', type=str, required=True, help="input image filename")
 	args = parser.parse_args()	

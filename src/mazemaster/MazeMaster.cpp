@@ -37,7 +37,7 @@ int MazeMaster::ParseMazeArgsAndExecute(int argc, char** argv) {
 
 		//Collect all arguments
 		TCLAP::ValueArg<size_t> num_brains_arg("N", "num_brains", "Number of brains in each generation", true, 0, "int", cmd);
-		TCLAP::ValueArg<size_t> num_neurons_arg("n", "num_neurons", "Number of neuron in each brain", true, 0, "int", cmd);
+		TCLAP::ValueArg<size_t> num_neurons_arg("n", "num_neurons", "Number of neurons in each brain", true, 0, "int", cmd);
 
 		TCLAP::ValueArg<float> av_active_threshold_arg("a", "av_active_threshold", "Average activation threshold for each neruon", true, 0, "float", cmd);
 		TCLAP::ValueArg<float> st_dev_active_threshold_arg("A", "st_dev_active_threshold", "Standard deviation for activation threshold for each neruon", true, 0, "float", cmd);

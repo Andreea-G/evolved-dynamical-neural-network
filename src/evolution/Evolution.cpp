@@ -121,7 +121,7 @@ deque<Brain> Evolution::GetNextGeneration(const deque<Brain> &brains, const size
 			} else {
 				//first mate two brains to get one child
 				Brain new_brain = MateBrains(brains[parent1_index], brains[parent2_index]);
-				//then mutations occur
+				//then mutations occur //TODO: why are mutations happening with certainty in sexual reproduction?
 				new_brain = MutateBrain(new_brain, num_mutated_neurons, num_mutated_synapses,
 																mutate_decay_rate, mutate_active_threshold);
 				next_gen.push_back(new_brain);
