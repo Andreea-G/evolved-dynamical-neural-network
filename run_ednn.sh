@@ -7,7 +7,7 @@
 #Number of brains in each generation
 num_brains=15
 #Number of neurons in each brain
-num_neurons=5000
+num_neurons=2000
 #verage activation threshold for each neruon
 av_active_threshold=0.25
 #Standard deviation for activation threshold for each neruon
