@@ -235,7 +235,8 @@ int MazeMaster::MasterControl() {
 
 		ResetAllBrainStartActivations();
 	}
-
+	
+	cout << endl;
 	return 0;
 }
 
@@ -377,6 +378,7 @@ void MazeMaster::PrintGenerationInfo() {
 	}
 
 	cout << "\nLeast Moves: " << 1/best_score << "     Average Moves: " << 1/(total_score / num_brains_);
-	cout << endl;
+	cout << endl << endl;
+	cout << "______________";
 }
 
