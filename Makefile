@@ -24,7 +24,7 @@ $(EXECUTABLE): $(OBJECTS)
 
 
 $(BUILD_DIR)/%.o: %.$(CXX_EXT)
-	@mkdir -p $(dir $@); fi	
+	@mkdir -p $(dir $@);
 	$(CXX) $(CXXFLAGS) $(INCPATH) -c $^ -o $@
 
 
