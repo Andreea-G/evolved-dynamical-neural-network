@@ -10,7 +10,13 @@ Usage (Linux/Mac)
 
 Open a terminal and navigate to where you'd like this program.  Enter
 
-    git clone https://github.com/Garrett-R/evolved-dynamical-neural-network.git
+    git clone https://github.com/Garrett-R/evolved-dynamical-neural-network.git ednn
+    cd ednn
+    make
+
+The binary will be called "ednn".  You can see how to execute it by typing "./ednn --help".  Since there are so many parameters required, we also supplied a helper script that sets the parameters and executes the program.  To use just run
+
+    ./run_ednn.sh   
     
 
 
