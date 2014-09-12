@@ -310,7 +310,8 @@ bool MazeTask::AdvancePosition() {
 
 
 MazeTile MazeTask::GetTileLeft() const {
-	MazeTile tile_left;
+	//Initialize MazeTile to arbitrary value
+	MazeTile tile_left = MazeTile::WALL;
 	switch (player_direction_)
 		{
 		case Direction::UP: {
@@ -336,7 +337,8 @@ MazeTile MazeTask::GetTileLeft() const {
 
 
 MazeTile MazeTask::GetTileRight() const {
-	MazeTile tile_right;
+	//Initialize MazeTile to arbitrary value
+	MazeTile tile_right = MazeTile::WALL;
 	switch (player_direction_)
 		{
 		case Direction::UP: {
@@ -363,7 +365,8 @@ MazeTile MazeTask::GetTileRight() const {
 
 
 MazeTile MazeTask::GetTileFront() const {
-	MazeTile tile_front;
+	//Initialize MazeTile to arbitrary value
+	MazeTile tile_front = MazeTile::WALL;
 	switch (player_direction_)
 		{
 		case Direction::UP: {
