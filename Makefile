@@ -1,10 +1,8 @@
 
 CXX := g++
-CXXFLAGS := -pthread -std=c++11 -O2 -pedantic -Wall -Wextra
+CXXFLAGS := -pthread -std=c++0x -O2 -pedantic -Wall -Wextra
 INCPATH := -I.
-# the "-Wl,--no-as-needed" is a workaround for a current bug in g++
-# (see: http://stackoverflow.com/questions/19463602/compiling-multithread-code-with-g)
-LFLAGS := -pthread -Wl,--no-as-needed
+LFLAGS := -pthread
 CXX_EXT := cpp
 
 SOURCE_DIR := src
