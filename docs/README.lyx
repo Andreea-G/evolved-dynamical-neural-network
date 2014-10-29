@@ -418,7 +418,11 @@ We wrote a helper script to create mazes (maze_files/png_to_maze.py), which
 \begin_inset Quotes eld
 \end_inset
 
-./png_to_maze.py --help
+./png_to_maze.py 
+\begin_inset Formula $--$
+\end_inset
+
+help
 \begin_inset Quotes erd
 \end_inset
 
