@@ -5,6 +5,10 @@ This work is an extension of the work done by Randall Beer and Brain Yamauchi in
 
 The full mathematical details of the algorithm are in the file docs/README.pdf.
 
+As an example, the network was able to learn how to solve this maze in 14 decisions ‒ the optimal solution.
+
+![alt text][Maze]
+
 Usage (Linux/Mac)
 -----
 
@@ -19,8 +23,10 @@ The binary will be called "ednn".  You can see how to execute it by typing "./ed
     ./run_ednn.sh   
     
 
-
 License
 -------
 
 GNU GPL version 2 or any later version
+
+
+[Maze]: https://raw.githubusercontent.com/Garrett-R/evolved-dynamical-neural-network/master/maze_files/example_maze_visible.png
