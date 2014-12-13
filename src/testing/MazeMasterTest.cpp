@@ -43,17 +43,17 @@ void MazeMasterTest::Test1() {
 
 	//the constructor for MazeMaster has changed.
 //	MazeMaster test_MazeMaster1(num_brains, num_neurons, 3, 2,
-//															av_active_threshold, st_dev_active_threshold,
-//															av_start_activation, st_dev_start_activation,
-//															av_decay_rate, st_dev_decay_rate,
-//															av_num_syn, st_dev_num_syn,
-//															av_syn_strength, st_dev_syn_strength,
-//															max_num_threads, max_decisions,
-//															input_duration, input_output_delay, output_duration,
-//															maze_map_file, maze_random_start,
-//															num_generations, num_mutated_neurons, num_mutated_synapses,
-//															prob_asexual,
-//															mutate_decay_rate, mutate_active_threshold);
+//	                            av_active_threshold, st_dev_active_threshold,
+//	                            av_start_activation, st_dev_start_activation,
+//	                            av_decay_rate, st_dev_decay_rate,
+//	                            av_num_syn, st_dev_num_syn,
+//	                            av_syn_strength, st_dev_syn_strength,
+//	                            max_num_threads, max_decisions,
+//	                            input_duration, input_output_delay, output_duration,
+//	                            maze_map_file, maze_random_start,
+//	                            num_generations, num_mutated_neurons, num_mutated_synapses,
+//	                            prob_asexual,
+//	                            mutate_decay_rate, mutate_active_threshold);
 
 //	int exit_status = test_MazeMaster1.MasterControl();
 //	if (exit_status == -1) {
@@ -95,17 +95,17 @@ void MazeMasterTest::Test2() {
 
 	//the constructor for MazeMaster has changed.
 //	MazeMaster test_MazeMaster1(num_brains, num_neurons, 3, 2,
-//															av_active_threshold, st_dev_active_threshold,
-//															av_start_activation, st_dev_start_activation,
-//															av_decay_rate, st_dev_decay_rate,
-//															av_num_syn, st_dev_num_syn,
-//															av_syn_strength, st_dev_syn_strength,
-//															max_num_threads, max_decisions,
-//															input_duration, input_output_delay, output_duration,
-//															maze_map_file, maze_random_start,
-//															num_generations, num_mutated_neurons, num_mutated_synapses,
-//															prob_asexual,
-//															mutate_decay_rate, mutate_active_threshold);
+//	                            av_active_threshold, st_dev_active_threshold,
+//	                            av_start_activation, st_dev_start_activation,
+//	                            av_decay_rate, st_dev_decay_rate,
+//	                            av_num_syn, st_dev_num_syn,
+//	                            av_syn_strength, st_dev_syn_strength,
+//	                            max_num_threads, max_decisions,
+//	                            input_duration, input_output_delay, output_duration,
+//	                            maze_map_file, maze_random_start,
+//	                            num_generations, num_mutated_neurons, num_mutated_synapses,
+//	                            prob_asexual,
+//	                            mutate_decay_rate, mutate_active_threshold);
 
 	int exit_status = test_MazeMaster1.MasterControl();
 	if (exit_status == -1) {

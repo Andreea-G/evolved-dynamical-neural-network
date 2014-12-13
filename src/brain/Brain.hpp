@@ -26,11 +26,11 @@ public:
 	//the interval [MIN_STRENGTH, MAX_STRENGTH].
 	//-If the syn_strength parameters aren't specified, a uniform distribution is used
 	Brain(const size_t num_neurons, const size_t num_input_neurons, const size_t num_output_neurons,
-				const float av_active_threshold, const float st_dev_active_threshold,
-				const float av_start_activation, const float st_dev_start_activation,
-				const float av_decay_rate, const float st_dev_decay_rate,
-				const int av_num_syn, const int st_dev_num_syn,
-				const float av_syn_strength = 0, const float st_dev_syn_strength = 0);
+	      const float av_active_threshold, const float st_dev_active_threshold,
+	      const float av_start_activation, const float st_dev_start_activation,
+	      const float av_decay_rate, const float st_dev_decay_rate,
+	      const int av_num_syn, const int st_dev_num_syn,
+	      const float av_syn_strength = 0, const float st_dev_syn_strength = 0);
 
 	//neurons comprising brain, each with incoming synapses from other neurons
 	deque<Neuron> neurons_;
@@ -53,7 +53,7 @@ public:
 	//The number of neurons selected for mutation is num_mutated_neurons.
 	//It will create new synapses if num_mutated is positive, or destroy synapes if it's negative
 	void MutateNeurons(const size_t num_mutated_neurons, const size_t num_mutated_synapses,
-										 const bool mutate_decay_rate=true, const bool mutate_active_threshold=true);
+	                   const bool mutate_decay_rate=true, const bool mutate_active_threshold=true);
 
 	//Causes one network firing inside the brain.  See the .lyx file in ./docs for explanation.
 	void Cycle();

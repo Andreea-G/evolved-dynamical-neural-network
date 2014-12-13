@@ -27,7 +27,7 @@ void MazeTest::test() {
 		MazeTask maze1(test_maze, true);
 		int start_tile = int(maze1.map_[maze1.row_][maze1.col_]);
 		if (start_tile != 1 && start_tile != 2)
-				cerr << "Unexpected start tile: " << start_tile << endl;
+		    cerr << "Unexpected start tile: " << start_tile << endl;
 	}
 
 	//Test that starting position is set well.

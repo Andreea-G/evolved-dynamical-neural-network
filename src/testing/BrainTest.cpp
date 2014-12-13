@@ -22,8 +22,8 @@ void BrainTest::Test1() {
 	deque<bool> brain_input1 = {1, 0, 1};
 	test_brain1.give_input(brain_input1);
 	if (neurons1[0].activation_ != globals::MAX_ACTIVATION ||
-			neurons1[1].activation_ != globals::MIN_ACTIVATION ||
-			neurons1[2].activation_ != globals::MAX_ACTIVATION)
+	    neurons1[1].activation_ != globals::MIN_ACTIVATION ||
+	    neurons1[2].activation_ != globals::MAX_ACTIVATION)
 		cerr << "After input, there seems to have been an issue";
 
 	//run through a few cycles
@@ -56,11 +56,11 @@ void BrainTest::Test1() {
 //	const int av_num_syn = 6; const int st_dev_num_syn = 2;
 //	const float av_syn_strength = 0.40; const float st_dev_syn_strength = 0.04;
 	Brain test_brain2(num_neurons, 3, 2,
-										av_active_threshold, st_dev_active_threshold,
-										av_start_activation, st_dev_start_activation,
-										av_decay_rate, st_dev_decay_rate,
-										av_num_syn, st_dev_num_syn,
-										av_syn_strength, st_dev_syn_strength);
+	                  av_active_threshold, st_dev_active_threshold,
+	                  av_start_activation, st_dev_start_activation,
+	                  av_decay_rate, st_dev_decay_rate,
+	                  av_num_syn, st_dev_num_syn,
+	                  av_syn_strength, st_dev_syn_strength);
 
 	deque<Neuron> & neurons2 = test_brain2.neurons_;
 
@@ -127,7 +127,7 @@ void BrainTest::Test1() {
 	//practice brain output
 	deque<bool> output2 = test_brain2.get_output();
 	deque<bool> expected_output2 = {(test_brain2.neurons_[3].get_activation() > test_brain2.neurons_[3].get_active_threshold()),
-																	(test_brain2.neurons_[4].get_activation() > test_brain2.neurons_[4].get_active_threshold())};
+	                                (test_brain2.neurons_[4].get_activation() > test_brain2.neurons_[4].get_active_threshold())};
 	if (output2 != expected_output2)
 		cerr << "\n\nERROR: brain output 2 differs from expected output!!!";
 
@@ -159,7 +159,7 @@ void BrainTest::DisplaySynapses(const deque<Neuron> & neurons, int num_neuron_to
 		cout << "\nNeuron " << ii << ": ";
 		int count = 0;
 		for (auto it = neuron_ii.synapses_.begin();
-				 it != neuron_ii.synapses_.end(); it++) {
+		     it != neuron_ii.synapses_.end(); it++) {
 			cout << it->first << "(" << it->second << ") ";
 			count++;
 			//report no more than 10 synapses for each neuron

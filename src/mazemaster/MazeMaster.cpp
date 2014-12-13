@@ -103,36 +103,36 @@ int MazeMaster::ParseMazeArgsAndExecute(int argc, char** argv) {
 		//Check for any obvious mistakes in the input
 		if (! (globals::MIN_ACTIVATION < av_active_threshold && av_active_threshold < globals::MAX_ACTIVATION)) {
 			cerr << "Average active threshold (which you set to " << av_active_threshold << ")"
-					 << " must be in the interval (" << globals::MIN_ACTIVATION << ", " << globals::MAX_ACTIVATION << ")."
-					 << endl;
+			     << " must be in the interval (" << globals::MIN_ACTIVATION << ", " << globals::MAX_ACTIVATION << ")."
+			     << endl;
 			return -1;
 		}
 		if (! (globals::MIN_ACTIVATION < av_start_activation && av_start_activation < globals::MAX_ACTIVATION)) {
 			cerr << "Average start activation (which you set to: " << av_start_activation << ")"
-					 << " must be in the interval (" << globals::MIN_ACTIVATION << ", " << globals::MAX_ACTIVATION << ")."
-					 << endl;
+			     << " must be in the interval (" << globals::MIN_ACTIVATION << ", " << globals::MAX_ACTIVATION << ")."
+			     << endl;
 			return -1;
 		}
 		if (! (globals::MIN_STRENGTH < av_syn_strength && av_syn_strength < globals::MAX_STRENGTH)) {
 			cerr << "Average synapse strength (which you set to: " << av_syn_strength << ")"
-					 << " must be in the interval (" << globals::MIN_STRENGTH << ", " << globals::MAX_STRENGTH << ")."
-					 << endl;
+			     << " must be in the interval (" << globals::MIN_STRENGTH << ", " << globals::MAX_STRENGTH << ")."
+			     << endl;
 			return -1;
 		}
 		if (! (globals::MIN_DECAY_RATE < av_decay_rate && av_decay_rate < globals::MAX_DECAY_RATE)) {
 			cerr << "Average decay rate (which you set to: " << av_decay_rate << ")"
-					 << " must be in the interval (" << globals::MIN_DECAY_RATE << ", " << globals::MAX_DECAY_RATE << ")."
-					 << endl;
+			     << " must be in the interval (" << globals::MIN_DECAY_RATE << ", " << globals::MAX_DECAY_RATE << ")."
+			     << endl;
 			return -1;
 		}
 		if (num_mutated_neurons > num_neurons) {
 			cerr << "You're asking to mutate more neurons (" << num_mutated_neurons << ") than the number of neurons in"
-							<< " each brain (" << num_neurons << ")" << endl;
+			     << " each brain (" << num_neurons << ")" << endl;
 			return -1;
 		}
 		if (!(0.0 <= prob_asexual && prob_asexual <= 1.0)) {
 			cerr << "prob_asexul, which is the probablity of asexual reproduction is set to: " << prob_asexual
-							<< ", but it is a probability so it should be a real number in the interval [0,1]." << endl;
+			     << ", but it is a probability so it should be a real number in the interval [0,1]." << endl;
 			return -1;
 		}
 		if (input_duration < 1) {
@@ -150,18 +150,18 @@ int MazeMaster::ParseMazeArgsAndExecute(int argc, char** argv) {
 		//Warnings for unusual user input
 		if (input_duration > input_output_delay + output_duration) {
 			cerr << "WARNING: Are you drunk? The brains are going to keep getting input after the output is no longer "
-							<< "being read.  Remember that for each decision process, the output finishes after (input_output_delay+"
-							<< "output_duration) which was longer than your input_duration." << endl;
+			     << "being read.  Remember that for each decision process, the output finishes after (input_output_delay+"
+			     << "output_duration) which was longer than your input_duration." << endl;
 		}
 
 
 		MazeMaster main_maze_master(num_brains,	num_neurons, num_input_neurons, num_output_neurons,	av_active_threshold,
-																st_dev_active_threshold, av_start_activation, st_dev_start_activation, av_decay_rate,
-																st_dev_decay_rate, av_num_syn, st_dev_num_syn, av_syn_strength, st_dev_syn_strength,
-																max_decisions, input_duration, input_output_delay, output_duration, deadtime_duration,
-																maze_map_file, maze_random_start, num_generations, num_mutated_neurons,
-																num_mutated_synapses,	prob_asexual, mutate_decay_rate, mutate_active_threshold,
-																max_num_threads);
+		                            st_dev_active_threshold, av_start_activation, st_dev_start_activation, av_decay_rate,
+		                            st_dev_decay_rate, av_num_syn, st_dev_num_syn, av_syn_strength, st_dev_syn_strength,
+		                            max_decisions, input_duration, input_output_delay, output_duration, deadtime_duration,
+		                            maze_map_file, maze_random_start, num_generations, num_mutated_neurons,
+		                            num_mutated_synapses,	prob_asexual, mutate_decay_rate, mutate_active_threshold,
+		                            max_num_threads);
 
 		return main_maze_master.MasterControl();
 
@@ -174,38 +174,38 @@ int MazeMaster::ParseMazeArgsAndExecute(int argc, char** argv) {
 
 
 MazeMaster::MazeMaster(const size_t num_brains,
-											 const size_t num_neurons, const size_t num_input_neurons, const size_t num_output_neurons,
-											 const float av_active_threshold, const float st_dev_active_threshold,
-											 const float av_start_activation, const float st_dev_start_activation,
-											 const float av_decay_rate, const float st_dev_decay_rate,
-											 const int av_num_syn, const int st_dev_num_syn,
-											 const float av_syn_strength, const float st_dev_syn_strength,
-											 const int max_decisions, const int input_duration,
-											 const int input_output_delay, const int output_duration,
-											 const int deadtime_duration,
-											 const string maze_map_file, const bool maze_random_start,
-											 const int num_generations, const size_t num_mutated_neurons, const size_t num_mutated_synapses,
-											 const float prob_asexual, const bool mutate_decay_rate, const bool mutate_active_threshold,
-											 const int max_num_threads) :
-					num_brains_(num_brains),
-					av_start_activation_(av_start_activation), st_dev_start_activation_(st_dev_start_activation),
-					max_decisions_(max_decisions),
-					input_duration_(input_duration), input_output_delay_(input_output_delay),
-					output_duration_(output_duration), deadtime_duration_(deadtime_duration),
-					maze_map_file_(maze_map_file), maze_random_start_(maze_random_start),
-					evolution_(prob_asexual), num_generations_(num_generations),
-					num_mutated_neurons_(num_mutated_neurons), num_mutated_synapses_(num_mutated_synapses),
-					mutate_decay_rate_(mutate_decay_rate), mutate_active_threshold_(mutate_active_threshold),
-					max_num_threads_(max_num_threads), num_live_threads_(0) {
+                       const size_t num_neurons, const size_t num_input_neurons, const size_t num_output_neurons,
+                       const float av_active_threshold, const float st_dev_active_threshold,
+                       const float av_start_activation, const float st_dev_start_activation,
+                       const float av_decay_rate, const float st_dev_decay_rate,
+                       const int av_num_syn, const int st_dev_num_syn,
+                       const float av_syn_strength, const float st_dev_syn_strength,
+                       const int max_decisions, const int input_duration,
+                       const int input_output_delay, const int output_duration,
+                       const int deadtime_duration,
+                       const string maze_map_file, const bool maze_random_start,
+                       const int num_generations, const size_t num_mutated_neurons, const size_t num_mutated_synapses,
+                       const float prob_asexual, const bool mutate_decay_rate, const bool mutate_active_threshold,
+                       const int max_num_threads) :
+          num_brains_(num_brains),
+          av_start_activation_(av_start_activation), st_dev_start_activation_(st_dev_start_activation),
+          max_decisions_(max_decisions),
+          input_duration_(input_duration), input_output_delay_(input_output_delay),
+          output_duration_(output_duration), deadtime_duration_(deadtime_duration),
+          maze_map_file_(maze_map_file), maze_random_start_(maze_random_start),
+          evolution_(prob_asexual), num_generations_(num_generations),
+          num_mutated_neurons_(num_mutated_neurons), num_mutated_synapses_(num_mutated_synapses),
+          mutate_decay_rate_(mutate_decay_rate), mutate_active_threshold_(mutate_active_threshold),
+          max_num_threads_(max_num_threads), num_live_threads_(0) {
 	//construct brains
 	for (size_t ii = 0; ii < num_brains_; ii++) {
 		Brain new_brain(num_neurons, num_input_neurons, num_output_neurons,
-						av_active_threshold, st_dev_active_threshold,
-						av_start_activation, st_dev_start_activation,
-						av_decay_rate, st_dev_decay_rate,
-						av_num_syn, st_dev_num_syn,
-						av_syn_strength, st_dev_syn_strength);
-		brains_.push_back(new_brain);
+		                av_active_threshold, st_dev_active_threshold,
+		                av_start_activation, st_dev_start_activation,
+		                av_decay_rate, st_dev_decay_rate,
+		                av_num_syn, st_dev_num_syn,
+		                av_syn_strength, st_dev_syn_strength);
+			brains_.push_back(new_brain);
 	}
 
 }
@@ -231,7 +231,7 @@ int MazeMaster::MasterControl() {
 
 		//Obtain the next generation of brains, and print info on the parents
 		brains_ = evolution_.GetNextGeneration(brains_, num_mutated_neurons_, num_mutated_synapses_, num_brains_,
-																					 mutate_decay_rate_, mutate_active_threshold_);
+		                                       mutate_decay_rate_, mutate_active_threshold_);
 
 		ResetAllBrainStartActivations();
 	}
@@ -248,7 +248,7 @@ void MazeMaster::ObtainAllBrainFitnesses() {
 	for (Brain& brain : brains_) {
 		std::unique_lock<std::mutex> num_threads_lock(mtx_);
 		num_threads_cv_.wait(num_threads_lock, [&](){
-					return num_live_threads_ < max_num_threads_;
+			return num_live_threads_ < max_num_threads_;
 		});
 
 		threads.push_back(std::thread(&MazeMaster::ObtainBrainFitness, this, std::ref(brain)));
@@ -290,7 +290,7 @@ void MazeMaster::ObtainBrainFitness(Brain& brain) {
 
 		//Loop through brain cycles, looping enough times to collect all the input and all the output for one decision
 		for (int cycle = 0; cycle < (max(input_output_delay_ + output_duration_, input_duration_) + deadtime_duration_);
-				 cycle++) {
+		     cycle++) {
 			//if we're still in the input period, give input to brain at each cycle
 			if (cycle < input_duration_) {
 				brain.give_input(brain_input);
@@ -381,4 +381,3 @@ void MazeMaster::PrintGenerationInfo() {
 	cout << endl << endl;
 	cout << "______________";
 }
-

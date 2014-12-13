@@ -21,7 +21,7 @@ using std::max;
 using std::size_t;
 
 Brain::Brain(const size_t num_neurons, const size_t num_input_neurons,
-						 const size_t num_output_neurons) {
+             const size_t num_output_neurons) {
 	num_neurons_ = num_neurons;
 	num_input_neurons_ = num_input_neurons;
 	num_output_neurons_ = num_output_neurons;
@@ -34,11 +34,11 @@ Brain::Brain(const size_t num_neurons, const size_t num_input_neurons,
 }
 
 Brain::Brain(const size_t num_neurons, const size_t num_input_neurons, const size_t num_output_neurons,
-						 const float av_active_threshold, const float st_dev_active_threshold,
-						 const float av_start_activation, const float st_dev_start_activation,
-						 const float av_decay_rate, const float st_dev_decay_rate,
-						 const int av_num_syn, const int st_dev_num_syn,
-						 const float av_syn_strength, const float st_dev_syn_strength) {
+             const float av_active_threshold, const float st_dev_active_threshold,
+             const float av_start_activation, const float st_dev_start_activation,
+             const float av_decay_rate, const float st_dev_decay_rate,
+             const int av_num_syn, const int st_dev_num_syn,
+             const float av_syn_strength, const float st_dev_syn_strength) {
 	num_neurons_ = num_neurons;
 	num_input_neurons_ = num_input_neurons;
 	num_output_neurons_ = num_output_neurons;
@@ -61,7 +61,7 @@ Brain::Brain(const size_t num_neurons, const size_t num_input_neurons, const siz
 		float decay_rate = min(max(decay_rate_distro(globals::gen), globals::MIN_DECAY_RATE), globals::MAX_DECAY_RATE);
 
 		Neuron new_neuron(start_activation, decay_rate, active_threshold, num_neurons, num_syn,
-						  av_syn_strength, st_dev_syn_strength);
+											av_syn_strength, st_dev_syn_strength);
 		neurons_.push_back(new_neuron);
 	}
 
@@ -88,7 +88,7 @@ deque<bool> Brain::get_output() const {
 
 
 void Brain::MutateNeurons(const size_t num_mutated_neurons, const size_t num_mutated_synapses,
-													const bool mutate_decay_rate, const bool mutate_active_threshold) {
+                          const bool mutate_decay_rate, const bool mutate_active_threshold) {
 	std::uniform_int_distribution<int> neuron_distro(0, num_neurons_-1);
 	std::uniform_real_distribution<> unit_distro(0, 1);
 
@@ -99,13 +99,13 @@ void Brain::MutateNeurons(const size_t num_mutated_neurons, const size_t num_mut
 		if (mutate_decay_rate) {
 			//generate random decay rate using uniform distribution over [MIN_ACTIVATION, MAX_ACTIVATION]
 			rand_neuron.set_decay_rate((globals::MAX_DECAY_RATE - globals::MIN_DECAY_RATE) * unit_distro(globals::gen)
-																 + globals::MIN_DECAY_RATE);
+			                           + globals::MIN_DECAY_RATE);
 		}
 
 		if (mutate_active_threshold) {
 			//generate random activation using uniform distribution over [MIN_ACTIVATION, MAX_ACTIVATION]
 			rand_neuron.set_active_threshold((globals::MAX_ACTIVATION - globals::MIN_ACTIVATION) * unit_distro(globals::gen)
-																			 + globals::MIN_ACTIVATION);
+			                                 + globals::MIN_ACTIVATION);
 		}
 
 		rand_neuron.MutateSynapses(num_mutated_synapses, num_neurons_);

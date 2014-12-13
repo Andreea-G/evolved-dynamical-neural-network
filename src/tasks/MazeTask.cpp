@@ -52,7 +52,7 @@ MazeTask::MazeTask(const std::string& map_file, const bool random_start) {
 			}
 		}//end while
 
-	}	else {	 //if start is not random, then search for the start position
+	} else {  //if start is not random, then search for the start position
 		for (size_t row_i = 0; row_i < height_; row_i++) {
 			for (size_t col_j = 0; col_j < width_; col_j++)	{
 				if (map_[row_i][col_j] == MazeTile::START) {
@@ -126,7 +126,7 @@ bool MazeTask::LoadMap(const std::string& map_file) {
 			MazeTile temp_tile = static_cast<MazeTile>(num);
 			//Make sure temp_tile is a valid tile
 			if (temp_tile != MazeTile::WALL && temp_tile != MazeTile::NORMAL &&
-							temp_tile != MazeTile::START && temp_tile != MazeTile::FINISH) {
+			    temp_tile != MazeTile::START && temp_tile != MazeTile::FINISH) {
 				cerr << "The current tile is not valid since it has a value of " << int(temp_tile) << std::endl;
 			}
 			temp_row_vec.push_back(temp_tile);
@@ -191,8 +191,8 @@ int MazeTask::IsFinished() const {
 
 	//Check current location, plus the neighboring 4 locations for the finish
 	if (map_[row_][col_]==MazeTile::FINISH || map_[row_][col_] == MazeTile::FINISH ||
-		map_[row_][col_]==MazeTile::FINISH || map_[row_][col_] == MazeTile::FINISH ||
-		map_[row_][col_]==MazeTile::FINISH) {
+	    map_[row_][col_]==MazeTile::FINISH || map_[row_][col_] == MazeTile::FINISH ||
+	    map_[row_][col_]==MazeTile::FINISH) {
 		return 1;
 	} else {
 		return 0;
@@ -227,26 +227,18 @@ bool MazeTask::AdvancePosition() {
 			{
 			case Direction::UP: {
 				next_row -= 1;
-//				tile_left = map_[row_][col_-1];
-//				tile_right = map_[row_][col_+1];
 				break;
 			}
 			case Direction::RIGHT: {
 				next_col += 1;
-//				tile_left = map_[row_-1][col_];
-//				tile_right = map_[row_+1][col_];
 				break;
 			}
 			case Direction::DOWN: {
 				next_row += 1;
-//				tile_left = map_[row_][col_+1];
-//				tile_right = map_[row_][col_-1];
 				break;
 			}
 			case Direction::LEFT: {
 				next_col -= 1;
-//				tile_left = map_[row_+1][col_];
-//				tile_right = map_[row_-1][col_];
 				break;
 				}
 			}//end switch
@@ -294,8 +286,8 @@ bool MazeTask::AdvancePosition() {
 
 		//move forward if the next tile along our path is valid and there's no decision to be made,
 		//i.e. to the left and right are walls.  Otherwise, stop there.
-		if ( (tile_next == MazeTile::NORMAL || tile_next == MazeTile::START || tile_next == MazeTile::FINISH) &&
-				 (tile_left == MazeTile::WALL && tile_right == MazeTile::WALL) ) {
+		if ((tile_next == MazeTile::NORMAL || tile_next == MazeTile::START || tile_next == MazeTile::FINISH) &&
+		    (tile_left == MazeTile::WALL && tile_right == MazeTile::WALL) ) {
 			row_ = next_row;
 			col_ = next_col;
 			continue;
@@ -462,4 +454,3 @@ void MazeTask::TurnAround() {
 			}
 	}//end switch
 }//end TurnAround(.)
-

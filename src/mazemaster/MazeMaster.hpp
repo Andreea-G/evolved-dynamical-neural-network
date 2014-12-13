@@ -21,19 +21,19 @@ class MazeMaster {
 public:
 	//For now, main() will only call this constructor.  In the future, we may allow the above constructor to be invoked.
 	MazeMaster(const size_t num_brains,
-						const size_t num_neurons, const size_t num_input_neurons, const size_t num_output_neurons,
-						const float av_active_threshold, const float st_dev_active_threshold,
-						const float av_start_activation, const float st_dev_start_activation,
-						const float av_decay_rate, const float st_dev_decay_rate,
-						const int av_num_syn, const int st_dev_num_syn,
-						const float av_syn_strength, const float st_dev_syn_strength,
-						const int max_decisions, const int input_duration,
-						const int input_output_delay, const int output_duration,
-						const int deadtime_duration,
-						const string maze_map_file, const bool maze_random_start,
-						const int num_generations, const size_t num_mutated_neurons, const size_t num_mutated_synapses,
-						const float prob_asexual, const bool mutate_decay_rate, const bool mutate_active_threshold,
-						const int max_num_threads);
+	           const size_t num_neurons, const size_t num_input_neurons, const size_t num_output_neurons,
+	           const float av_active_threshold, const float st_dev_active_threshold,
+	           const float av_start_activation, const float st_dev_start_activation,
+	           const float av_decay_rate, const float st_dev_decay_rate,
+	           const int av_num_syn, const int st_dev_num_syn,
+	           const float av_syn_strength, const float st_dev_syn_strength,
+	           const int max_decisions, const int input_duration,
+	           const int input_output_delay, const int output_duration,
+	           const int deadtime_duration,
+	           const string maze_map_file, const bool maze_random_start,
+	           const int num_generations, const size_t num_mutated_neurons, const size_t num_mutated_synapses,
+	           const float prob_asexual, const bool mutate_decay_rate, const bool mutate_active_threshold,
+	           const int max_num_threads);
 
 	//Loop through all brains calling ObtainBrainFitness(.) to get calculate the fitness_score_ for each brain.
 	//Returns -1 if it fails and 0 otherwise.

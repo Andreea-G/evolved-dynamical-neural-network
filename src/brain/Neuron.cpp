@@ -28,7 +28,7 @@ Neuron::Neuron(const int num_neurons) {
 
 	decay_rate_ = globals::MAX_DECAY_RATE * unit_distro(globals::gen);
 	active_threshold_ = (globals::MAX_ACTIVATION - globals::MIN_ACTIVATION) * unit_distro(globals::gen)
-											+ globals::MIN_ACTIVATION;
+	                    + globals::MIN_ACTIVATION;
 	//make sure active_threshold_ is not zero, or else neuron will just be constantly firing
 	active_threshold_ = max(active_threshold_, 1.f);
 
@@ -43,7 +43,7 @@ Neuron::Neuron(const int num_neurons) {
 			continue;
 		} else {
 			synapses_[origin_neuron] = (globals::MAX_ACTIVATION -globals::MIN_ACTIVATION) * unit_distro(globals::gen)
-																	+ globals::MIN_ACTIVATION;
+			                           + globals::MIN_ACTIVATION;
 			++syn_count;
 		}
 	}
@@ -51,7 +51,8 @@ Neuron::Neuron(const int num_neurons) {
 
 
 Neuron::Neuron(const float start_activation, const float decay_rate, const float active_threshold,
-					const int num_neurons, const int num_synapses, const float av_syn_strength, const float st_dev_syn_strength) {
+               const int num_neurons, const int num_synapses, const float av_syn_strength,
+               const float st_dev_syn_strength) {
 	activation_ = start_activation;
 	new_activation_ = 0;
 	decay_rate_ = decay_rate;
@@ -125,7 +126,7 @@ void Neuron::MutateSynapses(int num_mutated_synapses, const int num_neurons) {
 		list<int> rand_synapse_locations(num_mutated_synapses);
 		//Loop through and assign random new origin neurons
 		for (auto rand_assign_it = rand_synapse_locations.begin();
-							rand_assign_it != rand_synapse_locations.end(); rand_assign_it++) {
+		     rand_assign_it != rand_synapse_locations.end(); rand_assign_it++) {
 			*rand_assign_it = synapse_location_distro(globals::gen);
 		}
 
@@ -136,7 +137,7 @@ void Neuron::MutateSynapses(int num_mutated_synapses, const int num_neurons) {
 		auto syn_it = synapses_.begin();
 		int syn_location = 0;	//location of corresponding synapse in the synapses map
 		for (auto rand_loc_it = rand_synapse_locations.begin();
-							rand_loc_it != rand_synapse_locations.end(); rand_loc_it++) {
+		     rand_loc_it != rand_synapse_locations.end(); rand_loc_it++) {
 			//Need to set syn_location to our next rand_synapse_location, but must use while loop to go through unordered_map
 			while (syn_location != *rand_loc_it && syn_location < static_cast<int>(synapses_.size()) ) {
 				//Note: rand_synapse_locations is ordered, so we only have to increase syn_location

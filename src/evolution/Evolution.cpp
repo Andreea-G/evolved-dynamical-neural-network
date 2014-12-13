@@ -56,7 +56,7 @@ int Evolution::ChooseMostFitBrains(const deque<Brain> &brains) {
 
 
 Brain Evolution::MutateBrain(const Brain &parent_brain, const size_t num_mutated_neurons, const size_t num_mutated_synapses,
-														 const bool mutate_decay_rate, const bool mutate_active_threshold) const {
+                             const bool mutate_decay_rate, const bool mutate_active_threshold) const {
 	Brain child(parent_brain);
 	child.MutateNeurons(num_mutated_neurons, num_mutated_synapses, mutate_decay_rate, mutate_active_threshold);
 	return child;
@@ -83,8 +83,8 @@ Brain Evolution::MateBrains(const Brain &parent1, const Brain &parent2) const {
 
 
 deque<Brain> Evolution::GetNextGeneration(const deque<Brain> &brains, const size_t num_mutated_neurons,
-																					const size_t num_mutated_synapses, const size_t verbose_num_brains,
-																					const bool mutate_decay_rate, const bool mutate_active_threshold) const {
+                                          const size_t num_mutated_synapses, const size_t verbose_num_brains,
+                                          const bool mutate_decay_rate, const bool mutate_active_threshold) const {
 
 	size_t num_brains = brains.size();
 
@@ -102,7 +102,7 @@ deque<Brain> Evolution::GetNextGeneration(const deque<Brain> &brains, const size
 		int parent1_index = most_fit_brains_[mating_distro(globals::gen)];
 		if (asexual_distro(globals::gen) < prob_asexual_) {	//asexual reproduction
 			Brain new_brain = MutateBrain(brains[parent1_index], num_mutated_neurons, num_mutated_synapses,
-																		mutate_decay_rate, mutate_active_threshold);
+			                              mutate_decay_rate, mutate_active_threshold);
 			next_gen.push_back(new_brain);
 			if (ii < verbose_num_brains) {
 				cout << parent1_index << ", ";
@@ -113,7 +113,7 @@ deque<Brain> Evolution::GetNextGeneration(const deque<Brain> &brains, const size
 			//if both parents the same, do asexual reproduction
 			if (parent2_index == parent1_index) {
 				Brain new_brain = MutateBrain(brains[parent1_index], num_mutated_neurons, num_mutated_synapses,
-																			mutate_decay_rate, mutate_active_threshold);
+				                              mutate_decay_rate, mutate_active_threshold);
 				next_gen.push_back(new_brain);
 				if (ii < verbose_num_brains) {
 					cout << parent1_index << ", ";
@@ -123,7 +123,7 @@ deque<Brain> Evolution::GetNextGeneration(const deque<Brain> &brains, const size
 				Brain new_brain = MateBrains(brains[parent1_index], brains[parent2_index]);
 				//then mutations occur //TODO: why are mutations happening with certainty in sexual reproduction?
 				new_brain = MutateBrain(new_brain, num_mutated_neurons, num_mutated_synapses,
-																mutate_decay_rate, mutate_active_threshold);
+				                        mutate_decay_rate, mutate_active_threshold);
 				next_gen.push_back(new_brain);
 				if (ii < verbose_num_brains) {
 					cout << parent1_index << "+" << parent2_index << ", ";
